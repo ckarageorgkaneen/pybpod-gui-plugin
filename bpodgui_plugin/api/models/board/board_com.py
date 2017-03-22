@@ -1,0 +1,133 @@
+# !/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+import datetime
+import logging
+import os
+import uuid
+
+from pysettings import conf
+
+from bpodgui_plugin.com.async.async_bpod import AsyncBpod
+
+from bpodgui_plugin.api.models.board.board_io import BoardIO
+from bpodgui_plugin.api.models.board.board_operations import BoardOperations
+from bpodgui_plugin.com.messaging.msg_factory import parse_board_msg
+from bpodgui_plugin.api.models.setup.board_task import BoardTask  # used for type checking
+
+from bpodgui_plugin.api.exceptions.board_error import BoardError
+from bpodgui_plugin.api.exceptions.pycontrol_error import PycontrolError
+
+logger = logging.getLogger(__name__)
+
+
+class BoardCom(AsyncBpod, BoardIO):
+	#### SETUP STATUS ####
+	STATUS_READY = 0
+	STATUS_INSTALLING_FRAMEWORK = 1  # The board is busy installing the framework
+	STATUS_INSTALLING_TASK = 2  # The board is busy installing a task
+	STATUS_SYNCING_VARS = 3  # The board is busy syncing variables
+	STATUS_RUNNING_TASK = 4  # The board is busy running a task
+
+	INSTALL_FRAMEWORK_TAG = 'Install framework'
+	UPLOAD_TASK_TAG = 'Upload task'
+	SYNC_VARIABLES_TAG = 'Sync variables'
+	RUN_TASK_TAG = 'Run task'
+
+	CONSOLE_COMMENT_LEVEL1_TAG = '#1'
+	CONSOLE_COMMENT_LEVEL2_TAG = '#2'
+	CONSOLE_ERROR_TAG = '!'
+
+	def __init__(self, project):
+		BoardIO.__init__(self, project)
+		AsyncBpod.__init__(self)
+		self.status = BoardCom.STATUS_READY
+
+	##########################################################################
+	####### PROPERTIES #######################################################
+	##########################################################################
+
+	@property
+	def status(self):
+		return self._status
+
+	@status.setter
+	def status(self, value):
+		self._status = value
+
+	##########################################################################
+	####### FUNCTIONS ########################################################
+	##########################################################################
+
+	def log_msg_error(self, msg):
+		tag_msg = '{0} {1}'.format(self.CONSOLE_ERROR_TAG, msg)  # adds sign to indicate message type
+		self.log_msg(tag_msg)
+
+	def log_msg_level1(self, msg):
+		tag_msg = '{0} {1}'.format(self.CONSOLE_COMMENT_LEVEL1_TAG, msg)  # adds sign to indicate message type
+		self.log_msg(tag_msg)
+
+	def log_msg_level2(self, msg):
+		tag_msg = '{0} {1}'.format(self.CONSOLE_COMMENT_LEVEL2_TAG, msg)  # adds sign to indicate message type
+		self.log_msg(tag_msg)
+
+	def log_msg(self, msg):
+		parsed_messages = parse_board_msg(msg, self.board_task)
+
+		for m in parsed_messages:
+			self.log_messages.append(m)
+		#logger.debug(msg)
+
+	def log_session_history(self, session, board_task, msg):
+		"""
+		Log session history on file and on memory
+		We could read the file while writing at the same time
+		but this would be a more complex approach
+		:param session:
+		:param board_task:
+		:param msg:
+		:return:
+		"""
+		session.log_msg(msg, board_task)
+		# self._session_log_file.write(msg)
+
+	def unique_id(self, handler_evt=None):
+		if handler_evt is None: handler_evt = self.unique_id_handler_evt
+		super(BoardCom, self).unique_id(handler_evt)
+
+	def unique_id_handler_evt(self, e, result):
+		self.log_msg('I Board {0} ID: {1}'.format(self.name, result))
+
+	def run_protocol(self):
+
+		self.log_msg_level1("Running protocol now")
+
+		func_group_id = uuid.uuid4()
+
+		self._session_log_file = open(self.session.path, 'w+', newline='\n', buffering=1)
+
+		AsyncBpod.bpod_run(self,
+		                   self.board_task.board.serial_port, self.board_task.task.path,
+		                   handler_evt=self.run_protocol_handler_evt,
+		                   extra_args=(1,),
+		                   group=func_group_id
+		                   )
+
+	def run_protocol_handler_evt(self, e, result):
+		called_operation = e.extra_args[0]
+
+		try:
+			if called_operation == 1:
+				if isinstance(result, Exception):
+					# self.log_msg_error(str(result))
+					raise Exception("Unable to run protocol. Please check console for more info.")
+				elif result is not None:
+					# result = result[:-1]  # .replace('\n\r', '')
+					self.log_msg(result)
+					self.log_session_history(result)
+
+			if e.last_call:
+				self._session_log_file.close()
+		except Exception as err:
+			self._session_log_file.close()
+			raise err
