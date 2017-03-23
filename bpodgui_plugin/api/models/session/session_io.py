@@ -39,3 +39,6 @@ class SessionIO(SessionBase):
 		self.name = os.path.basename(session_path).replace('.txt', '')
 
 		self.path = session_path
+
+	def load_contents(self, session_path):
+		pass

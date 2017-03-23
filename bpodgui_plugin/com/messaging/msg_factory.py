@@ -47,10 +47,15 @@ def parse_board_msg(data):
 				for event_timestamp in events[event_name]:
 					parsed_message.append(EventFired(event_name, event_timestamp, index))
 
-		else:
-			data = str(data).strip()
+		elif isinstance(data, str):
+			# get message code (character variable number string before the first space)
+			message_code = data.split(' ')[0]
+			if message_code == '!':
+				parsed_message.append(ErrorMessage(data))
 
-			parsed_message.append(PrintStatement(data))
+			else:
+				data = str(data).strip()
+				parsed_message.append(PrintStatement(data))
 
 
 	except Exception as err:

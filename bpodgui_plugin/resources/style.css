@@ -1,7 +1,0 @@
-#_button_upload_task QPushButton{
-	qproperty-icon: url(src/resources/icons/upload.png);
-}
-
-#_runButton QPushButton{
-	qproperty-icon: url(src/resources/icons/play.png);
-}

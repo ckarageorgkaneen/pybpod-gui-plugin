@@ -6,4 +6,4 @@ from bpodgui_plugin.com.messaging.board_message import BoardMessage
 
 class ErrorMessage(BoardMessage):
 	""" Message that represents an error """
-	MESSAGE_TYPE_ALIAS = 'unexpected_format'
+	MESSAGE_TYPE_ALIAS = 'error_message'

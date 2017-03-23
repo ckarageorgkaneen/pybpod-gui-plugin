@@ -4,7 +4,6 @@
 import logging
 
 from bpodgui_plugin.com.run_handlers import PybranchRunHandler
-
 from bpodgui_plugin.com.bpod_instance import BpodInstance
 
 logger = logging.getLogger(__name__)
@@ -43,15 +42,8 @@ class BpodRunner(PybranchRunHandler):
 		exec(open(protocol_path).read(), globals(), ldict)
 		mybpod = ldict['my_bpod']
 		BPOD_INSTANCE.disconnect()
-		#print(mybpod.session)
-
-#		self.log_msg("P 1 Bpod now running\n", last_call=False, evt_idx=self._current_evt_idx)
-#		self.log_msg("P 2 Bpod serial port: {0}\n".format(serial_port), last_call=False, evt_idx=self._current_evt_idx)
-#		self.log_msg("P 3 Bpod protocol path: {0}\n".format(protocol_path), last_call=False, evt_idx=self._current_evt_idx)
-
 
 	def my_print(self, *args):
-		# self.log_msg("P 1 {0}\n".format(args[0]), last_call=False, evt_idx=self._current_evt_idx)
 		self.log_msg(args[0], last_call=False, evt_idx=self._current_evt_idx)
 
 #

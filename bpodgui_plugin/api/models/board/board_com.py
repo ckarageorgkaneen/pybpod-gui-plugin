@@ -77,7 +77,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		for m in parsed_messages:
 			logger.debug("Logging message: %s", m)
 			self.log_messages.append(m)
-		#logger.debug(msg)
+		# logger.debug(msg)
 
 	def log_session_history(self, msg):
 		"""
@@ -90,7 +90,8 @@ class BoardCom(AsyncBpod, BoardIO):
 		:return:
 		"""
 		self._running_session.log_msg(msg)
-		# self._session_log_file.write(msg)
+
+	# self._session_log_file.write(msg)
 
 	def unique_id(self, handler_evt=None):
 		if handler_evt is None: handler_evt = self.unique_id_handler_evt
@@ -105,7 +106,7 @@ class BoardCom(AsyncBpod, BoardIO):
 
 		func_group_id = uuid.uuid4()
 
-		self._running_protocol = board_task.task
+		self._running_task = board_task.task
 		self._running_session = session
 
 		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1)
@@ -113,7 +114,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		AsyncBpod.run_protocol(self,
 		                       board_task.board.serial_port, board_task.task.path,
 		                       handler_evt=self.run_task_handler_evt,
-		                       extra_args=(1,),
+		                       extra_args=(BoardOperations.RUN_PROTOCOL,),
 		                       group=func_group_id
 		                       )
 
@@ -121,18 +122,17 @@ class BoardCom(AsyncBpod, BoardIO):
 		called_operation = e.extra_args[0]
 
 		try:
-			if called_operation == 1:
+			if called_operation == BoardOperations.RUN_PROTOCOL:
 				if isinstance(result, Exception):
-					# self.log_msg_error(str(result))
+					self.log_msg_error(str(result))
 					raise Exception("Unable to run protocol. Please check console for more info.")
 				elif result is not None:
-					# result = result[:-1]  # .replace('\n\r', '')
 					self.log_msg(result)
 					self.log_session_history(result)
 
 			if e.last_call:
 				self._session_log_file.close()
-				self._running_protocol = None
+				self._running_task = None
 				self._running_session = None
 		except Exception as err:
 			self._session_log_file.close()

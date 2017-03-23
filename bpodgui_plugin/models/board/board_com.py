@@ -68,11 +68,16 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 		try:
 			super(BoardCom, self).run_task_handler_evt(e, result)
 
-			if e.extra_args[0] == BoardOperations.RUNTASK_PRINT_STATES: self.project.update_ui()
+			called_operation = e.extra_args[0]
+
+			if called_operation == BoardOperations.RUN_PROTOCOL:
+				self.project.update_ui()
 
 		except Exception as err:
-			session = e.extra_args[1]
-			session.setup.stop_task()
+			self._running_session.setup.stop_task()
+
+			self._running_session = None
+			self._running_task = None
 
 			logger.error(traceback.format_exc())
 			QtGui.QMessageBox.critical(self, "Error", str(err))
