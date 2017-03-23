@@ -70,14 +70,17 @@ class ExperimentWindow(Experiment, BaseWidget):
 		self.layout().setContentsMargins(5, 10, 5, 5)
 
 		self._name = ControlText('Exp. name')
-		self._task = ControlCombo('Task')
+		self._task = ControlCombo('Protocol')
 
 		self._formset = [
 			'_name',
 			'_task',
+			' '
 		]
 
 		Experiment.__init__(self, project)
+
+		self.reload_tasks()
 
 		self._name.changed_event = self.__name_changed_evt
 		self._task.changed_event = self.__task_changed_evt
@@ -94,6 +97,22 @@ class ExperimentWindow(Experiment, BaseWidget):
 	def __name_changed_evt(self):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
+
+	def reload_tasks(self, current_selected_task=None):
+		# type: (Task) -> None
+		"""
+		Reload tasks now
+
+		:param current_selected_task: current selected task
+		:type current_selected_task: pycontrolgui.models.task.Task
+		"""
+		self._task.clear()
+		self._task.add_item('', 0)
+		for task in self.project.tasks:
+			self._task.add_item(task.name, task)
+		self._task.current_index = 0
+		if current_selected_task:
+			self.task = current_selected_task
 
 	@property
 	def name(self):

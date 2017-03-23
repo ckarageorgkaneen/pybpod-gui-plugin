@@ -13,7 +13,7 @@ from pyforms.Controls import ControlTextArea
 from pyforms.Controls import ControlCheckBox
 from pyforms.Controls import ControlButton
 
-from bpodgui_plugin.api.models.board.com.debug_message import DebugMessage
+from bpodgui_plugin.com.messaging.debug_message import DebugMessage
 from bpodgui_plugin.api.exceptions.run_setup import RunSetupError
 
 logger = logging.getLogger(__name__)
@@ -71,15 +71,17 @@ class LogWindow(BaseWidget):
 		try:
 			for message in recent_history:
 				self._session_history_index += 1
-				
+
 				if isinstance(message, DebugMessage) and message.DEBUG_LEVEL == 2 and not self._debug_checkbox.value:
 					pass
 				else:
 
-					self._log += "{idx} | {pc_timestamp} | {message}".format(idx=self._session_history_index,
-					                                                         pc_timestamp=message.pc_timestamp.strftime(
-						                                                         '%Y%m%d_%H%M%S'),
-					                                                         message=message.content)
+					self._log += "{idx} | {pc_timestamp} | {message_type} | {message}".format(
+						idx=self._session_history_index,
+						pc_timestamp=message.pc_timestamp.strftime(
+							'%Y%m%d_%H%M%S'),
+						message_type=message.MESSAGE_TYPE_ALIAS,
+						message=message.content)
 
 
 		except RunSetupError as err:

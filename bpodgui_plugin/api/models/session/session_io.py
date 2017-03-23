@@ -7,7 +7,7 @@ import datetime
 
 from bpodgui_plugin.api.models.session.session_base import SessionBase
 from bpodgui_plugin.api.exceptions.invalid_session import InvalidSessionError
-from bpodgui_plugin.api.models.board.com.msg_factory import parse_board_msg
+from bpodgui_plugin.com.messaging.msg_factory import parse_board_msg
 
 
 class SessionIO(SessionBase):

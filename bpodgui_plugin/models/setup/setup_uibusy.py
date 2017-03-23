@@ -87,14 +87,10 @@ class SetupUIBusy(ComSetup):
 		"""
 		Enable UI buttons for upload task, configure task and run task
 		"""
-		self._upload_task_btn.enabled = True
-		self._configure_task_btn.enabled = True
 		self._run_task_btn.enabled = True
 
 	def disable_all_task_buttons(self):
 		"""
 		Disable UI buttons for upload task, configure task and run task
 		"""
-		self._upload_task_btn.enabled = False
-		self._configure_task_btn.enabled = False
 		self._run_task_btn.enabled = False

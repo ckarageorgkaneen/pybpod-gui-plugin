@@ -23,10 +23,9 @@ class SetupDockWindow(SetupTreeNode):
 	**Methods**
 
 	"""
+
 	def __init__(self, experiment):
 		super(SetupDockWindow, self).__init__(experiment)
-
-		self._configure_task_btn.value = self.__configure_task_btn_evt
 
 	def show(self):
 		"""
@@ -61,9 +60,6 @@ class SetupDockWindow(SetupTreeNode):
 		if reply == QtGui.QMessageBox.Yes:
 			self.mainwindow.details.value = None
 			super(SetupDockWindow, self).remove()
-
-	def __configure_task_btn_evt(self):
-		self.mainwindow.mdi_area += self.board_task
 
 	@property
 	def mainwindow(self):

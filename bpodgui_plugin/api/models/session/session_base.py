@@ -5,8 +5,8 @@ import os
 import datetime
 import logging
 
-from bpodgui_plugin.api.models.board.com.board_message import BoardMessage
-from bpodgui_plugin.api.models.board.com.msg_factory import parse_board_msg
+from bpodgui_plugin.com.messaging.board_message import BoardMessage
+from bpodgui_plugin.com.messaging.msg_factory import parse_board_msg
 
 logger = logging.getLogger(__name__)
 
@@ -36,8 +36,8 @@ class SessionBase(object):
 	def remove(self):
 		pass
 
-	def log_msg(self, msg, board_task=None, variable=None):
-		parsed_messages = parse_board_msg(msg, board_task)
+	def log_msg(self, msg):
+		parsed_messages = parse_board_msg(msg)
 
 		for m in parsed_messages:
 			if issubclass(type(m), BoardMessage):

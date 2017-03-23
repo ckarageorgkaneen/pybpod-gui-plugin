@@ -25,7 +25,7 @@ class BpodRunner(PybranchRunHandler):
 
 		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
 
-	def runner_bpod_run(self, serial_port, protocol_path):
+	def runner_bpod_run_protocol(self, serial_port, protocol_path):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python

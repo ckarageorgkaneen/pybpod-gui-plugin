@@ -4,12 +4,12 @@
 import logging
 import os, json, glob, hashlib
 from send2trash import send2trash
-from bpodgui_plugin.api.models.setup.setup_base import BaseSetup
+from bpodgui_plugin.api.models.setup.setup_base import SetupBase
 
 logger = logging.getLogger(__name__)
 
 
-class SetupIO(BaseSetup):
+class SetupBaseIO(SetupBase):
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################

@@ -40,13 +40,6 @@ class SetupWindow(Setup, BaseWidget):
 
 			Board associated with this setup. Returns the current value stored in the :py:attr:`_board` combo box.
 
-	**Public attributes**
-
-		configure_task_window
-			:class:`pycontrolgui.models.setup.board_task.board_task_window.BoardTaskWindow`
-
-			Stores reference for configure_task_window (if open).
-
 	**Private attributes**
 
 		_name
@@ -58,16 +51,6 @@ class SetupWindow(Setup, BaseWidget):
 			:class:`pyforms.Controls.ControlCombo`
 
 			Combo box to select board associated with this setup. Editing this field fires the event :meth:`SetupWindow._SetupWindow__board_changed_evt`.
-
-		_upload_task_btn
-			:class:`pyforms.Controls.ControlButton`
-
-			Button to upload task on board. Pressing the button fires the event :meth:`SetupWindow._SetupWindow__upload_task`.
-
-		_configure_task_btn
-			:class:`pyforms.Controls.ControlButton`
-
-			Button to show setup-board-task synchronization window. Pressing the button fires the event :meth:`SetupDockWindow._SetupDockWindow__configure_task_btn_evt`.
 
 		_run_task_btn
 			:class:`pyforms.Controls.ControlButton`
@@ -91,8 +74,6 @@ class SetupWindow(Setup, BaseWidget):
 
 		self._name = ControlText('Subject name')
 		self._board = ControlCombo('Box')
-		self._upload_task_btn = ControlButton('Upload')
-		self._configure_task_btn = ControlButton('Configure')
 		self._run_task_btn = ControlButton('Run')
 
 		Setup.__init__(self, experiment)
@@ -102,30 +83,14 @@ class SetupWindow(Setup, BaseWidget):
 		self._formset = [
 			'_name',
 			'_board',
-			('_upload_task_btn', '_configure_task_btn', '_run_task_btn'),
+			(' ', ' ', '_run_task_btn'),
 			' '
 		]
-
-		self.configure_task_window = None
 
 		self._name.changed_event = self.__name_changed_evt
 		self._board.changed_event = self.__board_changed_evt
 
-		self._upload_task_btn.value = self.__upload_task
 		self._run_task_btn.value = self._run_task
-
-	def __upload_task(self):
-		"""
-		Defines behavior of the button :attr:`SetupWindow._upload_task_btn`.
-
-		This methods is called every time the user presses the button.
-		"""
-		try:
-			self.upload_task()
-		except RunSetupError as err:
-			QtGui.QMessageBox.warning(self, "Warning", str(err))
-		except Exception as err:
-			QtGui.QMessageBox.critical(self, "Unexpected Error", str(err))
 
 	def _run_task(self):
 		"""

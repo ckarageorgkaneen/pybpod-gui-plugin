@@ -89,14 +89,12 @@ class ExperimentUIBusy(ExperimentDockWindow):
 		"""
 		Enable UI buttons for restore task variables, upload task and run task
 		"""
-		self._button_restore.enabled = True
-		self._button_run_all.enabled = True
-		self._button_upload_all.enabled = True
+#		self._button_run_all.enabled = True
+		pass
 
 	def disable_all_task_buttons(self):
 		"""
 		Disable UI buttons for restore task variables, upload task and run task
 		"""
-		self._button_restore.enabled = False
-		self._button_run_all.enabled = False
-		self._button_upload_all.enabled = False
+#		self._button_run_all.enabled = False
+		pass

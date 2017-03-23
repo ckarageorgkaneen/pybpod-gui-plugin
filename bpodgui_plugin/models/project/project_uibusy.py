@@ -23,7 +23,6 @@ class ProjectUIBusy(ProjectDockWindow):
 			self.node.setIcon(0, QtGui.QIcon(conf.PROJECT_SMALL_ICON))
 			self.experiments_node.setIcon(0, QtGui.QIcon(conf.EXPERIMENTS_SMALL_ICON))
 			self.boards_node.setIcon(0, QtGui.QIcon(conf.BOARDS_SMALL_ICON))
-			self._install_framework_btn.enabled = True
 
 		elif busy_status in [
 			Board.STATUS_INSTALLING_FRAMEWORK,
@@ -34,7 +33,9 @@ class ProjectUIBusy(ProjectDockWindow):
 			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
 			self.experiments_node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
 			self.boards_node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
-			self._install_framework_btn.enabled = False
 
-		for exp in self.experiments:    exp.update_ui()
-		for board in self.boards:        board.update_ui()
+		for exp in self.experiments:
+			exp.update_ui()
+
+		for board in self.boards:
+			board.update_ui()

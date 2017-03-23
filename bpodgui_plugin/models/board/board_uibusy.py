@@ -28,12 +28,8 @@ class BoardUIBusy(BoardDockWindow):
 		logger.debug('Board [{0}] status: {1}'.format(self.name, self.status))
 
 		if self.status > BoardUIBusy.STATUS_READY:
-			self._edit_framework_btn.enabled = False
-			self._install_framework_btn.enabled = False
 			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
 		else:
-			self._edit_framework_btn.enabled = True
-			self._install_framework_btn.enabled = True
 			self.node.setIcon(0, QtGui.QIcon(conf.BOX_SMALL_ICON))
 
 	##########################################################################

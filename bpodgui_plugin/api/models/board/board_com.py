@@ -72,13 +72,14 @@ class BoardCom(AsyncBpod, BoardIO):
 		self.log_msg(tag_msg)
 
 	def log_msg(self, msg):
-		parsed_messages = parse_board_msg(msg, self.board_task)
+		parsed_messages = parse_board_msg(msg)
 
 		for m in parsed_messages:
+			logger.debug("Logging message: %s", m)
 			self.log_messages.append(m)
 		#logger.debug(msg)
 
-	def log_session_history(self, session, board_task, msg):
+	def log_session_history(self, msg):
 		"""
 		Log session history on file and on memory
 		We could read the file while writing at the same time
@@ -88,7 +89,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		:param msg:
 		:return:
 		"""
-		session.log_msg(msg, board_task)
+		self._running_session.log_msg(msg)
 		# self._session_log_file.write(msg)
 
 	def unique_id(self, handler_evt=None):
@@ -98,22 +99,25 @@ class BoardCom(AsyncBpod, BoardIO):
 	def unique_id_handler_evt(self, e, result):
 		self.log_msg('I Board {0} ID: {1}'.format(self.name, result))
 
-	def run_protocol(self):
+	def run_task(self, session, board_task):
 
 		self.log_msg_level1("Running protocol now")
 
 		func_group_id = uuid.uuid4()
 
-		self._session_log_file = open(self.session.path, 'w+', newline='\n', buffering=1)
+		self._running_protocol = board_task.task
+		self._running_session = session
 
-		AsyncBpod.bpod_run(self,
-		                   self.board_task.board.serial_port, self.board_task.task.path,
-		                   handler_evt=self.run_protocol_handler_evt,
-		                   extra_args=(1,),
-		                   group=func_group_id
-		                   )
+		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1)
 
-	def run_protocol_handler_evt(self, e, result):
+		AsyncBpod.run_protocol(self,
+		                       board_task.board.serial_port, board_task.task.path,
+		                       handler_evt=self.run_task_handler_evt,
+		                       extra_args=(1,),
+		                       group=func_group_id
+		                       )
+
+	def run_task_handler_evt(self, e, result):
 		called_operation = e.extra_args[0]
 
 		try:
@@ -128,6 +132,8 @@ class BoardCom(AsyncBpod, BoardIO):
 
 			if e.last_call:
 				self._session_log_file.close()
+				self._running_protocol = None
+				self._running_session = None
 		except Exception as err:
 			self._session_log_file.close()
 			raise err

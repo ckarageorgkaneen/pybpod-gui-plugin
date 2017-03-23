@@ -14,7 +14,7 @@ from bpodgui_plugin.com.messaging.state_entry import StateEntry
 logger = logging.getLogger(__name__)
 
 
-def parse_board_msg(data, board_task=None):
+def parse_board_msg(data):
 	"""
 	Parse board message and return appropriate event
 	:param board_task: the board and task association

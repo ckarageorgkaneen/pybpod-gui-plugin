@@ -29,7 +29,6 @@ class BoardDockWindow(BoardTreeNode):
 	def __init__(self, project):
 		super(BoardDockWindow, self).__init__(project)
 
-		self._edit_framework_btn.value = self.__edit_framework_evt
 		self._log_btn.value = self.open_log_window
 
 	def show(self):

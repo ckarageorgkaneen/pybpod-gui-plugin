@@ -47,16 +47,6 @@ class AsyncBpod(AsyncHandler):
 
 		return _runner  # type: BpodRunner
 
-	def create_async_thread(self):
-		qtt = QtThread(out_queue=self.out_queue,
-		               in_queue=self.in_queue,
-		               wait_for_results_fn=self.wait_for_results,
-		               event_executor_fn=self.event_executor, mainwindow=self.mainwindow)
-
-		logger.debug("Created QtThread")
-
-		return qtt
-
 	def start_handler_execution(self):
 		AsyncHandler.start_handler_execution(self)
 
@@ -66,6 +56,6 @@ class AsyncBpod(AsyncHandler):
 			self.runner.close_serial_port()
 		logger.debug("Execution handler stopped")
 
-	def bpod_run(self, serial_port, protocol_path, handler_evt=dummy, extra_args=None, group=None):
-		self.call_function('runner_bpod_run', args=(serial_port,protocol_path,), handler_evt=handler_evt,
+	def run_protocol(self, serial_port, protocol_path, handler_evt=dummy, extra_args=None, group=None):
+		self.call_function('runner_bpod_run_protocol', args=(serial_port, protocol_path,), handler_evt=handler_evt,
 		                   extra_args=extra_args, group=group)

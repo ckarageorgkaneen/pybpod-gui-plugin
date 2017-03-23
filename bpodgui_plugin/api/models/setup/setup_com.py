@@ -4,14 +4,14 @@
 import logging
 
 from bpodgui_plugin.api.exceptions.run_setup import RunSetupError
-from bpodgui_plugin.api.models.setup.setup_io import SetupIO
+from bpodgui_plugin.api.models.setup.setup_io import SetupBaseIO
 
 from time import sleep
 
 logger = logging.getLogger(__name__)
 
 
-class SetupCom(SetupIO):
+class SetupCom(SetupBaseIO):
 	"""
 	Define board actions that are triggered by setup.
 
@@ -78,15 +78,14 @@ class SetupCom(SetupIO):
 
 		"""
 		if not self.project.is_saved():
-			logger.warning("Run task cannot be executed because project is not saved.")
-			raise RunSetupError("Project must be saved before run/upload task")
+			logger.warning("Run protocol cannot be executed because project is not saved.")
+			raise RunSetupError("Project must be saved before run protocol")
 
 		if not self.board or not self.task:
-			logger.warning("Subject has no task assigned.")
-			raise RunSetupError("Please assign a box and task first")
+			logger.warning("Subject has no protocol assigned.")
+			raise RunSetupError("Please assign a board and protocol first")
 
 		try:
-			self.restore_task_variables_from_session()
 			session = self.create_session()
 
 			self._run_flag = self.board.run_task(session, self.board_task)
@@ -107,33 +106,3 @@ class SetupCom(SetupIO):
 			sleep(0.1)
 			self._run_flag.set()
 
-	def upload_task(self):
-		if not self.project.is_saved():
-			logger.warning("Run task cannot be executed because project is not saved.")
-			raise RunSetupError("Project must be saved before run/upload task")
-
-
-		if not self.board or not self.task:
-			logger.warning("Setup has no task assigned.")
-			raise RunSetupError("Please assign a board and task first")
-		self.board.upload_task(self.board_task)
-
-	def restore_task_variables_from_session(self, session=None):
-		"""
-		:return:
-		"""
-		logger.debug("Start restoring variables")
-		if not session: session = self.last_session
-
-		if not session:
-			logger.debug("Subject has no sessions to restore from")
-			return
-
-		variables = self.board_task.variables
-		for task_variable in variables:
-			if task_variable.persistent:
-				if len(session.messages_history) == 0: session.load_contents(session.path)
-
-				task_variable.value = session.find_last_var_value(task_variable.name)
-
-		self.board_task.variables = variables

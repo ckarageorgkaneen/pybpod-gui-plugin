@@ -8,7 +8,7 @@ from bpodgui_plugin.api.models.session import Session
 logger = logging.getLogger(__name__)
 
 
-class BaseSetup(object):
+class SetupBase(object):
 	def __init__(self, experiment):
 		self.experiment = experiment
 		self.board_task = self.create_board_task()
