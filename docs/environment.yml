@@ -1,0 +1,13 @@
+name: pybpod-gui-plugin-env
+dependencies:
+  - python=3.6
+  - pyqt=4
+  - numpy
+  - pip:
+      - Send2Trash
+      - pyserial>=3.1.1
+      - https://github.com/snide/sphinx_rtd_theme/archive/master.zip
+      - https://bitbucket.org/fchampalimaud/logging-bootstrap/get/master.zip
+      - https://github.com/UmSenhorQualquer/pysettings/archive/master.zip
+      - https://github.com/UmSenhorQualquer/pyforms/archive/v1.0.beta.zip
+      - https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/master.zip
