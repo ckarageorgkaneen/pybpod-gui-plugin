@@ -1,1 +1,0 @@
-from bpodgui_plugin.api.models.project.project_io import ProjectIO as Project
