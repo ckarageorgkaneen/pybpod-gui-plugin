@@ -74,7 +74,8 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 				self.project.update_ui()
 
 		except Exception as err:
-			self._running_session.setup.stop_task()
+			if self._running_session:
+				self._running_session.setup.stop_task()
 
 			self._running_session = None
 			self._running_task = None

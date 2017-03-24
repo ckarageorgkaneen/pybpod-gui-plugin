@@ -5,10 +5,10 @@ import logging
 
 from pybpodapi.model.trial import Trial as BpodTrial
 
-from pybpodgui_plugin.com.messaging.error_message import ErrorMessage
+from pyforms_generic_editor.com.messaging.error_message import ErrorMessage
 
 from pybpodgui_plugin.com.messaging.print_statement import PrintStatement
-from pybpodgui_plugin.com.messaging.event_fired import EventFired
+from pybpodgui_plugin.com.messaging.state_change import StateChange
 from pybpodgui_plugin.com.messaging.state_entry import StateEntry
 
 logger = logging.getLogger(__name__)
@@ -45,7 +45,7 @@ def parse_board_msg(data):
 
 			for index, event_name in enumerate(events.keys(), start=1):
 				for event_timestamp in events[event_name]:
-					parsed_message.append(EventFired(event_name, event_timestamp, index))
+					parsed_message.append(StateChange(event_name, event_timestamp, index))
 
 		elif isinstance(data, str):
 			# get message code (character variable number string before the first space)

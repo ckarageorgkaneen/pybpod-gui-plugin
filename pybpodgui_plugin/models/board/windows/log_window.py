@@ -13,7 +13,7 @@ from pyforms.Controls import ControlTextArea
 from pyforms.Controls import ControlCheckBox
 from pyforms.Controls import ControlButton
 
-from pybpodgui_plugin.com.messaging.debug_message import DebugMessage
+from pyforms_generic_editor.com.messaging.debug_message import DebugMessage
 from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
 
 logger = logging.getLogger(__name__)

@@ -41,4 +41,14 @@ class SessionIO(SessionBase):
 		self.path = session_path
 
 	def load_contents(self, session_path):
-		pass
+		"""
+
+		:param session_path:
+		:return:
+		"""
+		with open(session_path, "r") as f: file_content = f.read()
+
+		for line in file_content:
+			message_list = parse_board_msg(line)
+			for m in message_list:
+				self.messages_history.append(m)

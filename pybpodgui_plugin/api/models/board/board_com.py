@@ -89,9 +89,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		:param msg:
 		:return:
 		"""
-		self._running_session.log_msg(msg)
-
-	# self._session_log_file.write(msg)
+		self._running_session.log_msg(msg, self._session_log_file)
 
 	def unique_id(self, handler_evt=None):
 		if handler_evt is None: handler_evt = self.unique_id_handler_evt
@@ -135,5 +133,7 @@ class BoardCom(AsyncBpod, BoardIO):
 				self._running_task = None
 				self._running_session = None
 		except Exception as err:
+			self._running_task = None
+			self._running_session = None
 			self._session_log_file.close()
 			raise err

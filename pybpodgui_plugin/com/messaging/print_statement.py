@@ -1,20 +1,18 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pybpodgui_plugin.com.messaging.board_message import BoardMessage
+from pyforms_generic_editor.com.messaging.history_message import HistoryMessage
 
 
-class PrintStatement(BoardMessage):
+class PrintStatement(HistoryMessage):
 	"""
-	User generated print statement.
-	If users want to use characters in their strings to indicate things
-	like comments that is up to them but there is no specific support for this.
+	Print statement on bpod protocol
 	"""
 
 	MESSAGE_TYPE_ALIAS = 'print_statement'
 
 	def __init__(self, message):
-		super(PrintStatement, self).__init__(content=message, format_string=message)
+		super(PrintStatement, self).__init__(content=message)
 
 	@property
 	def print_statement(self):

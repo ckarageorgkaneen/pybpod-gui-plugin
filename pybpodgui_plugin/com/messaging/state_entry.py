@@ -1,13 +1,13 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pybpodgui_plugin.com.messaging.board_message import BoardMessage
+from pyforms_generic_editor.com.messaging.board_message import BoardMessage
 
 
 class StateEntry(BoardMessage):
 	""" Message from board that represents a state entry"""
 
-	MESSAGE_TYPE_ALIAS = 'state_change'
+	MESSAGE_TYPE_ALIAS = 'state_entry'
 
 	def __init__(self, state_name, state_timestamp, state_id):
 		"""
@@ -17,12 +17,11 @@ class StateEntry(BoardMessage):
 		:param state_id:
 		"""
 
-		self.board_timestamp = state_timestamp
 		self.state_id = state_id
 		self.state_name = state_name
 
-		super(StateEntry, self).__init__(content="{0}: {1}".format(state_name, state_timestamp),
-		                                 format_string="{0}: {1}".format(state_name, state_timestamp))
+		BoardMessage.__init__(self, board_timestamp=state_timestamp,
+		                      content="{0}: {1}".format(state_name, state_timestamp))
 
 	@property
 	def state_name(self):
