@@ -5,7 +5,6 @@ import os
 import datetime
 import logging
 
-from pyforms_generic_editor.com.messaging.board_message import BoardMessage
 from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg
 
 logger = logging.getLogger(__name__)
@@ -40,9 +39,8 @@ class SessionBase(object):
 		parsed_messages = parse_board_msg(msg)
 
 		for m in parsed_messages:
-			if issubclass(type(m), BoardMessage):
-				file_obj.write(str(m))
-				self.messages_history.append(m)
+			file_obj.write(m.export())
+			self.messages_history.append(m)
 
 	@property
 	def setup(self):

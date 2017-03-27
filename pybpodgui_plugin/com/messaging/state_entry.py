@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pyforms_generic_editor.com.messaging.board_message import BoardMessage
+from pybpodgui_plugin.com.messaging import BoardMessage
 
 
 class StateEntry(BoardMessage):
@@ -50,3 +50,9 @@ class StateEntry(BoardMessage):
 		:type value: string
 		"""
 		self._state_id = value
+
+	def export(self):
+		return "{msg_type}, {pc_timestamp}, {state_id}, {state_name}, {state_timestamp}\n".format(
+			msg_type=self.MESSAGE_TYPE_ALIAS,
+			pc_timestamp=self._pc_timestamp.isoformat(), state_id=self.state_id,
+			state_name=self.state_name, state_timestamp=self.board_timestamp)

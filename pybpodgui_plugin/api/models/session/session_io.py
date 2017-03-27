@@ -7,7 +7,7 @@ import datetime
 
 from pybpodgui_plugin.api.models.session.session_base import SessionBase
 from pybpodgui_plugin.api.exceptions.invalid_session import InvalidSessionError
-from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg
+from pybpodgui_plugin.com.messaging.msg_factory import parse_session_msg
 
 
 class SessionIO(SessionBase):
@@ -46,9 +46,7 @@ class SessionIO(SessionBase):
 		:param session_path:
 		:return:
 		"""
-		with open(session_path, "r") as f: file_content = f.read()
-
-		for line in file_content:
-			message_list = parse_board_msg(line)
-			for m in message_list:
-				self.messages_history.append(m)
+		with open(session_path, "r") as f:
+			for line in f:
+				message = parse_session_msg(line)
+				self.messages_history.append(message)

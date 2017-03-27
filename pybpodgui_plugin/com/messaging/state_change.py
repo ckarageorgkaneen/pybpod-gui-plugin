@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pyforms_generic_editor.com.messaging.board_message import BoardMessage
+from pybpodgui_plugin.com.messaging import BoardMessage
 
 
 class StateChange(BoardMessage):
@@ -37,3 +37,9 @@ class StateChange(BoardMessage):
 	@event_id.setter
 	def event_id(self, value):
 		self._event_id = value
+
+	def export(self):
+		return "{msg_type}, {pc_timestamp}, {event_id}, {event_name}, {event_timestamp}\n".format(
+			msg_type=self.MESSAGE_TYPE_ALIAS,
+			pc_timestamp=self._pc_timestamp.isoformat(), event_id=self.event_id,
+			event_name=self.event_name, event_timestamp=self.board_timestamp)

@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pyforms_generic_editor.com.messaging.history_message import HistoryMessage
+from pybpodgui_plugin.com.messaging import HistoryMessage
 
 
 class PrintStatement(HistoryMessage):
