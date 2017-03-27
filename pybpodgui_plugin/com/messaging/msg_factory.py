@@ -35,18 +35,23 @@ def parse_session_msg(data):
 		message_code = re.compile(r'(?P<type>.*?),.*').search(data).group('type')
 
 		if message_code == PrintStatement.MESSAGE_TYPE_ALIAS:
+			# sample: print_statement, 2017-03-27T14:05:23.580120, Raw events: {'States': [0], 'TrialStartTimestamp': [0.007], 'EventTimestamps': [1.0], 'Events': [88], 'StateTimestamps': [0, 1.0]}
 			regex = re.compile(r'.*?\s(?P<timestamp>.*?),\s(?P<value>.*)')
 			result = regex.search(data)
 			parsed_message = PrintStatement(result.group('value'))
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('timestamp'))
+
 		elif message_code == StateChange.MESSAGE_TYPE_ALIAS:
+			# sample: state_change, 2017-03-27T14:05:22.581343, 1, Tup, 1.0
 			regex = re.compile(
 				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<event_id>.*),\s(?P<event_name>.*),\s(?P<board_timestamp>.*)')
 			result = regex.search(data)
 			parsed_message = StateChange(result.group('event_name'), result.group('board_timestamp'),
 			                             result.group('event_id'))
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
+
 		elif message_code == StateEntry.MESSAGE_TYPE_ALIAS:
+			# sample state_entry, 2017-03-27T14:05:22.581329, 1, myState, 0
 			regex = re.compile(
 				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<state_id>.*),\s(?P<state_name>.*),\s(?P<board_timestamp>.*)')
 			result = regex.search(data)
@@ -55,8 +60,6 @@ def parse_session_msg(data):
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
 		else:
 			raise Exception("Unknown message code")
-
-
 
 	except Exception as err:
 		logger.warning("Could not parse bpod message: {0}".format(data), exc_info=True)
@@ -70,10 +73,7 @@ def parse_session_msg(data):
 def parse_board_msg(data):
 	"""
 	Parse board message and return appropriate event
-	:param board_task: the board and task association
-	:type board_task: pycontrolapi.models.board_task
-	:param data: data to be parsed
-	:type data: string
+
 	:returns: list with instances of HistoryMessage
 	"""
 
@@ -112,7 +112,6 @@ def parse_board_msg(data):
 
 
 	except Exception as err:
-		# The msg is considered a comment for the cases where the events formats are not correct
 		logger.warning("Could not parse bpod message: {0}".format(data), exc_info=True)
 		parsed_message.append(ErrorMessage(data))  # default case
 
