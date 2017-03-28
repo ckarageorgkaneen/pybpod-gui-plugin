@@ -38,7 +38,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 	####### FUNCTIONS ########################################################
 	##########################################################################
 
-	def run_task(self, session, board_task):
+	def run_task(self, session, board_task, workspace_path):
 		"""
 		Bases: :meth:`pycontrolapi.model.board.board_com.ComBoard.run_task`
 
@@ -52,7 +52,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 		self._enable_btn_flag = True
 		self._tmp_setup = session.setup
 		try:
-			flag = super(BoardCom, self).run_task(session, board_task)
+			flag = super(BoardCom, self).run_task(session, board_task, workspace_path)
 		except Exception:
 			board_task.setup.status = Setup.STATUS_READY
 			self.status = self.STATUS_READY

@@ -53,10 +53,10 @@ def parse_session_msg(data):
 		elif message_code == StateEntry.MESSAGE_TYPE_ALIAS:
 			# sample state_entry, 2017-03-27T14:05:22.581329, 1, myState, 0
 			regex = re.compile(
-				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<state_id>.*),\s(?P<state_name>.*),\s(?P<board_timestamp>.*)')
+				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<state_id>.*),\s(?P<state_name>.*),\s(?P<start_timestamp>.*),\s(?P<end_timestamp>.*)')
 			result = regex.search(data)
-			parsed_message = StateChange(result.group('state_name'), result.group('board_timestamp'),
-			                             result.group('state_id'))
+			parsed_message = StateEntry(result.group('state_name'), result.group('start_timestamp'),
+			                            result.group('end_timestamp'), result.group('state_id'))
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
 		else:
 			raise Exception("Unknown message code")
@@ -87,14 +87,12 @@ def parse_board_msg(data):
 
 		if isinstance(data, BpodTrial):
 			bpod_trial = data
-			#			states = bpod_instance.session.trials[0].states_timestamps
-			#			events = bpod_instance.session.trials[0].events_timestamps
 			states = bpod_trial.states_timestamps
 			events = bpod_trial.events_timestamps
 
-			for index, state_name in enumerate(states.keys(), start=1):
-				for state_timestamp in states[state_name][0]:
-					parsed_message.append(StateEntry(state_name, state_timestamp, index))
+			for index, state in enumerate(bpod_trial.states, start=1):
+				for state_duration in state.timestamps:
+					parsed_message.append(StateEntry(state.name, state_duration.start, state_duration.end, index))
 
 			for index, event_name in enumerate(events.keys(), start=1):
 				for event_timestamp in events[event_name]:

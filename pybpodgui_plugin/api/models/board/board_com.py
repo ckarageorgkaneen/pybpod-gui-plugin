@@ -98,7 +98,7 @@ class BoardCom(AsyncBpod, BoardIO):
 	def unique_id_handler_evt(self, e, result):
 		self.log_msg('I Board {0} ID: {1}'.format(self.name, result))
 
-	def run_task(self, session, board_task):
+	def run_task(self, session, board_task, workspace_path):
 
 		self.log_msg_level1("Running protocol now")
 
@@ -110,7 +110,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1)
 
 		AsyncBpod.run_protocol(self,
-		                       board_task.board.serial_port, board_task.task.path,
+		                       board_task.board.serial_port, board_task.task.name, board_task.task.path, workspace_path,
 		                       handler_evt=self.run_task_handler_evt,
 		                       extra_args=(BoardOperations.RUN_PROTOCOL,),
 		                       group=func_group_id

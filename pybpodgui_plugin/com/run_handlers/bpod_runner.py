@@ -24,7 +24,7 @@ class BpodRunner(PybranchRunHandler):
 
 		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
 
-	def runner_bpod_run_protocol(self, serial_port, protocol_path):
+	def runner_bpod_run_protocol(self, serial_port, protocol_name, protocol_path, workspace_path):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python
@@ -37,11 +37,11 @@ class BpodRunner(PybranchRunHandler):
 		:return:
 		"""
 		print = self.my_print
-		BPOD_INSTANCE = BpodInstance(self.my_print).start(serial_port)
+		BPOD_INSTANCE = BpodInstance(self.my_print).start(serial_port, workspace_path, protocol_name)
 		ldict = locals()
 		exec(open(protocol_path).read(), globals(), ldict)
 		mybpod = ldict['my_bpod']
-		BPOD_INSTANCE.disconnect()
+		BPOD_INSTANCE.stop()
 
 	def my_print(self, *args):
 		self.log_msg(args[0], last_call=False, evt_idx=self._current_evt_idx)

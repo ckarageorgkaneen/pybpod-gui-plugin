@@ -88,7 +88,7 @@ class SetupCom(SetupBaseIO):
 		try:
 			session = self.create_session()
 
-			self._run_flag = self.board.run_task(session, self.board_task)
+			self._run_flag = self.board.run_task(session, self.board_task, self.path)
 		except Exception as err:
 			logger.error(str(err), exc_info=True)
 			raise Exception("Unknown error found while running task. See log for more details.")
