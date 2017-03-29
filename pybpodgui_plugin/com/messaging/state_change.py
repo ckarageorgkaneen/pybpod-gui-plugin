@@ -5,7 +5,7 @@ from pybpodgui_plugin.com.messaging import BoardMessage
 
 
 class StateChange(BoardMessage):
-	"""Message from board that represents state change"""
+	"""Message from board that represents state change (an event)"""
 
 	MESSAGE_TYPE_ALIAS = 'state_change'
 

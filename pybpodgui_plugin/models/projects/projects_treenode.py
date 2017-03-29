@@ -14,7 +14,7 @@ class ProjectsTreeNode(ProjectsWindow):
 		Invoke project creation and focus GUI on the new tree node.
 
 		.. seealso::
-			* Create project: :class:`pybehavior.models.projects.projects_window.ProjectsWindow.create_project`.
+			* Create project: :class:`pybpodgui_plugin.models.projects.projects_window.ProjectsWindow.create_project`.
 
 		:rtype: Project
 		"""
@@ -30,7 +30,7 @@ class ProjectsTreeNode(ProjectsWindow):
 		Finally, we have to force the project node to change.
 
 		.. seealso::
-			* Open project: :class:`pybehavior.models.projects.projects_window.ProjectsWindow.open_project`.
+			* Open project: :class:`pybpodgui_plugin.models.projects.projects_window.ProjectsWindow.open_project`.
 
 		:param str project_path:
 		"""

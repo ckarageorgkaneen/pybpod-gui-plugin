@@ -45,7 +45,7 @@ class ExperimentDockWindow(ExperimentTreeNode):
 		Prompts user to confirm experiment removal.
 
 		.. seealso::
-			This method extends experiment tree node :py:meth:`pycontrolgui.models.experiment.experiment_treenode.ExperimentTreeNode.remove`.
+			This method extends experiment tree node :py:meth:`pybpodgui_plugin.models.experiment.experiment_treenode.ExperimentTreeNode.remove`.
 
 		"""
 		reply = QtGui.QMessageBox.question(self, 'Warning',

@@ -49,7 +49,7 @@ class BoardDockWindow(BoardTreeNode):
 		Prompts user to confirm board removal and closes mdi windows associated with this board.
 
 		.. seealso::
-			This method extends board tree node :py:meth:`pycontrolgui.models.board.board_treenode.BoardTreeNode.remove`.
+			This method extends board tree node :py:meth:`pybpodgui_plugin.models.board.board_treenode.BoardTreeNode.remove`.
 
 		"""
 		reply = QtGui.QMessageBox.question(self, 'Warning',

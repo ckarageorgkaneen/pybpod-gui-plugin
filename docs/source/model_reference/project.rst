@@ -2,11 +2,9 @@ Project
 =================================================
 
 
-.. automodule:: pycontrolapi.models.project.project_base
+.. automodule:: pybpodgui_plugin.api.models.project.project_base
     :members:
 
-.. automodule:: pycontrolapi.models.project.project_io
+.. automodule:: pybpodgui_plugin.api.models.project.project_io
     :members:
 
-.. automodule:: pycontrolapi.models.project.project_utils
-    :members:

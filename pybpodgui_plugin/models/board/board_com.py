@@ -25,7 +25,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 	.. seealso::
 		This class heavy relies on the corresponding API module.
 
-		:py:class:`pycontrolapi.model.board.board_com.ComBoard`
+		:py:class:`pybpodgui_plugin.api.models.board.board_com.BoardCom`
 
 	**Methods**
 
@@ -40,7 +40,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 
 	def run_task(self, session, board_task, workspace_path):
 		"""
-		Bases: :meth:`pycontrolapi.model.board.board_com.ComBoard.run_task`
+		Bases: :meth:`pybpodgui_plugin.api.models.board.board_com.BoardCom.run_task`
 
 		Start running task on board by invoking API
 
@@ -61,7 +61,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 
 	def run_task_handler_evt(self, e, result):
 		"""
-		Bases: :meth:`pycontrolapi.model.board.board_com.ComBoard.run_task_handler_evt`
+		Bases: :meth:`pybpodgui_plugin.api.models.board.board_com.BoardCom.run_task_handler_evt`
 
 		Call API corresponding method and handle "run task" action errors on UI.
 		"""

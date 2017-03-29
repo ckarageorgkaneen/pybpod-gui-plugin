@@ -46,7 +46,7 @@ class TaskDockWindow(TaskTreeNode):
 		Prompts user to confirm task removal and closes mdi windows associated with this task.
 
 		.. seealso::
-			This method extends task tree node :py:meth:`pycontrolgui.models.task.task_treenode.TaskTreeNode.remove`.
+			This method extends task tree node :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.remove`.
 
 		"""
 		reply = QtGui.QMessageBox.question(self, 'Warning',
@@ -63,8 +63,8 @@ class TaskDockWindow(TaskTreeNode):
 
 		.. seealso::
 			This event may be fired on:
-				* Double click event (tree node): :py:meth:`pycontrolgui.models.task.task_treenode.TaskTreeNode.node_double_clicked_event`.
-				* Key press event (tree node): :py:meth:`pycontrolgui.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
+				* Double click event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_double_clicked_event`.
+				* Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
 		"""
 		if self.project.path is None:
 			QtGui.QMessageBox.about(self, "Cannot edit the file yet.",

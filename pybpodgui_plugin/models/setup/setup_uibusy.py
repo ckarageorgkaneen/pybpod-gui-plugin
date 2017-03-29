@@ -17,7 +17,7 @@ class SetupUIBusy(ComSetup):
 	Extends setup with UI refreshment logic.
 
 	.. seealso::
-		UI buttons: :py:class:`pycontrolgui.models.setup.setup_window.SetupWindow`.
+		UI buttons: :py:class:`pybpodgui_plugin.models.setup.setup_window.SetupWindow`.
 
 	**Methods**
 

@@ -31,7 +31,7 @@ class ProjectsWindow(GenericProjects):
 		Invoke project creation
 
 		.. seealso::
-			* Create project treenode: :class:`pybehavior.models.projects.projects_treenode.ProjectsTreeNode.create_project`.
+			* Create project treenode: :class:`pybpodgui_plugin.models.projects.projects_treenode.ProjectsTreeNode.create_project`.
 
 		:rtype: Project
 		"""
@@ -44,7 +44,7 @@ class ProjectsWindow(GenericProjects):
 		Open project
 
 		.. seealso::
-			* Open project treenode: :class:`pybehavior.models.projects.projects_treenode.ProjectsTreeNode.open_project`.
+			* Open project treenode: :class:`pybpodgui_plugin.models.projects.projects_treenode.ProjectsTreeNode.open_project`.
 
 		:param str project_path:
 		"""

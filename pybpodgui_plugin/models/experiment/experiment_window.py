@@ -34,21 +34,6 @@ class ExperimentWindow(Experiment, BaseWidget):
 
 		:type: :class:`pyforms.Controls.ControlText`
 
-	_button_run_all
-		Button to run task for all subjects. Pressing the button fires the event :class:`ExperimentWindow._ExperimentWindow__button_run_all_evt`.
-
-		:type: :class:`pyforms.Controls.ControlButton`
-
-	_button_upload_all
-		Button to upload task for all subjects. Pressing the button fires the event :class:`ExperimentWindow._ExperimentWindow__button_upload_all_evt`.
-
-		:type: :class:`pyforms.Controls.ControlButton`
-
-	_button_restore
-		Button to restore task variables. Pressing the button fires the event :class:`ExperimentWindow._ExperimentWindow__button_restore_evt`.
-
-		:type: :class:`pyforms.Controls.ControlButton`
-
 	_task
 		Combo box of available tasks. Current selected task is the task associated for this experiment
 		and all its subjects. Selecting a different task fires the event :class:`ExperimentWindow._ExperimentWindow__task_changed_evt`.
@@ -104,7 +89,7 @@ class ExperimentWindow(Experiment, BaseWidget):
 		Reload tasks now
 
 		:param current_selected_task: current selected task
-		:type current_selected_task: pycontrolgui.models.task.Task
+		:type current_selected_task: pybpodgui_plugin.models.task.Task
 		"""
 		self._task.clear()
 		self._task.add_item('', 0)

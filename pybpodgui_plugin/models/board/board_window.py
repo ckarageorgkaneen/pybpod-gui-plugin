@@ -49,16 +49,6 @@ class BoardWindow(Board, BaseWidget):
 
 			Text field to edit serial port. Editing this field fires the event :meth:`BoardWindow._BoardWindow__serial_changed_evt`.
 
-		_edit_framework_btn
-			:class:`pyforms.Controls.ControlButton`
-
-			Button to edit framework code. Pressing the button fires the event :class:`BoardDockWindow._BoardDockWindow__edit_framework_btn`.
-
-		_install_framework_btn
-			:class:`pyforms.Controls.ControlButton`
-
-			Button to install framework on board. Pressing the button fires the event :class:`BoardWindow._BoardWindow__install_framework_btn_evt`.
-
 		_log_btn
 			:class:`pyforms.Controls.ControlButton`
 

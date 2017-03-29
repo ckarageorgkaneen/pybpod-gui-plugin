@@ -65,7 +65,7 @@ class TaskTreeNode(TaskWindow):
 		"""
 		Sets key events for:
 			* Remove task: :meth:`TaskTreeNode.remove`
-			* Edit task code: :py:meth:`pycontrolgui.models.task.task_dockwindow.TaskDockWindow.edit_btn_evt`
+			* Edit task code: :py:meth:`pybpodgui_plugin.models.task.task_dockwindow.TaskDockWindow.edit_btn_evt`
 
 		:param event: key event
 		"""
@@ -80,7 +80,7 @@ class TaskTreeNode(TaskWindow):
 
 	def node_double_clicked_event(self):
 		"""
-		Fires event :py:meth:`pycontrolgui.models.task.task_dockwindow.TaskDockWindow.edit_btn_evt` when tree node is double clicked.
+		Fires event :py:meth:`pybpodgui_plugin.models.task.task_dockwindow.TaskDockWindow.edit_btn_evt` when tree node is double clicked.
 		"""
 		self.edit_btn_evt()
 
@@ -90,9 +90,9 @@ class TaskTreeNode(TaskWindow):
 		Remove task from project and remove node from tree.
 
 		.. seealso::
-			* Task removal (dock window): :py:meth:`pycontrolgui.models.task.task_dockwindow.TaskDockWindow.remove`.
-			* Task removal (API): :meth:`pycontrolapi.models.board.board_base.TaskBase.remove`.
-			* Remove task from project: :meth:`pycontrolapi.models.project.project_base.ProjectBase.__sub__`.
+			* Task removal (dock window): :py:meth:`pybpodgui_plugin.models.task.task_dockwindow.TaskDockWindow.remove`.
+			* Task removal (API): :meth:`pybpodgui_plugin.api.models.board.board_base.TaskBase.remove`.
+			* Remove task from project: :meth:`pybpodgui_plugin.api.models.project.project_base.ProjectBase.__sub__`.
 
 		"""
 		self.project -= self

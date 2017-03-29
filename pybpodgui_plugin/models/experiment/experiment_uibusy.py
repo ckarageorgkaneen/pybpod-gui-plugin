@@ -17,7 +17,7 @@ class ExperimentUIBusy(ExperimentDockWindow):
 	Extends experiment with UI refreshment logic.
 
 	.. seealso::
-		UI buttons: :py:class:`pycontrolgui.models.experiment.experiment_window.ExperimentWindow`.
+		UI buttons: :py:class:`pybpodgui_plugin.models.experiment.experiment_window.ExperimentWindow`.
 
 	**Methods**
 

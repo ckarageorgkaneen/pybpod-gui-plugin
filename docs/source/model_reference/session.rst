@@ -2,8 +2,8 @@ Session
 =================================================
 
 
-.. automodule:: pycontrolapi.models.session.session_base
+.. automodule:: pybpodgui_plugin.api.models.session.session_base
     :members:
 
-.. automodule:: pycontrolapi.models.session.session_io
+.. automodule:: pybpodgui_plugin.api.models.session.session_io
     :members:

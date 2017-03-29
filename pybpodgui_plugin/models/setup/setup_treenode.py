@@ -69,8 +69,8 @@ class SetupTreeNode(SetupWindow):
 		Remove setup from project and remove node from tree.
 
 		.. seealso::
-			* Setup removal (dock window): :py:meth:`pycontrolgui.models.setup.setup_dockwindow.SetupDockWindow.remove`.
-			* Setup removal (API): :meth:`pycontrolapi.models.board.setup_base.SetupBase.remove`.
+			* Setup removal (dock window): :py:meth:`pybpodgui_plugin.models.setup.setup_dockwindow.SetupDockWindow.remove`.
+			* Setup removal (API): :meth:`pybpodgui_plugin.api.models.board.setup_base.SetupBase.remove`.
 		"""
 		for index in range(len(self.sessions) - 1, -1, -1):
 			self.sessions[index].remove()

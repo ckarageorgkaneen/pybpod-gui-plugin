@@ -10,7 +10,13 @@ from pybpodgui_plugin.models.project.project_dockwindow import ProjectDockWindow
 
 
 class ProjectUIBusy(ProjectDockWindow):
+	"""
+	
+	"""
 	def update_ui(self):
+		"""
+		Update user interface
+		"""
 
 		busy_status = Board.STATUS_READY
 		for board in self.boards:

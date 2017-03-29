@@ -36,7 +36,7 @@ class ExperimentTreeNode(ExperimentWindow):
 		"""
 
 		:param project: project where this experiment belongs
-		:type project: pycontrolgui.models.project.Project
+		:type project: pybpodgui_plugin.models.project.Project
 		"""
 		ExperimentWindow.__init__(self, project)
 
@@ -91,7 +91,7 @@ class ExperimentTreeNode(ExperimentWindow):
 		:return type: Setup
 
 		.. seealso::
-			Setup: :class:`pycontrolgui.models.setup.setup_window.SetupWindow`.
+			Setup: :class:`pybpodgui_plugin.models.setup.setup_window.SetupWindow`.
 
 		"""
 		setup = Setup(self)
@@ -104,9 +104,9 @@ class ExperimentTreeNode(ExperimentWindow):
 		Finally, removes experiment node from project tree and remove experiment from project.
 
 		.. seealso::
-			* Experiment removal (API): :class:`pycontrolapi.models.experiment.experiment_base.ExperimentBase.remove`.
-			* Experiment Dock window: :class:`pycontrolgui.models.experiment.experiment_dockwindow.ExperimentDockWindow`.
-			* Remove experiment from project: :class:`pycontrolapi.models.project.project_base.ProjectBase.__sub__`.
+			* Experiment removal (API): :class:`pybpodgui_plugin.api.models.experiment.experiment_base.ExperimentBase.remove`.
+			* Experiment Dock window: :class:`pybpodgui_plugin.models.experiment.experiment_dockwindow.ExperimentDockWindow`.
+			* Remove experiment from project: :class:`pybpodgui_plugin.api.models.project.project_base.ProjectBase.__sub__`.
 		"""
 		for index in range(len(self.setups) - 1, -1, -1):
 			self.setups[index].remove()

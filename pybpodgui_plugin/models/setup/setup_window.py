@@ -36,7 +36,7 @@ class SetupWindow(Setup, BaseWidget):
 			Name associated with this setup. Returns the current value stored in the :py:attr:`_name` text field.
 
 		board
-			:class:`pycontrolgui.models.board.board_dockwindow.BoardDockWindow`
+			:class:`pybpodgui_plugin.models.board.board_dockwindow.BoardDockWindow`
 
 			Board associated with this setup. Returns the current value stored in the :py:attr:`_board` combo box.
 
@@ -131,8 +131,8 @@ class SetupWindow(Setup, BaseWidget):
 		Reload boards list on combo box
 
 		This method is fired by:
-			* setup creation: :py:meth:`pycontrolgui.models.setup.setup_window.SetupWindow._SetupWindow__init__`.
-			* setup details section focus (dockwindow): :py:meth:`pycontrolgui.models.setup.setup_dockwindow.SetupDockWindow.show`.
+			* setup creation: :py:meth:`pybpodgui_plugin.models.setup.setup_window.SetupWindow._SetupWindow__init__`.
+			* setup details section focus (dockwindow): :py:meth:`pybpodgui_plugin.models.setup.setup_dockwindow.SetupDockWindow.show`.
 
 		:param current_selected_board: optional specify current selected board to restore after list update
 		"""
@@ -149,7 +149,7 @@ class SetupWindow(Setup, BaseWidget):
 		Creates a new board task by calling the API.
 
 		.. seealso::
-			:py:class:`pycontrolapi.models.setup.board_task.BoardTask`.
+			:py:class:`pybpodgui_plugin.api.models.setup.board_task.BoardTask`.
 		"""
 		return BoardTask(self)
 
@@ -158,7 +158,7 @@ class SetupWindow(Setup, BaseWidget):
 		Creates a new session by calling the API.
 
 		.. seealso::
-			:py:class:`pycontrolapi.models.session.session_base.SessionBase`.
+			:py:class:`pybpodgui_plugin.api.models.session.session_base.SessionBase`.
 		"""
 		return Session(self)
 

@@ -47,7 +47,7 @@ class SetupDockWindow(SetupTreeNode):
 		Prompts user to confirm setup removal.
 
 		.. seealso::
-			This method extends setup tree node :py:meth:`pycontrolgui.models.setup.setup_treenode.SetupTreeNode.remove`.
+			This method extends setup tree node :py:meth:`pybpodgui_plugin.models.setup.setup_treenode.SetupTreeNode.remove`.
 
 		"""
 		if not self.experiment.MARKED_FOR_REMOVAL:

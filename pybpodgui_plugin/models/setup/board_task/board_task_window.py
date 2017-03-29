@@ -26,7 +26,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 	.. seealso::
 		This class heavy relies on the corresponding API module.
 
-		:py:class:`pycontrolapi.model.setup.board_task.BoardTask`
+		:py:class:`pybpodgui_plugin.api.models.setup.board_task.BoardTask`
 
 	**Properties**
 
@@ -166,7 +166,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 		.. seealso ::
 			This method invokes a board operation:
 
-			:py:meth:`pycontrolgui.models.board.board_com.ComBoard.sync_variables`
+			:py:meth:`pybpodgui_plugin.models.board.board_com.ComBoard.sync_variables`
 		"""
 		if self.board and self.task:
 			self.board.sync_variables(self)
@@ -179,7 +179,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 		.. seealso ::
 			This method invokes API:
 
-			:py:meth:`pycontrolapi.models.setup.board_task.BoardTask.load_task_details`
+			:py:meth:`pybpodgui_plugin.api.models.setup.board_task.BoardTask.load_task_details`
 		"""
 		reply = QtGui.QMessageBox.question(self, 'Attention',
 		                                   'All the configured values will be deleted. Are sure you want to procede?',
