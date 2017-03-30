@@ -1,6 +1,6 @@
 name: pybpod-gui-plugin-env
 dependencies:
-  - python=3.6
+  - python=3.5
   - pyqt=4
   - numpy
   - pip:
