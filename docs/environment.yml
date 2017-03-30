@@ -1,6 +1,7 @@
 name: pybpod-gui-plugin-env
 dependencies:
   - python=3.6
+  - pyqt=4
   - numpy
   - pip:
       - Send2Trash
@@ -11,5 +12,4 @@ dependencies:
       - https://github.com/UmSenhorQualquer/pyforms/archive/v1.0.beta.zip
       - https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/master.zip
       - https://bitbucket.org/fchampalimaud/pybpod-api/get/bpod_csv_exporter.zip
-      - https://bitbucket.org/fchampalimaud/pybranch.git
-      - https://pypi.anaconda.org/ales-erjavec/simple pyqt4
+      - https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
