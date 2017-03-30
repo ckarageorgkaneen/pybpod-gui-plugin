@@ -6,7 +6,7 @@ from send2trash import send2trash
 
 logger = logging.getLogger(__name__)
 
-class BaseTask(object):
+class TaskBase(object):
 	""" Represents a state machine """
 
 	def __init__(self, project=None):

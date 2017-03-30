@@ -12,7 +12,7 @@ from pybpodgui_plugin.api.models.task import Task
 logger = logging.getLogger(__name__)
 
 
-class BaseProject(object):
+class ProjectBase(object):
 	"""
 	A project is a collection of experiments and an hardware configuration
 	"""

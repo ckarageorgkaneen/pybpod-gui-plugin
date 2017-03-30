@@ -4,7 +4,7 @@
 from pybpodgui_plugin.models.setup.setup_dockwindow import SetupDockWindow
 
 
-class ComSetup(SetupDockWindow):
+class SetupCom(SetupDockWindow):
 	"""
 	Define board actions that are triggered by setup.
 
@@ -23,5 +23,5 @@ class ComSetup(SetupDockWindow):
 
 		Also, update UI by calling :py:meth:`pybpodgui_plugin.models.setup.setup_uibuisy.SetupUIBusy.update_ui`.
 		"""
-		super(ComSetup, self).stop_task()
+		super(SetupCom, self).stop_task()
 		self.update_ui()

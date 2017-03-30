@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class BaseBoard(object):
+class BoardBase(object):
 	"""
 	Board base class with main attributes. A board should have a name, serial port, project belonging to, a path and a list of messages.
 	"""

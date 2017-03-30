@@ -8,12 +8,12 @@ import json
 import hashlib
 from send2trash import send2trash
 
-from pybpodgui_plugin.api.models.project.project_base import BaseProject
+from pybpodgui_plugin.api.models.project.project_base import ProjectBase
 
 logger = logging.getLogger(__name__)
 
 
-class ProjectIO(BaseProject):
+class ProjectIO(ProjectBase):
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################

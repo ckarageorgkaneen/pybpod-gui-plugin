@@ -2,33 +2,43 @@
 # -*- coding: utf-8 -*-
 
 import logging, os
-from pybpodgui_plugin.api.models.task.task_base import BaseTask
+from pybpodgui_plugin.api.models.task.task_base import TaskBase
 
 logger = logging.getLogger(__name__)
 
 
-class TaskIO(BaseTask):
-    
-    ##########################################################################
-    ####### FUNCTIONS ########################################################
-    ##########################################################################
+class TaskIO(TaskBase):
+	"""
+	Task I/O operations
+	"""
 
-    def save(self, project_path, data):
-        #save only if the task file exists
-        tasks_path = os.path.join(project_path, 'tasks')
-        if not os.path.exists(tasks_path): os.makedirs(tasks_path)
-        new_task_path = os.path.join(tasks_path, self.name)+'.py'
+	##########################################################################
+	####### FUNCTIONS ########################################################
+	##########################################################################
 
-        if self.path != new_task_path:
-            #if the task file is not in the project file, it makes a copy to the project folder
-            code_txt    = self.code if self.path else ''
-            self.path   = new_task_path
-            self.code   = code_txt
-        
+	def save(self, project_path, data):
+		"""
+		
+		:param str project_path: 
+		:param dict data: 
+		"""
+		# save only if the task file exists
+		tasks_path = os.path.join(project_path, 'tasks')
+		if not os.path.exists(tasks_path): os.makedirs(tasks_path)
+		new_task_path = os.path.join(tasks_path, self.name) + '.py'
 
-    def load(self, task_path, data): 
-        
-        self.name = os.path.splitext(os.path.basename(task_path))[0]
-        self.path = task_path
+		if self.path != new_task_path:
+			# if the task file is not in the project file, it makes a copy to the project folder
+			code_txt = self.code if self.path else ''
+			self.path = new_task_path
+			self.code = code_txt
 
-    
+	def load(self, task_path, data):
+		"""
+		
+		:param str task_path: 
+		:param dict data: 
+		"""
+
+		self.name = os.path.splitext(os.path.basename(task_path))[0]
+		self.path = task_path

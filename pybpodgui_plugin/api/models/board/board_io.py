@@ -3,12 +3,12 @@
 
 import os
 import logging, json
-from pybpodgui_plugin.api.models.board.board_base import BaseBoard
+from pybpodgui_plugin.api.models.board.board_base import BoardBase
 
 logger = logging.getLogger(__name__)
 
 
-class BoardIO(BaseBoard):
+class BoardIO(BoardBase):
 	"""
 	
 	"""

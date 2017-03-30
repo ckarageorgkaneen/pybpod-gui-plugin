@@ -7,12 +7,12 @@ from PyQt4 import QtGui
 from pysettings import conf
 
 from pybpodgui_plugin.api.models.setup import Setup
-from pybpodgui_plugin.models.setup.setup_com import ComSetup
+from pybpodgui_plugin.models.setup.setup_com import SetupCom
 
 logger = logging.getLogger(__name__)
 
 
-class SetupUIBusy(ComSetup):
+class SetupUIBusy(SetupCom):
 	"""
 	Extends setup with UI refreshment logic.
 

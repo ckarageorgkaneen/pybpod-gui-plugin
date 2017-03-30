@@ -62,8 +62,8 @@ source_suffix = ['.rst', '.md']
 master_doc = 'index'
 
 # General information about the project.
-project = 'pybpod-gui-plugin'
-copyright = '2016, Scientific Sofware Platform (CF)'
+project = 'pybpod'
+copyright = '2017, Scientific Sofware Platform (CF)'
 author = 'Scientific Sofware Platform (CF)'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -369,7 +369,12 @@ epub_exclude_files = ['search.html']
 # If false, no index is generated.
 #epub_use_index = True
 
-intersphinx_mapping = {}
+# Example configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {'https://docs.python.org/3/': None,
+                      'http://pyforms.readthedocs.io/en/latest/': None,
+                      'http://pybpod-api.readthedocs.io/en/latest/': None,
+}
+
 
 # -- Options for graphviz ----------------------------------------------------
 # The following section is needed to enable links within graphviz generated diagrams

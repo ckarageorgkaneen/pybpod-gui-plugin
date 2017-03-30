@@ -3,12 +3,12 @@
 
 import logging, os, json, hashlib
 from send2trash import send2trash
-from pybpodgui_plugin.api.models.experiment.experiment_base import BaseExperiment
+from pybpodgui_plugin.api.models.experiment.experiment_base import ExperimentBase
 
 logger = logging.getLogger(__name__)
 
 
-class ExperimentIO(BaseExperiment):
+class ExperimentIO(ExperimentBase):
 	"""
 	Save and Load actions for Experiment
 	"""
