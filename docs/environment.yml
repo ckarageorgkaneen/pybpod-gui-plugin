@@ -10,6 +10,6 @@ dependencies:
       - https://github.com/UmSenhorQualquer/pysettings/archive/master.zip
       - https://github.com/UmSenhorQualquer/pyforms/archive/v1.0.beta.zip
       - https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/master.zip
-      - https://bitbucket.org/fchampalimaud/pybpod-api.git
+      - https://bitbucket.org/fchampalimaud/pybpod-api/get/bpod_csv_exporter.zip
       - https://bitbucket.org/fchampalimaud/pybranch.git
       - https://pypi.anaconda.org/ales-erjavec/simple pyqt4
