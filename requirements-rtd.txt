@@ -1,0 +1,2 @@
+sphinx>=1.5
+https://github.com/snide/sphinx_rtd_theme/archive/master.zip
