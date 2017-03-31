@@ -11,7 +11,7 @@ Welcome to PyBpod's documentation!
 
    All examples and Bpod's state machine and communication logic were based on the original version made available by `Josh Sanders (Sanworks) <https://github.com/sanworks>`_.
 
-.. image:: /_images/pybpodapi-logo.svg
+.. image:: /_images/pybpodapi-logo.png
    :scale: 100 %
 
 What is PyBpod?
