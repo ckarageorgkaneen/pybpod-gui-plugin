@@ -11,17 +11,22 @@ Welcome to PyBpod's documentation!
 
    All examples and Bpod's state machine and communication logic were based on the original version made available by `Josh Sanders (Sanworks) <https://github.com/sanworks>`_.
 
-.. image:: /_images/pybpodapi-logo.png
-   :scale: 100 %
-
 What is PyBpod?
 ===================
+
+.. image:: /_images/bpod_gui_sample.png
+   :scale: 100 %
+
 **PyBpod** is a GUI application that enables interaction with the latest `Bpod device <https://sanworks.io/shop/viewproduct?productID=1011>`_ version.
 
 This project is maintained by a team of SW developers at the `Champalimaud Foundation <http://research.fchampalimaud.org>`_. Please find more information on section :ref:`Project Info <project-info-label>`.
 
 What is Bpod?
 -------------
+
+.. image:: /_images/pybpodapi-logo.png
+   :scale: 100 %
+
 
 **Bpod** is a system from `Sanworks <https://sanworks.io/index.php>`_ for precise measurement of small animal behavior.
 It is a family of open source hardware devices which includes also software and firmware to control these devices. The software was originally developed in Matlab providing retro-compatibility with the `BControl <http://brodywiki.princeton.edu/bcontrol/index.php/Main_Page>`_ system.
