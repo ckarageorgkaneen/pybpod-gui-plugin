@@ -46,8 +46,8 @@ def parse_session_msg(data):
 			regex = re.compile(
 				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<event_id>.*),\s(?P<event_name>.*),\s(?P<board_timestamp>.*)')
 			result = regex.search(data)
-			parsed_message = StateChange(result.group('event_name'), result.group('board_timestamp'),
-			                             result.group('event_id'))
+			parsed_message = StateChange(result.group('event_name'), float(result.group('board_timestamp')),
+			                             int(result.group('event_id')))
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
 
 		elif message_code == StateEntry.MESSAGE_TYPE_ALIAS:
@@ -55,8 +55,8 @@ def parse_session_msg(data):
 			regex = re.compile(
 				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<state_id>.*),\s(?P<state_name>.*),\s(?P<start_timestamp>.*),\s(?P<end_timestamp>.*)')
 			result = regex.search(data)
-			parsed_message = StateEntry(result.group('state_name'), result.group('start_timestamp'),
-			                            result.group('end_timestamp'), result.group('state_id'))
+			parsed_message = StateEntry(result.group('state_name'), float(result.group('start_timestamp')),
+			                            float(result.group('end_timestamp')), int(result.group('state_id')))
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
 		else:
 			raise Exception("Unknown message code")

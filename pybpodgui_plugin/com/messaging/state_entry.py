@@ -12,15 +12,16 @@ class StateEntry(BoardMessage):
 	def __init__(self, state_name, start_timestamp, end_timestamp, state_id):
 		"""
 
-		:param state_name:
-		:param state_timestamp:
-		:param state_id:
+		:param str state_name:
+		:param float start_timestamp:
+		:param float end_timestamp:
+		:param int state_id:
 		"""
 
-		self.state_id = state_id
-		self.state_name = state_name
-		self.start_timestamp = start_timestamp
-		self.end_timestamp = end_timestamp
+		self.state_id = state_id # type: int
+		self.state_name = state_name # type: str
+		self.start_timestamp = start_timestamp # type: float
+		self.end_timestamp = end_timestamp # type: float
 
 		BoardMessage.__init__(self, board_timestamp=self.start_timestamp,
 		                      content="{0}: {1} --> {2}".format(state_name, self.start_timestamp, self.end_timestamp))
