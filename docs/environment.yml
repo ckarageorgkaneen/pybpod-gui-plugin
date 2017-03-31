@@ -13,3 +13,4 @@ dependencies:
       - https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/PYCGUI-183-create-pybehavior-project-fro.zip
       - https://bitbucket.org/fchampalimaud/pybpod-api/get/bpod_csv_exporter.zip
       - https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
+      - https://github.com/dateutil/dateutil/archive/master.zip
