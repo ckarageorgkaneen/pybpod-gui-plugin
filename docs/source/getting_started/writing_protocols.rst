@@ -11,19 +11,22 @@ To use Bpod, you must first program a behavioral protocol. The following guide i
 Protocol example explained
 ==========================
 
-First, initialize Bpod and provide serial connection info.
+First, import necessary modules from the pybpod-api library and initialize Bpod. The GUI will automatically set the serial port based on the serial port selected for the board and the workspace will be the the subject folder.
 
 .. code-block:: python
     :linenos:
     :lineno-start: 1
 
-    my_bpod = Bpod().start(settings.SERIAL_PORT)  # Start bpod
+    import random
+    from pybpodapi.model.state_machine import StateMachine
+
+
+    my_bpod = BPOD_INSTANCE # DO NOT CHANGE THIS LINE, KEEP IT EXACTLY LIKE THIS
 
 .. seealso::
 
-    :py:class:`pybpodapi.model.bpod.Bpod`
-
-    :py:meth:`pybpodapi.model.bpod.Bpod.start`
+    * Bpod class: :py:class:`pybpodapi.model.bpod.Bpod`
+    * Bpod start method: :py:meth:`pybpodapi.model.bpod.Bpod.start`
 
 
 You can run several trials for each Bpod execution. In this example, we will use 5 trials. Each trial can be of type1 (rewarded left) or type2 (rewarded right).
@@ -36,8 +39,9 @@ You can run several trials for each Bpod execution. In this example, we will use
     trialTypes = [1, 2]  # 1 (rewarded left) or 2 (rewarded right)
 
     for i in range(nTrials):  # Main loop
-        print('Trial: ', i+1)
-        thisTrialType = random.choice(trialTypes)  # Randomly choose trial type =
+        print('Trial: {0}'.format(i + 1))
+
+        thisTrialType = random.choice(trialTypes)  # Randomly choose trial type
         if thisTrialType == 1:
             stimulus = 'PWM1'  # set stimulus channel for trial type 1
             leftAction = 'Reward'
@@ -48,6 +52,7 @@ You can run several trials for each Bpod execution. In this example, we will use
             leftAction = 'Punish'
             rightAction = 'Reward'
             rewardValve = 3
+
 
 Now, inside the loop, we will create and configure a state machine for each trial.
 
@@ -85,12 +90,12 @@ Now, inside the loop, we will create and configure a state machine for each tria
 
 .. seealso::
 
-    :py:class:`pybpodapi.model.state_machine.state_machine.StateMachine`
-
-    :py:meth:`pybpodapi.model.state_machine.state_machine.StateMachine.add_state`
+    * :py:class:`pybpodapi.model.state_machine.state_machine.StateMachine`
+    * :py:meth:`pybpodapi.model.state_machine.state_machine.StateMachine.add_state`
 
 After configuring the state machine, we send it to the Bpod device by calling the method *send_state_machine*. We are then ready to run the next trial, by calling the *run_state_machine* method.
-On run completion, we can print the data that was returned and stored on the *raw_events* variable.
+On run completion, we can print the data that was returned and stored on the *raw_events* variable. On this state, the trial events have been already processed and you don't have to execute anything else.
+Finally, the Bpod is disconnected automatically.
 
 .. code-block:: python
     :linenos:
@@ -98,46 +103,21 @@ On run completion, we can print the data that was returned and stored on the *ra
 
         my_bpod.send_state_machine(sma)  # Send state machine description to Bpod device
 
-        raw_events = my_bpod.run_state_machine(sma)  # Run state machine and return events
+        print("Waiting for poke. Reward: {0}".format('left' if thisTrialType == 1 else 'right'))
 
-        print("Raw events: ", raw_events)  # Print events to console
+        my_bpod.run_state_machine(sma)  # Run state machine
 
-.. seealso::
-
-    :py:meth:`pybpodapi.model.bpod.Bpod.send_state_machine`
-
-    :py:meth:`pybpodapi.model.bpod.Bpod.run_state_machine`
-
-We can then process the trial events by executing the *add_trial_events* method.
-
-.. code-block:: python
-    :linenos:
-    :lineno-start: 50
-
-        my_bpod.add_trial_events()  # Add trial events to myBpod.data struct, formatted for human readability
-
-        print('States: {0}'.format(my_bpod.session.trials[i].states_timestamps))
-        print('Events: {0}'.format(my_bpod.session.trials[i].events_timestamps))
+        print("Raw events: {0}".format(sma.raw_data)) # print data
 
 .. seealso::
 
-    :py:meth:`pybpodapi.model.bpod.Bpod.add_trial_events`
-
-
-Finally, after the loop finishes, we can disconnect from Bpod.
-
-.. code-block:: python
-    :linenos:
-    :lineno-start: 54
-
-    my_bpod.disconnect()  # Disconnect Bpod
-
-.. seealso::
-
-    :py:meth:`pybpodapi.model.bpod.Bpod.disconnect`
+    * :py:meth:`pybpodapi.model.bpod.Bpod.send_state_machine`
+    * :py:meth:`pybpodapi.model.bpod.Bpod.run_state_machine`
+    * :py:meth:`pybpodapi.model.bpod.Bpod.add_trial_events`
+    * :py:meth:`pybpodapi.model.bpod.Bpod.stop`
 
 
 Try the example
 ===============
 
-You can try the full example by :ref:`installing <installing-label>` and :ref:`running <running-label>` this library.
+You can try the this example by unziping and opening the :download:`simple_project_pybpod.zip </_static/simple_project_pybpod.zip>` on the GUI.
