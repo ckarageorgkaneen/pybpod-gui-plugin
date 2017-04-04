@@ -3,10 +3,14 @@
 
 import logging
 
-from PyQt4 import QtGui
-from PyQt4 import QtCore
-
 from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtGui import QIcon
+	from PyQt5 import QtCore
+else:
+	from PyQt4.QtGui import QIcon
+	from PyQt4 import QtCore
 
 from pybpodgui_plugin.models.board.board_com import BoardCom
 
@@ -50,15 +54,15 @@ class BoardTreeNode(BoardCom):
 		:param tree: the project tree
 		:type tree: pyforms.Controls.ControlTree
 		:return: new created node
-		:return type: PyQt4.QtGui.QTreeWidgetItem
+		:return type: QTreeWidgetItem
 		"""
-		self.node = tree.create_child(self.name, self.project.boards_node, icon=QtGui.QIcon(conf.BOX_SMALL_ICON))
+		self.node = tree.create_child(self.name, self.project.boards_node, icon=QIcon(conf.BOX_SMALL_ICON))
 		self.node.key_pressed_event = self.node_key_pressed_event
 		self.node.double_clicked_event = self.node_double_clicked_event
 		self.node.window = self
 		self.node.setExpanded(True)
 
-		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QtGui.QIcon(conf.REMOVE_SMALL_ICON))
+		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
 		return self.node
 
 	def remove(self):

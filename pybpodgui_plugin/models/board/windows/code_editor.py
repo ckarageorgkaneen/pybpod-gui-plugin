@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-""" pycontrolgui.windows.workspace.task_code_editor_window"""
 
 import os
 import logging
+
 logger = logging.getLogger(__name__)
 
 import pyforms
@@ -15,23 +15,26 @@ try:
 except:
 	logger.error("Could not import ControlCodeEditor. Is QScintilla installed?")
 
+from pysettings import conf
 
-from PyQt4 import QtGui
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 
 class CodeEditor(BaseWidget):
 	def __init__(self, board):
 		BaseWidget.__init__(self, board.name)
 		self.board = board
-		self.layout().setContentsMargins(5,5,5,5)
-
+		self.layout().setContentsMargins(5, 5, 5, 5)
 
 		self._code = ControlCodeEditor('Code', self.__get_code())
 
 		self._code.changed_event = self.__code_changed_evt
 
 	def __get_code(self):
-		
+
 		try:
 			with open(self.board.hardware_file, "r") as file:
 				return file.read()
@@ -49,10 +52,10 @@ class CodeEditor(BaseWidget):
 		Before closing window, ask user if she wants to save (if there are changes)
 		"""
 		if self._code.is_modified:
-			reply = QtGui.QMessageBox.question(self, 'Save the changes', 'Save the file',
-			                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
+			reply = QMessageBox.question(self, 'Save the changes', 'Save the file',
+			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
-			if reply == QtGui.QMessageBox.Yes:
+			if reply == QMessageBox.Yes:
 				self.__code_changed_evt()
 
 		return False

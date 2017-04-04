@@ -4,18 +4,22 @@
 import logging
 import os
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QFileDialog, QMessageBox
+else:
+	from PyQt4.QtGui import QFileDialog, QMessageBox
 
 import pyforms as app
 from pyforms.Controls import ControlText
-from pyforms.Controls import ControlButton
 
 from pyforms_generic_editor.models.project import GenericProject
 
-from pybpodgui_plugin.api.models.board import Board
 from pybpodgui_plugin.api.models.project import Project
 
 logger = logging.getLogger(__name__)
+
 
 class ProjectWindow(Project, GenericProject):
 	""" ProjectWindow represents the project entity as a GUI window"""
@@ -66,7 +70,7 @@ class ProjectWindow(Project, GenericProject):
 		elif self.path:
 			Project.save(self, self.path)
 		else:
-			folder = QtGui.QFileDialog.getExistingDirectory(self, "Select a directory to save the project: {0}".format(
+			folder = QFileDialog.getExistingDirectory(self, "Select a directory to save the project: {0}".format(
 				self.name))
 			if folder:
 				folder = os.path.join(folder, self.name)
@@ -74,8 +78,8 @@ class ProjectWindow(Project, GenericProject):
 					Project.save(self, str(folder))
 				except FileExistsError as err:
 					logger.warning(str(err))
-					QtGui.QMessageBox.warning(self, 'Project exists',
-											  'Project with same name already exists. Please select another path.')
+					QMessageBox.warning(self, 'Project exists',
+					                    'Project with same name already exists. Please select another path.')
 
 	def close(self):
 		self.projects -= self

@@ -3,11 +3,13 @@
 
 import logging
 
-from PyQt4.QtCore import QTimer
-
 from pysettings import conf
 
-import pyforms as app
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtCore import QTimer
+else:
+	from PyQt4.QtCore import QTimer
+
 from pyforms import BaseWidget
 from pyforms.Controls import ControlTextArea
 from pyforms.Controls import ControlCheckBox

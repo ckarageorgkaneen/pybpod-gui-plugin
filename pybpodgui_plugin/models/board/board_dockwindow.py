@@ -3,7 +3,12 @@
 
 import logging
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 from pybpodgui_plugin.models.board.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.board.board_treenode import BoardTreeNode
@@ -52,10 +57,10 @@ class BoardDockWindow(BoardTreeNode):
 			This method extends board tree node :py:meth:`pybpodgui_plugin.models.board.board_treenode.BoardTreeNode.remove`.
 
 		"""
-		reply = QtGui.QMessageBox.question(self, 'Warning',
-		                                   'Board {0} will be deleted. Are you sure?'.format(self.name),
-		                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-		if reply == QtGui.QMessageBox.Yes:
+		reply = QMessageBox.question(self, 'Warning',
+		                             'Board {0} will be deleted. Are you sure?'.format(self.name),
+		                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+		if reply == QMessageBox.Yes:
 			self.mainwindow.details.value = None
 			if hasattr(self, '_code_editor'):    self.mainwindow.mdi_area -= self._code_editor
 			if hasattr(self, '_log'):            self.mainwindow.mdi_area -= self._log
@@ -76,7 +81,7 @@ class BoardDockWindow(BoardTreeNode):
 		Open code editor window on the mdi section for the framework source code.
 		"""
 		if not self.path:
-			QtGui.QMessageBox.about(self, "Cannot edit the file yet.", "You need to save the project first.")
+			QMessageBox.about(self, "Cannot edit the file yet.", "You need to save the project first.")
 		else:
 			if not hasattr(self, '_code_editor'): self._code_editor = CodeEditor(self)
 

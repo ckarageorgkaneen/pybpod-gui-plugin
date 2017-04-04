@@ -3,10 +3,14 @@
 
 import logging
 
-from PyQt4 import QtCore
-from PyQt4 import QtGui
-
 from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtGui import QIcon
+	from PyQt5 import QtCore
+else:
+	from PyQt4.QtGui import QIcon
+	from PyQt4 import QtCore
 
 from pybpodgui_plugin.models.session.session_window import SessionWindow
 
@@ -17,7 +21,7 @@ class SessionTreeNode(SessionWindow):
 	def __init__(self, setup):
 		SessionWindow.__init__(self, setup)
 
-		self.__running_icon = QtGui.QIcon(conf.PLAY_SMALL_ICON)
+		self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
 
 		self.create_treenode(self.tree)
 
@@ -28,7 +32,7 @@ class SessionTreeNode(SessionWindow):
 		self.node.window = self
 		self.node.setExpanded(True)
 
-		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QtGui.QIcon(conf.REMOVE_SMALL_ICON))
+		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
 
 		return self.node
 

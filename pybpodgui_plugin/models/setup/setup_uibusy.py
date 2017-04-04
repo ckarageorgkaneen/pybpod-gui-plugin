@@ -2,9 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from PyQt4 import QtGui
 
 from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtGui import QIcon
+else:
+	from PyQt4.QtGui import QIcon
 
 from pybpodgui_plugin.api.models.setup import Setup
 from pybpodgui_plugin.models.setup.setup_com import SetupCom
@@ -33,7 +37,7 @@ class SetupUIBusy(SetupCom):
 
 		if self.status == Setup.STATUS_READY:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.SUBJECT_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))
 
 			self._run_task_btn.label = 'Run'
 
@@ -46,37 +50,37 @@ class SetupUIBusy(SetupCom):
 
 		elif self.status == Setup.STATUS_BOARD_LOCKED:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.BUSY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.BUSY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._board.enabled = False
 
 		elif self.status == Setup.STATUS_INSTALLING_TASK:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._board.enabled = False
 
 		elif self.status == Setup.STATUS_SYNCING_VARS:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._board.enabled = False
 
 		elif self.status == Setup.STATUS_RUNNING_TASK:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._board.enabled = False
 
 		elif self.status == Setup.STATUS_RUNNING_TASK_HANDLER:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self._run_task_btn.label = 'Stop'
 			self._run_task_btn.enabled = True
 
 		elif self.status == Setup.STATUS_RUNNING_TASK_ABOUT_2_STOP:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self._run_task_btn.enabled = False
 			self._run_task_btn.label = 'Stop'
 

@@ -3,7 +3,12 @@
 
 import logging
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 import pyforms as app
 from pyforms import BaseWidget
@@ -14,7 +19,6 @@ from pyforms.Controls import ControlCombo
 from pybpodgui_plugin.api.models.task import Task
 from pybpodgui_plugin.api.models.experiment import Experiment
 from pybpodgui_plugin.api.models.project import Project
-from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +73,6 @@ class ExperimentWindow(Experiment, BaseWidget):
 
 		self._name.changed_event = self.__name_changed_evt
 		self._task.changed_event = self.__task_changed_evt
-
 
 	def __task_changed_evt(self):
 		"""
@@ -135,9 +138,9 @@ class ExperimentWindow(Experiment, BaseWidget):
 		except FileNotFoundError as err:
 			logger.warning(str(err))
 
-			QtGui.QMessageBox.about(self,
-			                        "Task file does not exists yet.",
-			                        "The task file does not exists yet.\nPlease save the project to create the task file.")
+			QMessageBox.about(self,
+			                  "Task file does not exists yet.",
+			                  "The task file does not exists yet.\nPlease save the project to create the task file.")
 
 			self._task.value = last_task
 

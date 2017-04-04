@@ -1,13 +1,15 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging, time
+import logging
 import traceback
-from serial.serialutil import SerialException
-
-from PyQt4 import QtGui
 
 from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 from pybpodgui_plugin.api.models.setup import Setup
 from pybpodgui_plugin.api.models.board.board_operations import BoardOperations
@@ -81,4 +83,4 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 			self._running_task = None
 
 			logger.error(traceback.format_exc())
-			QtGui.QMessageBox.critical(self, "Error", str(err))
+			QMessageBox.critical(self, "Error", str(err))

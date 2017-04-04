@@ -3,7 +3,12 @@
 
 import logging
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 from pybpodgui_plugin.models.task.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.task.task_treenode import TaskTreeNode
@@ -24,6 +29,7 @@ class TaskDockWindow(TaskTreeNode):
 	**Methods**
 
 	"""
+
 	def __init__(self, project):
 		super(TaskDockWindow, self).__init__(project)
 		self._edit_btn.value = self.edit_btn_evt
@@ -49,10 +55,10 @@ class TaskDockWindow(TaskTreeNode):
 			This method extends task tree node :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.remove`.
 
 		"""
-		reply = QtGui.QMessageBox.question(self, 'Warning',
-		                                   'Task {0} will be deleted. Are you sure?'.format(self.name),
-		                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-		if reply == QtGui.QMessageBox.Yes:
+		reply = QMessageBox.question(self, 'Warning',
+		                             'Task {0} will be deleted. Are you sure?'.format(self.name),
+		                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+		if reply == QMessageBox.Yes:
 			if hasattr(self, '_code_editor'):
 				self.mainwindow.mdi_area -= self._code_editor
 			super(TaskDockWindow, self).remove()
@@ -67,8 +73,8 @@ class TaskDockWindow(TaskTreeNode):
 				* Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
 		"""
 		if self.project.path is None:
-			QtGui.QMessageBox.about(self, "Cannot edit the file yet.",
-			                        "The project was not saved yet.\nPlease save it first.")
+			QMessageBox.about(self, "Cannot edit the file yet.",
+			                  "The project was not saved yet.\nPlease save it first.")
 		else:
 			try:
 				if not hasattr(self, '_code_editor'):
@@ -76,8 +82,8 @@ class TaskDockWindow(TaskTreeNode):
 				self.mainwindow.mdi_area += self._code_editor
 			except FileNotFoundError as err:
 				logger.warning(str(err))
-				QtGui.QMessageBox.about(self, "Cannot edit the file yet.",
-				                        "The task file does not exists yet.\nPlease save the project to create the task file.")
+				QMessageBox.about(self, "Cannot edit the file yet.",
+				                  "The task file does not exists yet.\nPlease save the project to create the task file.")
 
 	@property
 	def mainwindow(self):

@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-__version__ = "1.0.0.beta"
+__version__ = "1.1.0"
 __author__ = "Carlos Mao de Ferro"
 __credits__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro"]
 __license__ = "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
@@ -12,7 +12,7 @@ __status__ = "Development"
 import logging
 import loggingbootstrap
 
-from pysettings import conf;
+from pysettings import conf
 
 conf += 'pybpodgui_plugin.settings'
 conf += 'pybpodgui_plugin.resources'

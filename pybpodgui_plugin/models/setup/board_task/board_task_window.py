@@ -3,7 +3,13 @@
 
 import logging
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QCheckBox, QMessageBox
+else:
+	from PyQt4.QtGui import QCheckBox, QMessageBox
+
 
 import pyforms as app
 from pyforms import BaseWidget
@@ -75,7 +81,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 	def __init__(self, setup):
 		BaseWidget.__init__(self, "Variables config for {0}".format(setup.name))
-		self.layout().setMargin(5)
+		# self.layout().setMargin(5)
 
 		self._vars = ControlList('Variables')
 		self._states = ControlList('States')
@@ -143,7 +149,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 		rows = []
 
 		for var in value:
-			checkbox = QtGui.QCheckBox(self)
+			checkbox = QCheckBox(self)
 			checkbox.setChecked(var.persistent)
 			#value = "'{0}'".format(var.value) if isinstance(var.value, str) else var.value
 			#if value == None: value = ''
@@ -181,10 +187,10 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 			:py:meth:`pybpodgui_plugin.api.models.setup.board_task.BoardTask.load_task_details`
 		"""
-		reply = QtGui.QMessageBox.question(self, 'Attention',
+		reply = QMessageBox.question(self, 'Attention',
 		                                   'All the configured values will be deleted. Are sure you want to procede?',
-		                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
-		if reply == QtGui.QMessageBox.Yes:
+		                                   QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+		if reply == QMessageBox.Yes:
 			self.load_task_details()
 
 

@@ -3,7 +3,12 @@
 
 import logging
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 import pyforms as app
 from pyforms import BaseWidget
@@ -104,9 +109,9 @@ class SetupWindow(Setup, BaseWidget):
 			elif self.status == SetupWindow.STATUS_READY:
 				self.run_task()
 		except RunSetupError as err:
-			QtGui.QMessageBox.warning(self, "Warning", str(err))
+			QMessageBox.warning(self, "Warning", str(err))
 		except Exception as err:
-			QtGui.QMessageBox.critical(self, "Unexpected Error", str(err))
+			QMessageBox.critical(self, "Unexpected Error", str(err))
 
 	def __board_changed_evt(self):
 		"""

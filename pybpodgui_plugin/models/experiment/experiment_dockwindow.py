@@ -3,7 +3,12 @@
 
 import logging
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 from pybpodgui_plugin.models.experiment.experiment_treenode import ExperimentTreeNode
 
@@ -48,12 +53,12 @@ class ExperimentDockWindow(ExperimentTreeNode):
 			This method extends experiment tree node :py:meth:`pybpodgui_plugin.models.experiment.experiment_treenode.ExperimentTreeNode.remove`.
 
 		"""
-		reply = QtGui.QMessageBox.question(self, 'Warning',
-		                                   'Experiment {0} and all subjects will be deleted. Are you sure?'.format(
-			                                   self.name),
-		                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+		reply = QMessageBox.question(self, 'Warning',
+		                             'Experiment {0} and all subjects will be deleted. Are you sure?'.format(
+			                             self.name),
+		                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
-		if reply == QtGui.QMessageBox.Yes:
+		if reply == QMessageBox.Yes:
 			self.MARKED_FOR_REMOVAL = True
 			self.mainwindow.details.value = None
 			super(ExperimentDockWindow, self).remove()

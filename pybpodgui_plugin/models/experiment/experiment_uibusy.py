@@ -2,9 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from PyQt4 import QtGui
 
 from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtGui import QIcon
+else:
+	from PyQt4.QtGui import QIcon
 
 from pybpodgui_plugin.api.models.setup import Setup
 from pybpodgui_plugin.models.experiment.experiment_dockwindow import ExperimentDockWindow
@@ -25,7 +29,7 @@ class ExperimentUIBusy(ExperimentDockWindow):
 
 	def __init__(self, project):
 		super(ExperimentUIBusy, self).__init__(project)
-		self.__running_icon = QtGui.QIcon(conf.PLAY_SMALL_ICON)
+		self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
 
 	############################################################################
 
@@ -52,7 +56,7 @@ class ExperimentUIBusy(ExperimentDockWindow):
 
 		if busy_status == Setup.STATUS_READY:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.EXPERIMENT_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.EXPERIMENT_SMALL_ICON))
 			if self.task:
 				self.enable_all_task_buttons()
 			else:
@@ -61,25 +65,25 @@ class ExperimentUIBusy(ExperimentDockWindow):
 
 		elif busy_status == Setup.STATUS_BOARD_LOCKED:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.BUSY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.BUSY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._task.enabled = False
 
 		elif busy_status == Setup.STATUS_INSTALLING_TASK:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._task.enabled = False
 
 		elif busy_status == Setup.STATUS_SYNCING_VARS:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._task.enabled = False
 
 		elif busy_status == Setup.STATUS_RUNNING_TASK:
 
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
 			self._task.enabled = False
 
@@ -89,12 +93,12 @@ class ExperimentUIBusy(ExperimentDockWindow):
 		"""
 		Enable UI buttons for restore task variables, upload task and run task
 		"""
-#		self._button_run_all.enabled = True
+		#		self._button_run_all.enabled = True
 		pass
 
 	def disable_all_task_buttons(self):
 		"""
 		Disable UI buttons for restore task variables, upload task and run task
 		"""
-#		self._button_run_all.enabled = False
+		#		self._button_run_all.enabled = False
 		pass

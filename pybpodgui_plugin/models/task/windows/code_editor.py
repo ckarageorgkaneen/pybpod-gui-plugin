@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtGui
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QMessageBox
+else:
+	from PyQt4.QtGui import QMessageBox
 
 import pyforms
 from pyforms import BaseWidget
@@ -20,8 +25,7 @@ class CodeEditor(BaseWidget):
 	def __init__(self, task):
 		BaseWidget.__init__(self, task.name if task else '')
 
-		self.layout().setContentsMargins(5,5,5,5)
-
+		self.layout().setContentsMargins(5, 5, 5, 5)
 
 		self._code = ControlCodeEditor()
 		self._code.value = task.code
@@ -32,7 +36,7 @@ class CodeEditor(BaseWidget):
 	def __code_changed_evt(self):
 		"""
 		if self.task.path is None:
-			filepath = QtGui.QFileDialog.getSaveFileName(self.form, "Save file")
+			filepath = QFileDialog.getSaveFileName(self.form, "Save file")
 			if filepath:
 				self.task.path = str(filepath)
 			else:
@@ -46,10 +50,10 @@ class CodeEditor(BaseWidget):
 		Before closing window, ask user if she wants to save (if there are changes)
 		"""
 		if self._code.is_modified:
-			reply = QtGui.QMessageBox.question(self, 'Save the changes', 'Save the file',
-			                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
+			reply = QMessageBox.question(self, 'Save the changes', 'Save the file',
+			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
-			if reply == QtGui.QMessageBox.Yes:
+			if reply == QMessageBox.Yes:
 				self.__code_changed_evt()
 
 	@property

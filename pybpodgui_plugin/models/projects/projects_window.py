@@ -3,8 +3,14 @@
 
 import logging
 
-from PyQt4 import QtGui
-from PyQt4.QtCore import pyqtSignal
+from pysettings import conf
+
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import QFileDialog
+	from PyQt5.QtCore import pyqtSignal
+else:
+	from PyQt4.QtGui import QFileDialog
+	from PyQt4.QtCore import pyqtSignal
 
 import pyforms
 
@@ -50,7 +56,7 @@ class ProjectsWindow(GenericProjects):
 		"""
 		project = None
 		if not project_path:
-			project_path = QtGui.QFileDialog.getExistingDirectory(self, "Select the project directory")
+			project_path = QFileDialog.getExistingDirectory(self, "Select the project directory")
 		if project_path:
 			project = self.create_project()
 			project.load(str(project_path))

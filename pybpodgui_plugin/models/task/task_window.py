@@ -3,7 +3,6 @@
 
 import logging
 
-from PyQt4 import QtGui
 import pyforms as app
 from pyforms import BaseWidget
 from pyforms.Controls import ControlText
@@ -49,7 +48,7 @@ class TaskWindow(Task, BaseWidget):
 
 	def __init__(self, experiment=None):
 		BaseWidget.__init__(self, 'Task')
-		self.layout().setContentsMargins(5,10,5,5)
+		self.layout().setContentsMargins(5, 10, 5, 5)
 
 		self._name = ControlText('Task name')
 		self._edit_btn = ControlButton('Edit')
@@ -81,8 +80,6 @@ class TaskWindow(Task, BaseWidget):
 		self._update_name = True  # Flag to avoid recurse calls when editing the name text field
 		self._name.value = value
 		self._update_name = False
-
-
 
 
 # Execute the application

@@ -4,7 +4,10 @@
 import logging
 from pysettings import conf
 
-from PyQt4 import QtGui
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtGui import QIcon
+else:
+	from PyQt4.QtGui import QIcon
 
 from pybpodgui_plugin.models.board.board_dockwindow import BoardDockWindow
 
@@ -28,9 +31,9 @@ class BoardUIBusy(BoardDockWindow):
 		logger.debug('Board [{0}] status: {1}'.format(self.name, self.status))
 
 		if self.status > BoardUIBusy.STATUS_READY:
-			self.node.setIcon(0, QtGui.QIcon(conf.PLAY_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 		else:
-			self.node.setIcon(0, QtGui.QIcon(conf.BOX_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.BOX_SMALL_ICON))
 
 	##########################################################################
 	####### PROPERTIES #######################################################
