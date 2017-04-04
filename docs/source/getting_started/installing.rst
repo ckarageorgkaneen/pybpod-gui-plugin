@@ -12,43 +12,19 @@ Installing
 PyBpod GUI Plugin
 =================
 
-**PyBpod** works as plugin for a generic GUI framework, called PyformsGenericEditor. Thus, you will need to install 2 projects first:
-
-   * PyQt4
-   * Pyforms Generic Editor
+**PyBpod** works as plugin for a generic GUI framework, called PyformsGenericEditor. Thus, you will need to download this project source code.
 
 .. warning::
-   This project uses Python 3!
+   This project uses Python 3 and PyQt5!
 
-Installing PyQt4
-================
+Installing Python
+=================
 
-Mac OS
-------
-
-You can follow the SWP `PyQt4 Installation with QScintilla <http://swp-docs.readthedocs.io/en/latest/pyqt-installation/index.html#on-mac-os>`_ tutorial.
-
-.. seealso::
-   [Install python and its tools using Homebrew] (http://brew.sh)
-
-   [Scientific Python on Mac OS X 10.9+ with homebrew | Jörn's Blog](https://joernhees.de/blog/2014/02/25/scientific-python-on-mac-os-x-10-9-with-homebrew/)
-
-   [Installing scientific Python on Mac OS X | Lowin Data Company](http://www.lowindata.com/2013/installing-scientific-python-on-mac-os-x/)
-
-Windows
--------
-
-One easy way is to install `WinPython <http://winpython.github.io>`_. This way you do not mess with other Python installations on the system.
-
-You can download the latest version compatible with PyQt4 here: https://sourceforge.net/projects/winpython/files/WinPython_3.5/3.5.2.3/WinPython-64bit-3.5.2.3.exe/download
-
-Ubuntu
-------
-
-Will be added soon!
+You can follow the SWP `Python Installation <http://swp-docs.readthedocs.io/en/latest/python-installation/index.html>`_ tutorial.
 
 Installing Pyforms Generic Editor
 =================================
+
 
 Option A. Clone project from Bitbucket:
 ---------------------------------------
@@ -70,8 +46,9 @@ On the project root folder (where *'setup.py'* is located) run the following com
 
 ::
 
-    pip3 install -r requirements.txt --upgrade # installs dependencies
-    pip3 install . # installs this project
+    pip3 install -r requirements.txt --upgrade # installs dependencies (including qt5 and qscintilla2)
+
+..    pip3 install . # installs this project
 
 Configuring PyBpod Plugin
 =========================
@@ -98,10 +75,19 @@ On the project root folder (where *'setup.py'* is located) create a new file nam
    PYFORMS_STYLESHEET_DARWIN = ''
 
    GENERIC_EDITOR_PLUGINS_LIST = [
-       'pybpodgui_plugin_timeline',
-       'pybpodgui_plugin',
-       'session_log_plugin',
+      'pybpodgui_plugin',
+      'pybpodgui_plugin_timeline',
+      'session_log_plugin',
    ]
 
    DEFAULT_PROJECT_PATH = None # optionally define here the path to an already existent project to open automatically
 
+
+Run GUI
+=======
+
+On the project root folder (where *'setup.py'* is located) run the following commands:
+
+::
+
+    python3 -m pyforms_generic_editor

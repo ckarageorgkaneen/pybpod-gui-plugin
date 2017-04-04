@@ -6,7 +6,9 @@ var watch = require('node-watch');
 const exec = require('child_process').exec;
 
 watch('source', { recursive: true }, function(evt, name) {
-	exec('make clean && make html',
+//	exec('make clean && make html',
+        exec('make html',
+
   		function (error, stdout, stderr) {
     		console.log('output: ' + stdout);
     		//console.log('error: ' + error);
