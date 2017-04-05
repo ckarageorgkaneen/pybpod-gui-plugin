@@ -1,24 +1,29 @@
 @echo off
+SETLOCAL enableextensions enabledelayedexpansion
 
-setlocal enableextensions enabledelayedexpansion
+:: 1
+:: WINPYTHON SETTINGS
 
-rem set /A PYTHON_VERSION=2
-
-IF /I "%PYTHON_VERSION%" EQU "2" (
-	set "WINPYDIR=C:\Users\swp\Python\WinPython-32bit-2.7.10.3\python-2.7.10"
-	set "WINPYVER=2.7.10.3"
-) ELSE (
-	set "WINPYDIR=C:\Users\swp\Python\WinPython-32bit-3.4.3.7\python-3.4.3"
-	set "WINPYVER=3.4.3.7"
-)
-
+set "WINPYDIR=C:\WinPython\WinPython-64bit-3.6.1.0Qt5\python-3.6.1.amd64"
+set "WINPYVER=3.6.1.0Qt5"
 set "HOME=%WINPYDIR%\..\settings"
-set "WINPYARCH=WIN32"
+set "WINPYARCH=WIN-AMD64"
 
-set "PATH=%WINPYDIR%\Lib\site-packages\PyQt4;%WINPYDIR%\;%WINPYDIR%\DLLs;%WINPYDIR%\Scripts;%WINPYDIR%\..\tools;"
+:: SET PATH FOR PYTHON
+SET "PYTHON_PATH=%WINPYDIR%\Lib\site-packages\PyQt5;%WINPYDIR%\Lib\site-packages\PyQt4;%WINPYDIR%\;%WINPYDIR%\DLLs;%WINPYDIR%\Scripts;%WINPYDIR%\..\tools;"
 
-rem keep nbextensions in Winpython directory, rather then %APPDATA% default
-set "JUPYTER_DATA_DIR=%WINPYDIR%\..\settings"
+:: SAVE CURRENT PATH AND OVERRIDE FOR PYTHON
+SET "ORIGINAL_PATH=%PATH%"
+SET "PATH=%PYTHON_PATH%"
+
+:: keep nbextensions in Winpython directory, rather then %APPDATA% default
+set "JUPYTER_DATA_DIR=%HOME%"
+
+:: force default pyqt5 kit
+set "QT_API=pyqt5"
+
+:: 2
+:: PYINSTALLER SETTINGS
 
 set PROJECTNAME="pybpod-gui-plugin"
 
