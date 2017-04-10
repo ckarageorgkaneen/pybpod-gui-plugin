@@ -7,6 +7,6 @@ from pybpodgui_plugin.models.board.board_uibusy import BoardUIBusy
 
 Board = type(
 	'Board',
-	tuple(conf.GENERIC_EDITOR_PACKAGES_FINDER.find_class('models.board.Board') + [BoardUIBusy]),
+	tuple(conf.GENERIC_EDITOR_PACKAGES_FINDER.find_class('models.board.Board', silent=conf.DEV_MODE) + [BoardUIBusy]),
 	{}
 )

@@ -7,6 +7,6 @@ from pybpodgui_plugin.models.setup.board_task.board_task_uibusy import BoardTask
 
 BoardTask = type(
 	'BoardTask',
-	tuple(conf.GENERIC_EDITOR_PACKAGES_FINDER.find_class('models.setup.board_task.BoardTask') + [BoardTaskUIBusy]),
+	tuple(conf.GENERIC_EDITOR_PACKAGES_FINDER.find_class('models.setup.board_task.BoardTask', silent=conf.DEV_MODE) + [BoardTaskUIBusy]),
 	{}
 )

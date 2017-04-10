@@ -6,7 +6,7 @@ from pybpodgui_plugin.models.experiment.experiment_uibusy import ExperimentUIBus
 
 Experiment = type(
 	'Experiment',
-	tuple(conf.GENERIC_EDITOR_PACKAGES_FINDER.find_class('models.experiment.Experiment') + [ExperimentUIBusy]),
+	tuple(conf.GENERIC_EDITOR_PACKAGES_FINDER.find_class('models.experiment.Experiment', silent=conf.DEV_MODE) + [ExperimentUIBusy]),
 	{}
 )
 
