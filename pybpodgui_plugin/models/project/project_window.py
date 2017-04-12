@@ -36,13 +36,13 @@ class ProjectWindow(Project, GenericProject):
 
 		self.formset = ['_name', '_path', ' ']
 
-		self._name.changed = self.__name_edited_evt
+		self._name.changed_event = self._name_changed_evt
 		self._path.value = self.path
 		self._path.enabled = False
 
 		Project.__init__(self)
 
-	def __name_edited_evt(self):
+	def _name_changed_evt(self):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
