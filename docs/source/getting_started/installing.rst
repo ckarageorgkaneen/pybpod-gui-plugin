@@ -9,18 +9,22 @@
 Installing
 **********
 
+.. note::
+   This page describes **PyBpod** installation from source. If you just want to try **PyBpodGUI** you can find Windows and Mac OS binaries available at the `downloads page <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/>`_.
+
+
 PyBpod GUI Plugin
 =================
 
-**PyBpod** works as plugin for a generic GUI framework, called PyformsGenericEditor. Thus, you will need to download this project source code.
+**PyBpod** works as plugin for a generic GUI framework, called **PyformsGenericEditor**. Thus, you will need to download this project source code.
 
-.. warning::
-   This project uses Python 3 and PyQt5!
-
-Installing Python
-=================
+Installing Python3
+==================
 
 You can follow the SWP `Python Installation <http://swp-docs.readthedocs.io/en/latest/python-installation/index.html>`_ tutorial.
+
+.. warning::
+   This project requires Python 3! Python2 is not supported.
 
 Installing Pyforms Generic Editor
 =================================
@@ -83,8 +87,8 @@ On the project root folder (where *'setup.py'* is located) create a new file nam
    DEFAULT_PROJECT_PATH = None # optionally define here the path to an already existent project to open automatically
 
 
-Run GUI
-=======
+Running GUI
+===========
 
 On the project root folder (where *'setup.py'* is located) run the following commands:
 

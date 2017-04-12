@@ -13,6 +13,7 @@ qscintilla
 # rtd dependencies
 sphinx>=1.5.5
 sphinx_rtd_theme>=0.2.4
+recommonmark
 
 # swp dependencies
 https://github.com/UmSenhorQualquer/pysettings/archive/master.zip

@@ -11,6 +11,12 @@ Welcome to PyBpod's documentation!
 
    All examples and Bpod's state machine and communication logic were based on the original version made available by `Josh Sanders (Sanworks) <https://github.com/sanworks>`_.
 
+Download PyBpod
+===============
+
+The latest Windows and Mac OS binaries are available at the `downloads page <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/>`_.
+
+
 What is PyBpod?
 ===================
 
@@ -62,6 +68,15 @@ If you have any questions or want to report a problem with this library please f
    getting_started/installing
    getting_started/basic_usage
    getting_started/writing_protocols
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   :includehidden:
+   :caption: Contributing
+
+   contributing/contributing
+   contributing/developing_plugins
 
 .. toctree::
    :hidden:
