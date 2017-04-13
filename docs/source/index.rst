@@ -16,6 +16,10 @@ Download PyBpod
 
 The latest Windows and Mac OS binaries are available at the `downloads page <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/>`_.
 
+.. warning::
+
+   For Windows, you have to run as administrator.
+
 
 What is PyBpod?
 ===================
