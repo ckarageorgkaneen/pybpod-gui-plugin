@@ -73,7 +73,7 @@ class TaskDockWindow(TaskTreeNode):
 				* Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
 		"""
 		if self.project.path is None:
-			QMessageBox.about(self, "Cannot edit the file yet.",
+			QMessageBox.warning(self, "Cannot edit the file yet.",
 			                  "The project was not saved yet.\nPlease save it first.")
 		else:
 			try:
@@ -82,8 +82,8 @@ class TaskDockWindow(TaskTreeNode):
 				self.mainwindow.mdi_area += self._code_editor
 			except FileNotFoundError as err:
 				logger.warning(str(err))
-				QMessageBox.about(self, "Cannot edit the file yet.",
-				                  "The task file does not exists yet.\nPlease save the project to create the task file.")
+				QMessageBox.warning(self, "Cannot edit the file yet.",
+				                  "Task file does not exist yet.\nPlease save the project to create the task file.")
 
 	@property
 	def mainwindow(self):
