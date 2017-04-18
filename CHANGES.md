@@ -1,5 +1,12 @@
-## v.1.3.1.beta (2017/??/??)
-VERSION IN DEVELOPMENT
+## v1.3.2.beta (2017/??/??)
+VERSION UNDER DEVELOPMENT
+
+## v.1.3.1.beta (2017/04/18)
+Improves Mac OS build script (pyforms-generic-editor)
+Fixes problem for editing user settings inside the app when in Mac OS bundle (pyforms-generic-editor)
+Prompts for saving project changes when choosing quit option on menu (pyforms-generic-editor)
+Adds support for editing user settings inside the app (pyforms-generic-editor)
+Prompts for saving project changes on main window exit (pyforms-generic-editor)
 
 ## v.1.3.0.beta (2017/04/17)
 Fixes plugins finder dev mode
