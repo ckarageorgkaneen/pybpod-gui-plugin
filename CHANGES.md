@@ -1,4 +1,4 @@
-## v.1.3.1.beta (2017/04/17)
+## v.1.3.0.beta (2017/04/17)
 Fixes plugins finder dev mode
 
 ## v.1.2.0 (2017/04/13)
