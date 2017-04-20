@@ -81,9 +81,9 @@ class ProjectWindow(Project, GenericProject):
 					QMessageBox.warning(self, 'Project exists',
 					                    'Project with same name already exists. Please select another path.')
 
-	def close(self):
+	def close(self, silent=False):
 		self.projects -= self
-		super(ProjectWindow, self).close()
+		super(ProjectWindow, self).close(silent)
 
 
 # Execute the application

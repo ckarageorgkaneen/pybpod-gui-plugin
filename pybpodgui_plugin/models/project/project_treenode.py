@@ -95,17 +95,20 @@ class ProjectTreeNode(ProjectWindow):
 		self.tree.setCurrentItem(task.node)
 		return task
 
-	def close(self):
-		reply = QMessageBox.question(self, 'Close project', 'Are sure you want to close the project?',
-		                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+	def close(self, silent=False):
+		confirmation = True
 
-		if reply == QMessageBox.Yes:
-			super(ProjectTreeNode, self).close()
+		if not silent:
+			reply = QMessageBox.question(self, 'Close project', 'Are sure you want to close the project?',
+			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
-			# for index in range(len(self.experiments) - 1, -1, -1):   self.experiments[index].remove()
-			# for index in range(len(self.tasks) - 1, -1, -1):         self.tasks[index].remove()
-			# for index in range(len(self.boards) - 1, -1, -1):        self.boards[index].remove()
+			if reply == QMessageBox.Yes:
+				confirmation = True
+			else:
+				confirmation = False
 
+		if confirmation:
+			super(ProjectTreeNode, self).close(silent)
 			tree = self.tree
 			tree -= self.node
 

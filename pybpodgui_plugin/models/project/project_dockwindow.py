@@ -18,9 +18,9 @@ class ProjectDockWindow(ProjectTreeNode):
 		"""
 		self._name.form.lineEdit.setFocus()
 
-	def close(self):
+	def close(self, silent=False):
 		self.mainwindow.details.value = None
-		super(ProjectDockWindow, self).close()
+		super(ProjectDockWindow, self).close(silent)
 
 	@property
 	def mainwindow(self):
