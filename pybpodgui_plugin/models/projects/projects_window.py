@@ -14,23 +14,23 @@ else:
 
 import pyforms
 
-from pyforms_generic_editor.models.projects import GenericProjects
-
 from pybpodgui_plugin.models.project import Project
 from pybpodgui_plugin.models.session import Session
 
 logger = logging.getLogger(__name__)
 
 
-class ProjectsWindow(GenericProjects):
+class ProjectsWindow(object):
 	"""
-
+	See:
+	 - pyforms_generic_editor.models.projects.__init__.py
+	 - pyforms_generic_editor.models.projects.projects_window.py
 	"""
 
 	signal_session_create_treenode = pyqtSignal(Session)
 
 	def __init__(self, mainwindow=None):
-		GenericProjects.__init__(self, mainwindow)
+		super(ProjectsWindow, self).__init__(mainwindow)
 
 	def create_project(self):
 		"""
