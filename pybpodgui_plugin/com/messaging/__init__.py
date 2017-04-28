@@ -5,3 +5,4 @@ from pyforms_generic_editor.com.messaging.error_message import ErrorMessage
 from pybpodgui_plugin.com.messaging.print_statement import PrintStatement
 from pybpodgui_plugin.com.messaging.state_entry import StateEntry
 from pybpodgui_plugin.com.messaging.state_change import StateChange
+from pybpodgui_plugin.com.messaging.event_occurrence import EventOccurrence

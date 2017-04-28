@@ -10,7 +10,11 @@ logger = logging.getLogger(__name__)
 
 class SessionDockWindow(SessionTreeNode):
 	def show(self):
-		if len(self.messages_history) == 0: self.load_contents(self.path)
+		try:
+			if len(self.messages_history) == 0:
+				self.load_contents(self.path)
+		except FileNotFoundError as err:
+			logger.warning("Trying to load contents from session without file.")
 
 		self.mainwindow.details.value = self
 

@@ -6,11 +6,13 @@ import re
 import dateutil.parser
 
 from pybpodapi.model.trial import Trial as BpodTrial
+from pybpodapi.model.event_occurrence import EventOccurrence as BpodEventOccurrence
 
 from pybpodgui_plugin.com.messaging import ErrorMessage
 from pybpodgui_plugin.com.messaging import PrintStatement
 from pybpodgui_plugin.com.messaging import StateChange
 from pybpodgui_plugin.com.messaging import StateEntry
+from pybpodgui_plugin.com.messaging import EventOccurrence
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +87,14 @@ def parse_board_msg(data):
 
 		parsed_message = []
 
-		if isinstance(data, BpodTrial):
+		if isinstance(data, BpodEventOccurrence):
+			bpod_event_occurrence = data
+			parsed_message.append(EventOccurrence(bpod_event_occurrence.name, bpod_event_occurrence.timestamp,
+			                                      bpod_event_occurrence.index))
+
+			logger.debug(str(bpod_event_occurrence))
+
+		elif isinstance(data, BpodTrial):
 			bpod_trial = data
 			states = bpod_trial.states_timestamps
 			events = bpod_trial.events_timestamps

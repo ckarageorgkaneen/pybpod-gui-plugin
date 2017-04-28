@@ -8,6 +8,7 @@ from pyforms import BaseWidget
 from pyforms.Controls import ControlText
 
 from pybpodgui_plugin.api.models.session import Session
+from pybpodgui_plugin.api.exceptions.invalid_session import InvalidSessionError
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class SessionWindow(Session, BaseWidget):
 
 	def __init__(self, setup=None):
 		BaseWidget.__init__(self, 'Session')
-		self.layout().setContentsMargins(5,10,5,5)
+		self.layout().setContentsMargins(5, 10, 5, 5)
 
 		self._name = ControlText('Session name')
 		self._path = ControlText('File path')
@@ -49,9 +50,13 @@ class SessionWindow(Session, BaseWidget):
 			self.name = self._name.value
 
 	def load(self, session_path, data):
-		Session.load(self, session_path, data)
+		try:
+			Session.load(self, session_path, data)
+		except InvalidSessionError as err:
+			logger.warning(str(err))
 
-	def remove(self): self.setup -= self
+	def remove(self):
+		self.setup -= self
 
 	##########################################################################
 	####### PROPERTIES #######################################################

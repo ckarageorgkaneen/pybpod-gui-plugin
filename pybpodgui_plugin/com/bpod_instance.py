@@ -19,10 +19,10 @@ class BpodInstance(Bpod):
 
 		Bpod.__init__(self)
 
-	def _publish_data(self, trial):
+	def _publish_data(self, data):
 		"""
 
 		:param trial:
 		"""
-		Bpod._publish_data(self, trial)
-		self.gui_logger_fn(deepcopy(trial))
+		Bpod._publish_data(self, data)
+		self.gui_logger_fn(deepcopy(data))
