@@ -1,5 +1,15 @@
-## v1.3.2.beta (2017/??/??)
+## v1.3.3.beta
 VERSION UNDER DEVELOPMENT
+
+## v1.3.2 (2017/04/28)
+Fixes projects window incompatibility with other plugins
+Adds support for live event occurrences (pybpod-api)
+Adds support for handling erros on project opening
+Raise error when project is open without a valid settings path
+Adds support for closing project on background (without user prompt confirmation). This is useful for error handling.
+Handle invalid user settings file without closing app (pyforms-generic-editor)
+Handle invalid session files without closing app (pyforms-generic-editor)
+
 
 ## v.1.3.1.beta (2017/04/18)
 Improves Mac OS build script (pyforms-generic-editor)
