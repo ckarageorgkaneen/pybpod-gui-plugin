@@ -1,5 +1,6 @@
 ## v1.3.3.beta
 VERSION UNDER DEVELOPMENT
+Fixes import task bugs
 
 ## v1.3.2 (2017/04/28)
 Fixes projects window incompatibility with other plugins
