@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
-from pybpodgui_plugin.api.exceptions.pycontrol_api_error import PyControlAPIError
+from pybpodgui_plugin.api.exceptions.api_error import APIError
 
 
-class InvalidTaskError(PyControlAPIError):
+class InvalidTaskError(APIError):
 	pass

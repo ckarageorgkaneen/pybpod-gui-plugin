@@ -7,8 +7,6 @@ from pybpodgui_plugin import utils
 
 
 class ProjectsTreeNode(ProjectsWindow):
-
-
 	def create_project(self):
 		"""
 		Invoke project creation and focus GUI on the new tree node.
@@ -34,10 +32,14 @@ class ProjectsTreeNode(ProjectsWindow):
 
 		:param str project_path:
 		"""
-		self.tree.item_selection_changed_event = utils.do_nothing
-		project = ProjectsWindow.open_project(self, project_path)
-		if project:
+		try:
+			self.tree.item_selection_changed_event = utils.do_nothing
+			project = ProjectsWindow.open_project(self, project_path)
+			if project:
+				self.tree.item_selection_changed_event = self.__item_sel_changed_evt
+				self.tree.setCurrentItem(project.node)
+				self.__item_sel_changed_evt()
+			return project
+		except Exception as err:
 			self.tree.item_selection_changed_event = self.__item_sel_changed_evt
-			self.tree.setCurrentItem(project.node)
-			self.__item_sel_changed_evt()
-		return project
+			raise

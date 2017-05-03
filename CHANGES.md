@@ -1,6 +1,8 @@
 ## v1.3.3.beta
 VERSION UNDER DEVELOPMENT
 Fixes import task bugs
+Enhances API exceptions
+Show error if user tries to open invalid project
 
 ## v1.3.2 (2017/04/28)
 Fixes projects window incompatibility with other plugins

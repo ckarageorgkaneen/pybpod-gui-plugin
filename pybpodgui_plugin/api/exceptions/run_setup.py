@@ -1,9 +1,9 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pybpodgui_plugin.api.exceptions.pycontrol_api_error import PyControlAPIError
+from pybpodgui_plugin.api.exceptions.api_error import APIError
 
 
-class RunSetupError(PyControlAPIError):
+class RunSetupError(APIError):
 	""" Exception raised when a setup operation fails"""
 	pass
