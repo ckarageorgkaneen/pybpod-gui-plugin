@@ -59,7 +59,7 @@ class ProjectTreeNode(ProjectWindow):
 		self.tasks_node.window = self
 		self.tasks_node.setExpanded(True)
 
-		tree.add_popup_menu_option('Import protocol', self., item=self.tasks_node,
+		tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
 		                           icon=QIcon(conf.OPEN_SMALL_ICON))
 
 		return self.node
@@ -119,7 +119,7 @@ class ProjectTreeNode(ProjectWindow):
 	def _add_task(self):
 		if self.path is None or len(self.path) == 0 or not self.is_saved():
 			reply = QMessageBox.warning(self, 'Project not saved yet',
-			                            'To create a new task you need to save the project first.')
+			                            'To create a new protocol you need to save the project first.')
 		else:
 			entity = self.create_task()
 			entity.focus_name()
@@ -136,7 +136,7 @@ class ProjectTreeNode(ProjectWindow):
 		"""
 		if self.path is None or len(self.path) == 0 or not self.is_saved():
 			reply = QMessageBox.warning(self, 'Project not saved yet',
-			                            'To import a task you need to save the project first.')
+			                            'To import a protocol you need to save the project first.')
 		else:
 			if not filepath:
 				filepath, _ = QFileDialog.getOpenFileName(self, 'OpenFile')
