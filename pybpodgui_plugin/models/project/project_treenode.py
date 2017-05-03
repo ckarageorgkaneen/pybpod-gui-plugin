@@ -72,14 +72,6 @@ class ProjectTreeNode(ProjectWindow):
 		entity = self.create_board()
 		entity.focus_name()
 
-	def _add_task(self):
-		if self.path is None or len(self.path) == 0:
-			reply = QMessageBox.warning(self, 'Project not saved yet',
-			                            'To create a new protocol you need to save the project first.')
-		else:
-			entity = self.create_task()
-			entity.focus_name()
-
 	def create_experiment(self):
 		experiment = Experiment(self)
 		self.tree.setCurrentItem(experiment.node)
@@ -124,13 +116,34 @@ class ProjectTreeNode(ProjectWindow):
 
 		self.tree.setCurrentItem(self.node)
 
+	def _add_task(self):
+		if self.path is None or len(self.path) == 0 or not self.is_saved():
+			reply = QMessageBox.warning(self, 'Project not saved yet',
+			                            'To create a new protocol you need to save the project first.')
+		else:
+			entity = self.create_task()
+			entity.focus_name()
+
 	def import_task(self, filepath=None):
-		if not filepath:
-			filepath = QFileDialog.getOpenFileName(self, 'OpenFile')
-		if filepath:
-			task = self.create_task()
-			task.load(str(filepath), {})
-			task.name = task.name
+		"""
+		Import task file to project
+		
+		Qt5 change:
+		https://www.reddit.com/r/learnpython/comments/2xhagb/pyqt5_trouble_with_openinggetting_the_name_of_the/
+		
+		:param filepath: 
+		:return: 
+		"""
+		if self.path is None or len(self.path) == 0 or not self.is_saved():
+			reply = QMessageBox.warning(self, 'Project not saved yet',
+			                            'To import a protocol you need to save the project first.')
+		else:
+			if not filepath:
+				filepath, _ = QFileDialog.getOpenFileName(self, 'OpenFile')
+			if filepath:
+				task = self.create_task()
+				task.load(str(filepath), {})
+				task.name = task.name
 
 	@property
 	def name(self):

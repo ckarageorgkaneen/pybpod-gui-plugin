@@ -1,5 +1,8 @@
-## v1.3.3.beta
-VERSION UNDER DEVELOPMENT
+## v1.3.3 (2017/05/03)
+Fixes import task bugs
+Enhances API exceptions
+Show error if user tries to open invalid project
+Fixes error deleting task closes app (PyForms)
 
 ## v1.3.2 (2017/04/28)
 Fixes projects window incompatibility with other plugins

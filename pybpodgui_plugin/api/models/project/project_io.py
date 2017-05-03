@@ -10,6 +10,8 @@ from send2trash import send2trash
 
 from pybpodgui_plugin.api.models.project.project_base import ProjectBase
 
+from pybpodgui_plugin.api.exceptions.api_error import APIError
+
 logger = logging.getLogger(__name__)
 
 
@@ -24,6 +26,9 @@ class ProjectIO(ProjectBase):
 		"""
 
 		settings_path = os.path.join(project_path, 'project-settings.json')
+
+		if not os.path.exists(settings_path):
+			raise APIError("Project settings path not found: {0}".format(settings_path))
 
 		with open(settings_path, 'r') as input_file:
 			data = json.load(input_file)

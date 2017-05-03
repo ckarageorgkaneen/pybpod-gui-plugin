@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class PyControlAPIError(Exception):
+class APIError(Exception):
 	"""
 
 	"""
