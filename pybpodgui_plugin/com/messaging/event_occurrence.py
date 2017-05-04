@@ -17,10 +17,13 @@ class EventOccurrence(BoardMessage):
 		:param event_id:
 		"""
 		self.event_name = event_name
-		self.event_id = event_id
+		self.event_id = int(event_id)
 
 		BoardMessage.__init__(self, board_timestamp=event_timestamp,
 		                      content="{0} ({1}): {2}".format(event_name, event_id, event_timestamp))
+
+		# TEMPORARY FIX BECAUSE BPOD DOESN'T SEND TIMESTAMPS BEFORE TRIAL ENDS
+		self.board_timestamp = self.pc_timestamp
 
 	@property
 	def event_name(self):

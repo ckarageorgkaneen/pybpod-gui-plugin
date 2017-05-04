@@ -1,3 +1,8 @@
+## v1.3.4 (2017/05/04)
+Adds support for new pybpod default plugin (pybpod-gui-plugin-session-history)
+Enhances EventOccurrence messages handling
+Fixes issue #5
+
 ## v1.3.3 (2017/05/03)
 Fixes import task bugs
 Enhances API exceptions

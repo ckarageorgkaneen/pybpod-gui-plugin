@@ -36,7 +36,10 @@ def parse_session_msg(data):
 
 		message_code = re.compile(r'(?P<type>.*?),.*').search(data).group('type')
 
-		if message_code == PrintStatement.MESSAGE_TYPE_ALIAS:
+		if message_code is None:
+			raise Exception("Unknown message code: %s", message_code)
+
+		elif message_code == PrintStatement.MESSAGE_TYPE_ALIAS:
 			# sample: print_statement, 2017-03-27T14:05:23.580120, Raw events: {'States': [0], 'TrialStartTimestamp': [0.007], 'EventTimestamps': [1.0], 'Events': [88], 'StateTimestamps': [0, 1.0]}
 			regex = re.compile(r'.*?\s(?P<timestamp>.*?),\s(?P<value>.*)')
 			result = regex.search(data)
@@ -60,8 +63,19 @@ def parse_session_msg(data):
 			parsed_message = StateEntry(result.group('state_name'), float(result.group('start_timestamp')),
 			                            float(result.group('end_timestamp')), int(result.group('state_id')))
 			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
+
+		elif message_code == EventOccurrence.MESSAGE_TYPE_ALIAS:
+			# sample event_occurrence, 2017-04-28T15:30:19.940747, 88, Tup, None
+			regex = re.compile(
+				r'.*?\s(?P<pc_timestamp>.*?),\s(?P<bpod_event_code>.*),\s(?P<bpod_event_name>.*),\s.*')
+			result = regex.search(data)
+			parsed_message = EventOccurrence(result.group('bpod_event_name'),
+			                                 dateutil.parser.parse(result.group('pc_timestamp')),
+			                                 result.group('bpod_event_code'))
+			parsed_message.pc_timestamp = dateutil.parser.parse(result.group('pc_timestamp'))
+
 		else:
-			raise Exception("Unknown message code")
+			raise Exception("Unknown message code: %s", message_code)
 
 	except Exception as err:
 		logger.warning("Could not parse bpod message: {0}".format(data), exc_info=True)
