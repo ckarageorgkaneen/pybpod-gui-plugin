@@ -27,4 +27,4 @@ https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
 # plugins
 https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/get/master.zip
 https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/master.zip
-https://bitbucket.org/fchampalimaud/session-log-plugin/get/master.zip
+https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history/get/master.zip
