@@ -72,6 +72,7 @@ If you have any questions or want to report a problem with this library please f
    getting_started/installing
    getting_started/basic_usage
    getting_started/writing_protocols
+   getting_started/developing_plugins
 
 .. toctree::
    :hidden:
@@ -80,7 +81,6 @@ If you have any questions or want to report a problem with this library please f
    :caption: Contributing
 
    contributing/contributing
-   contributing/developing_plugins
 
 .. toctree::
    :hidden:
