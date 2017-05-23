@@ -1,3 +1,6 @@
+## v1.3.5.beta
+VERSION IN DEVELOPMENT
+
 ## v1.3.4 (2017/05/04)
 Adds support for new pybpod default plugin (pybpod-gui-plugin-session-history)
 Enhances EventOccurrence messages handling
