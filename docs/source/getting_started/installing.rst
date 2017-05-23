@@ -13,9 +13,6 @@ Installing
    This page describes pybpod libraries installation from source. If you just want to try **PyBpod** you can find Windows and Mac OS binaries available at the `downloads page <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/>`_.
 
 
-Installing PyBpod-GUI and PyBpod-API from sources
-=================================================
-
 1. Download projects
 --------------------
 Run the following commands inside the folder where you want to install the source code. A new folder will be automatically created for each project.
@@ -45,7 +42,9 @@ For each project you should now install the requirements.
 
 3. Set up user settings
 -----------------------
-Inside the pybpod-gui-plugin folder, locate the file *user_settings.py.template*. **Duplicate this file** and name it to *user_settings.py*.
+Inside the pybpod-gui-plugin folder, locate the file :py:class:`user_settings.py.template`.
+
+**Duplicate this file** and name it :py:class:`user_settings.py`.
 
 4. Run it!
 ----------
