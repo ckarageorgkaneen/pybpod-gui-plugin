@@ -372,10 +372,10 @@ epub_exclude_files = ['search.html']
 #epub_use_index = True
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/3/': None,
-                      'http://pyforms.readthedocs.io/en/latest/': None,
-                      'http://pybpod-api.readthedocs.io/en/latest/': None,
-}
+intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None),
+                       'pybpodapi': ('http://pybpod-api.readthedocs.io/en/latest', None),
+#                       'pyforms' : ('https://pyforms.readthedocs.io', None)
+                       }
 
 
 # -- Options for graphviz ----------------------------------------------------
