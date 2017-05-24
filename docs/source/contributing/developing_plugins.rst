@@ -1,11 +1,11 @@
 .. _developing_plugins-label:
 
-***************************
-Developing plugins for Bpod
-***************************
+******************
+Developing plugins
+******************
 
-What is a Bpod plugin?
-========================
+What is a PyBpod GUI plugin?
+============================
 
 **PyBpod** works as plugin for a generic GUI framework, called **PyformsGenericEditor**. Thus, you will need to download this project source code.
 

@@ -25,7 +25,7 @@ First, you will need to import Bpod modules.
         from pybpodapi.hardware.output_channels import OutputChannel # Output action labels
 
 
-Then, initialize Bpod. The GUI will automatically set the serial port based on the serial port selected for the board and the workspace will be the the subject folder.
+Then, initialize Bpod. The GUI will automatically set the serial port based on the serial port selected for the board and the workspace will be the subject folder.
 
 .. code-block:: python
     :linenos:
@@ -63,7 +63,7 @@ A state machine has *state name*, *state timer*, *names of states to enter if ce
 Please see :ref:`State Machine API <api_state_machine-label>` for detailed information about state machine design.
 
 .. warning::
-We strongly advise to use the API available labels as  described on the examples :ref:`output actions <api_output_action_codes-label>` and :ref:`input events <api_input_event_codes-label>`.
+    We strongly advise to use the API available labels as  described on the examples :ref:`output actions <api_output_action_codes-label>` and :ref:`input events <api_input_event_codes-label>`.
 
 
 .. code-block:: python

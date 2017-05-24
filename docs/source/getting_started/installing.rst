@@ -31,6 +31,9 @@ Run the following commands inside the folder where you want to install the sourc
 -----------------------
 For each project you should now install the requirements.
 
+.. warning::
+   This project requires Python 3! Python2 is not supported.
+
 ::
 
     # Inside pybpod-api folder
@@ -53,4 +56,9 @@ Inside the pybpod-gui-plugin folder, locate the file :py:class:`user_settings.py
 
     # Inside pybpod-gui-plugin folder
     python3 -m pybpodgui_plugin
+
+
+.. seealso::
+   `Python Installation tutorial <http://swp-docs.readthedocs.io/en/latest/python-installation/index.html>`_ |
+   `Using pyenv for python management <http://swp-docs.readthedocs.io/en/latest/python-installation/pyenv.html>`_
 

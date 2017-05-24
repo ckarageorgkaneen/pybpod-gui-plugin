@@ -58,7 +58,7 @@ Python is one of the most popular programming languages today `[1] <https://pypl
 
 Questions?
 ==========
-If you have any questions or want to report a problem with this library please fill a issue `here <https://bitbucket.org/fchampalimaud/pybpod-api/issues>`_.
+If you have any questions or want to report a problem with this library please fill in an issue `here <https://bitbucket.org/fchampalimaud/pybpod-api/issues>`_.
 
 .. high level toc tree
 
@@ -72,7 +72,7 @@ If you have any questions or want to report a problem with this library please f
    getting_started/installing
    getting_started/basic_usage
    getting_started/writing_protocols
-   getting_started/developing_plugins
+   getting_started/plugins
 
 .. toctree::
    :hidden:
@@ -81,6 +81,7 @@ If you have any questions or want to report a problem with this library please f
    :caption: Contributing
 
    contributing/contributing
+   contributing/developing_plugins
 
 .. toctree::
    :hidden:
