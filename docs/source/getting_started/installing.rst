@@ -12,6 +12,9 @@ Installing
 .. note::
    This page describes pybpod libraries installation from source. If you just want to try **PyBpod** you can find Windows and Mac OS binaries available at the `downloads page <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/>`_.
 
+===========================
+Installing from source code
+===========================
 
 1. Download projects
 --------------------
@@ -37,17 +40,20 @@ For each project you should now install the requirements.
 ::
 
     # Inside pybpod-api folder
-    pip install -r requirements-dev.txt --upgrade
+    pip3 install -r requirements-dev.txt --upgrade
 
     # Inside pybpod-gui-plugin folder
-    pip install -r requirements-dev.txt --upgrade
+    pip3 install -r requirements-dev.txt --upgrade
 
 
 3. Set up user settings
 -----------------------
-Inside the pybpod-gui-plugin folder, locate the file :py:class:`user_settings.py.template`.
+Inside the pybpod-gui-plugin folder, locate the file :py:class:`user_settings.py.template`. **Duplicate this file** and name it :py:class:`user_settings.py`.
 
-**Duplicate this file** and name it :py:class:`user_settings.py`.
+::
+
+   cp user_settings.py.template user_settings.py # For UNIX
+
 
 4. Run it!
 ----------
@@ -62,3 +68,9 @@ Inside the pybpod-gui-plugin folder, locate the file :py:class:`user_settings.py
    `Python Installation tutorial <http://swp-docs.readthedocs.io/en/latest/python-installation/index.html>`_ |
    `Using pyenv for python management <http://swp-docs.readthedocs.io/en/latest/python-installation/pyenv.html>`_
 
+================
+Try the examples
+================
+
+For a complete set of examples, download the `project sample <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/simple_project_bpod.zip>`_.
+Then, unzip and open this project on the GUI.
