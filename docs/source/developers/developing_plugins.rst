@@ -5,60 +5,61 @@ Developing plugins
 ******************
 
 .. warning::
-    This is page is under construction.
+    This page is currently under construction.
 
 ============================
 What is a PyBpod GUI plugin?
 ============================
 
-**PyBpod** works as plugin for a generic GUI framework, called **PyformsGenericEditor**. Thus, you will need to download this project source code.
-
-**PyformsGenericEditor** loads plugins specified on a settings file and looks for code on the Python path.
-
-Thus, every time you want to add a new plugin, you have to install it on the Python path, using PIP.
-
-Because **PyformsGenericEditor** is not restricted to **PyBpod**, if you want to develop plugins for **Bpod**, you always have to activate at least the basic PyBpod plugin (pybpod-gui-plugin).
+**PyBpod** relies on a generic GUI framework, called **PyformsGenericEditor** which offers a basic user interface and can be extended to provide specific functionality through the installation of plugins.
 
 You can use plugins for:
-    * extending or overwriting basic PyBpod functionalities;
+    * extending or overwriting PyBpod core concepts (e.g., experiments, subjects, boxes);
     * creating new visualization tools for PyBpod sessions (e.g., plots, message filters);
-    * adding new windows, tools or any other GUI-related functionality;
+    * adding new windows, tools or any other UI-related functionality;
 
-Each plugin will be connected with one element of the GUI (e.g., project tree node, menu option, workspace area, etc).
+Each plugin will be associated with a specific element of **PyformsGenericEditor** (e.g., project tree node, menu option, workspace area, etc).
 
-=========================
-Step-by-step with example
-=========================
+==================================
+Session history plugin, an example
+==================================
+
+This plugin allows you to display session data in a table view and you can order events by column.
+
+https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history
+
+.. image:: /_images/basic_usage/session_history.png
+    :scale: 100 %
 
 Register plugin on the GUI
 --------------------------
 
-First, you will need to register your plugin. For that, edit your user settings. From the top menu, go to **Options > Edit user settings**.
-Then, locate the following labels:
+The first thing you need to do is to register your plugin. For that, edit your user settings. From the top menu, go to **Options > Edit user settings**.
+Edit the :py:class:`GENERIC_EDITOR_PLUGINS_PATH` variable as this:
 
-    * :py:class:`GENERIC_EDITOR_PLUGINS_PATH` -> this variable expects a string value which should correspond to a filesystem folder path where your plugins are located
-    * :py:class:`﻿GENERIC_EDITOR_PLUGINS_LIST` -> this variable expects a list of strings which are the names of the plugins to be loaded when the GUI starts up
+.. code-block:: python
 
-.. warning::
-    If you are using Windows OS, you must use double slash for paths. Example: GENERIC_EDITOR_PLUGINS_PATH =  'C:\\\\Users\\\\YOUR_NAME\\\\bpod_plugins'.
+        GENERIC_EDITOR_PLUGINS_LIST = [
+        'pybpodgui_plugin',
+        'pybpodgui_plugin_session_history',
+    ]
 
-.. image:: /_images/basic_usage/user_settings_plugins.png
-    :scale: 100 %
 
 For the GUI to be able to detect the plugin source code you have 2 options:
     1. Download the plugin folder you want and place it on the "plugins" folder you have just indicated before (useful when you run pybpod GUI as an executable)
-    2. Install the plugin with PIP (only applies if you are running the GUI from source code). In that case, you may leave the :py:class:`GENERIC_EDITOR_PLUGINS_PATH = None` because they will be already on the Python path. Every time you make changes to the plugin you have to install it with PIP again.
+    2. Install the plugin with PIP (only applies if you are running the GUI from source code).
 
-Finally, restart the GUI. Depending on the kind of plugin, you will see a new option on the top menu or by right-clicking a node in the project tree.
+On this example, we will assume option #2 since we will be developing a plugin from the source code.
+In that case, you may leave the :py:class:`GENERIC_EDITOR_PLUGINS_PATH = None` because the plugin will be already on the Python path.
+**But don't forget! Every time you make changes to the plugin you have to install it with PIP again (unless your IDE do that for you).**
 
-The Session History plugin is a type of plugin that will be connected to a SessionWindow. How this works?
-
-EXPLAIN HERE
+Finally, restart the GUI. The Session History plugin is a type of plugin that will be connected to a SessionWindow and extend session features.
+Thus, after installing this plugin, you will see a new option by right-clicking a session node in the project tree. But how this works?
 
 
 Quick review on sessions
 ------------------------
-Each time you run a Bpod protocol on a subject a new session is created. The GUI collects output from the PyBpod API and processes these events on a list (which we call session history).
+Each time you run a Bpod protocol on a subject, a new session is created. The GUI collects output from the PyBpod API and processes these events on a list (which we call session history).
 Besides being on memory, this history is automatically saved on a text file, so you never loose Bpod data.
 
 If you navigate to your project on the filesystem, and locate the desired subject, you should find several files:
@@ -69,7 +70,7 @@ If you navigate to your project on the filesystem, and locate the desired subjec
 .. image:: /_images/basic_usage/session_data_filesystem.png
     :scale: 100 %
 
-Let's look at a plain text file which was output from running a protocol on the GUI.
+Let's take a look at a plain text file which was output from running a protocol on the GUI.
 
 .. code-block:: text
 
@@ -107,10 +108,21 @@ Let's look at a plain text file which was output from running a protocol on the 
     state_change, 2017-05-23T15:41:53.974545, 4, Port1In, 4.7007
     print_statement, 2017-05-23T15:41:54.955371, Current trial info: {'Bpod start timestamp': 19.513, 'States timestamps': {'WaitForPort2Poke': [(0, 3.5869)], 'FlashStimulus': [(3.5869, 3.6869)], 'WaitForResponse': [(3.6869, 3.8881)], 'Reward': [(3.8881, 4.8007)], 'Punish': [(nan, nan)]}, 'Events timestamps': {'Port2In': [3.5869], 'Tup': [3.6869, 4.8007], 'Port2Out': [3.8881], 'Port1In': [4.7007]}}
 
-What is going on here?
+What is going on here? Each line is a new message, where the first column identifies the type of an event on the session history: it can be a bpod state change, state entry, a user print, etc.
+These events represent messages that were sent from the Bpod and processed by the GUI.
 
-    * first column: session history event type: it can be a bpod state change, state entry, a user print, etc. “state_change” and “state_entry” are only sent by bpod at the end of a trial. “event_occurrence” and "print_statement" are sent (near) real time
-    * second column: GUI timestamp
+Currently, PyBpod GUI supports the following events:
+
+=================================================================================  ===========================  ====================================================================================================
+Session History Event Type                                                         Occurs during trial run?     Description
+=================================================================================  ===========================  ====================================================================================================
+:ref:`Event occurrence <api_reference_event_occurrence-label>`                     YES                          Any Bpod event during trial run
+:ref:`State change <api_reference_state_change-label>`                             NO                           Events detected by Bpod’s inputs can be set to trigger transitions between specific states.
+:ref:`State entry <api_reference_state_entry-label>`                               NO                           State entered during the state matrix run
+:ref:`Print statement <api_reference_print_statement-label>`                       YES                          User defined print messages on protocol
+=================================================================================  ===========================  ====================================================================================================
+
+
 
 
 Handling session history on the plugin

@@ -10,5 +10,5 @@
 
    models/index
    api/index
-..   com/index
+   com/index
 

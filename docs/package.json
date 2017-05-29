@@ -5,6 +5,7 @@
     "node-watch": "latest",
     "child_process": "latest",
     "connect": "latest",
-	"serve-static": "latest"
+	"serve-static": "latest",
+    "clc": "latest"
   }
 }

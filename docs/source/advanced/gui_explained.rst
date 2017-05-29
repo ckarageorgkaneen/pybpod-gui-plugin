@@ -41,6 +41,8 @@ It also abstracts the concepts of creating, saving and deleting projects. This g
 
 Thus **PyBpod GUI** is itself a plugin for the **PyformsGenericEditor**.
 
+.. image:: /_images/advanced/pge_overview_annotated.png
+    :scale: 100 %
 
 PyBpod API
 ----------

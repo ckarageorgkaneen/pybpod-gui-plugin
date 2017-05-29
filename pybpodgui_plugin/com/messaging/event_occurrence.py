@@ -5,7 +5,14 @@ from pybpodgui_plugin.com.messaging import BoardMessage
 
 
 class EventOccurrence(BoardMessage):
-	"""Message from board that represents state change (an event)"""
+	"""
+	Message from board that represents state change (an event)
+
+	:ivar str event_name: name of the event
+	:ivar int event_id: index of the event
+	:ivar float board_timestamp: timestamp associated with this event (from bpod)
+
+	"""
 
 	MESSAGE_TYPE_ALIAS = 'event_occurrence'
 

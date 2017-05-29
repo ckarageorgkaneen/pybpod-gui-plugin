@@ -7,6 +7,11 @@ from pybpodgui_plugin.com.messaging import HistoryMessage
 class PrintStatement(HistoryMessage):
 	"""
 	Print statement on bpod protocol
+
+	.. seealso::
+
+		:py:class:`pybpodgui_plugin.com.messaging.board_message.BoardMessage`
+
 	"""
 
 	MESSAGE_TYPE_ALIAS = 'print_statement'
