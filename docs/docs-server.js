@@ -5,17 +5,26 @@
 
 var clc = require('cli-color');
 var watch = require('node-watch');
+var moment = require('moment');
 const exec = require('child_process').exec;
 
-watch('source', { recursive: true }, function(evt, name) {
+var run_make = function (clean){
+    var now = moment();
+    var formatted = now.format('YYYY-MM-DD HH:mm:ss Z');
+    console.log("Running make now...");
+    console.log(formatted);
 //	exec('make clean && make html',
-        exec('make html',
+    exec('make html', function (error, stdout, stderr) {
+        console.log(clc.blue('OK!'));
+        console.warn(clc.yellow(error));
+        console.error(clc.red(stderr));
+    })
+};
 
-  		function (error, stdout, stderr) {
-    		console.log('OK!');
-    		console.warn(clc.yellow(error));
-    		console.error(clc.red(stderr));
-		})
+run_make();
+
+watch('source', { recursive: true }, function(evt, name) {
+    run_make();
 });
 
 

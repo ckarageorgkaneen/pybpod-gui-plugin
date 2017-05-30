@@ -42,9 +42,9 @@ class SessionIO(SessionBase):
 
 	def load_contents(self, session_path):
 		"""
+		Parses session history file, line by line and populates the history message on memory.
 
-		:param session_path:
-		:return:
+		:param str session_path: path to session history file
 		"""
 		with open(session_path, "r") as f:
 			for line in f:
