@@ -3,15 +3,18 @@
 // https://nodejs.org/api/child_process.html
 // https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
 
-var busy = 0;
+var control = function(){
+    var busy = 0;
+    return this;
+}();
 
 var clc = require('cli-color');
 var watch = require('node-watch');
 var moment = require('moment');
 const exec = require('child_process').exec;
 
-var run_make = function (busy){
-    busy = 1;
+var run_make = function (control){
+    control.busy = 1;
     var now = moment();
     var formatted = now.format('YYYY-MM-DD HH:mm:ss Z');
     console.log("Running make now...");
@@ -21,16 +24,18 @@ var run_make = function (busy){
         console.log(clc.blue('OK!'));
         console.warn(clc.yellow(error));
         console.error(clc.red(stderr));
-        busy = 0;
+        console.log("Not busy anymore: ", control.busy)
+        control.busy = 0;
+        console.log("Not busy anymore: ", control.busy)
     });
 };
 
-run_make(busy);
+run_make(control);
 
 watch('source', { recursive: true }, function(evt, name) {
-    console.log(busy);
-    if (busy == 0) {
-        run_make(busy);
+    console.log(control.busy);
+    if (control.busy == 0) {
+        run_make(control);
     }
 
 });

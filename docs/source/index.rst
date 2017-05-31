@@ -78,20 +78,13 @@ If you have any questions or want to report a problem with this library please f
    :hidden:
    :maxdepth: 2
    :includehidden:
-   :caption: Advanced
-
-   advanced/gui_explained
-   advanced/gui_windows
-   advanced/bpod_interaction
-
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-   :includehidden:
    :caption: Developers
 
-   developers/contributing
+   developers/gui_explained
+   developers/gui_windows
+   developers/bpod_interaction
    developers/developing_plugins
+   developers/contributing
 
 .. toctree::
    :hidden:
