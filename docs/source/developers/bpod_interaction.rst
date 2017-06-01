@@ -86,11 +86,5 @@ First, let's see how the GUI handles the "run" button. SetupWindow class is resp
 
 The "run" button click event will fire a complex sequence of calls. Detail explanation of this process is out of scope of this tutorial. However, the  following diagram resumes this process. What is important to retain is that the pybpod GUI library makes us of the Pybranch library to handle Qt Threads and python multiprocessing. Notice how inheritance is used for several classes to promote code reusability and separating concepts.
 
-
-.. image:: /_images/bpod_interaction/gui-multiprocessing-sd.svg
+.. image:: /_images/bpod_interaction/gui-bpod-communication.svg
     :scale: 100 %
-
-======================
-Handling Bpod data
-======================
-

@@ -19,6 +19,7 @@ class QtAsyncBpod(AsyncHandler):
 		               in_queue=self.in_queue,
 		               wait_for_results_fn=self.wait_for_results,
 		               event_executor_fn=self.event_executor, mainwindow=self.mainwindow)
+		qtt.init_qthread()
 
 		logger.debug("Created QtThread")
 
