@@ -5,6 +5,17 @@ SETTINGS_PRIORITY = 0
 
 import logging
 
+############ LOGGERS SETTINGS ############
+### UNCOMMENT TO SEE MORE INFO (output on 'app.log')
+
+# GUI logger
+#BPODGUI_LOG_HANDLER_FILE_LEVEL = logging.DEBUG
+#BPODGUI_LOG_HANDLER_CONSOLE_LEVEL = logging.DEBUG
+
+# Other libraries logger
+#APP_LOG_HANDLER_FILE_LEVEL = logging.DEBUG
+#APP_LOG_HANDLER_CONSOLE_LEVEL = logging.DEBUG
+
 ############ PYFORMS GENERIC EDITOR SETTINGS ############
 
 GENERIC_EDITOR_WINDOW_GEOMETRY = 100, 100, 1200, 800
@@ -39,12 +50,9 @@ WELCOME_PLUGIN_URL = 'http://pybpod.readthedocs.io'
 
 # DEFAULT_PROJECT_PATH = ''
 
-BPODGUI_LOG_HANDLER_CONSOLE_LEVEL = logging.DEBUG
-BPODAPI_LOG_HANDLER_CONSOLE_LEVEL = logging.DEBUG
-
 BOARD_LOG_WINDOW_REFRESH_RATE = 0.2 # s
 SESSIONLOG_PLUGIN_REFRESH_RATE = 0.2 # s
 
-PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 0 # timer for thread look for events (seconds)
-PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 0 # timer for process look for events (seconds)
+PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 0.2 # timer for thread look for events (seconds)
+PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 0.2 # timer for process look for events (seconds)
 PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE = 5 # wait before killing process (seconds)
