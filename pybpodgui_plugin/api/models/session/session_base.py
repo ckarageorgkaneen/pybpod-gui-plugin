@@ -36,6 +36,12 @@ class SessionBase(object):
 		pass
 
 	def log_msg(self, msg, file_obj):
+		"""
+		Parses board output and creates new session history entry
+
+		:param msg: message to be parsed
+		:param file_obj: file object reference to write output to session history file
+		"""
 		parsed_messages = parse_board_msg(msg)
 
 		for m in parsed_messages:

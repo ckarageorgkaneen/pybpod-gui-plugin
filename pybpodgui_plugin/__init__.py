@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-__version__ = "1.3.4"
+__version__ = "1.3.5"
 __author__ = "Carlos Mao de Ferro"
 __credits__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro"]
 __license__ = "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
@@ -23,6 +23,10 @@ loggingbootstrap.create_double_logger("pybpodgui_plugin", conf.BPODGUI_LOG_HANDL
                                       conf.BPODGUI_LOG_HANDLER_FILE_LEVEL)
 
 loggingbootstrap.create_double_logger("pybranch", conf.APP_LOG_HANDLER_CONSOLE_LEVEL,
+                                      conf.APP_LOG_FILENAME,
+                                      conf.APP_LOG_HANDLER_FILE_LEVEL)
+
+loggingbootstrap.create_double_logger("pybpodapi", conf.APP_LOG_HANDLER_CONSOLE_LEVEL,
                                       conf.APP_LOG_FILENAME,
                                       conf.APP_LOG_HANDLER_FILE_LEVEL)
 

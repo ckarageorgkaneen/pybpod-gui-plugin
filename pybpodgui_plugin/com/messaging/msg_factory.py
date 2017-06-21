@@ -9,6 +9,7 @@ from pybpodapi.model.trial import Trial as BpodTrial
 from pybpodapi.model.event_occurrence import EventOccurrence as BpodEventOccurrence
 
 from pybpodgui_plugin.com.messaging import ErrorMessage
+from pybpodgui_plugin.com.messaging import BoardMessage
 from pybpodgui_plugin.com.messaging import PrintStatement
 from pybpodgui_plugin.com.messaging import StateChange
 from pybpodgui_plugin.com.messaging import StateEntry
@@ -19,9 +20,16 @@ logger = logging.getLogger(__name__)
 
 def parse_session_msg(data):
 	"""
-	Parse messages saved on session file
-	:param data:
-	:return:
+	Parses messages saved on session history file
+
+	.. seealso::
+
+		:py:meth:`pybpodgui_plugin.api.models.session.session_io.SessionIO.load_contents`
+
+
+	:param str data: file line entry
+	:returns: list of history messages
+	:rtype: list(BoardMessage)
 	"""
 
 	# logger.debug("Parsing message from session file: %s", data)
@@ -88,9 +96,14 @@ def parse_session_msg(data):
 
 def parse_board_msg(data):
 	"""
-	Parse board message and return appropriate event
+	Parses a board message and creates the appropriate event for session history.
 
-	:returns: list with instances of HistoryMessage
+	.. seealso::
+
+		:py:meth:`pybpodgui_plugin.api.models.session.session_base.SessionBase.log_msg`
+
+	:returns: list of board messages
+	:rtype: list(BoardMessage)
 	"""
 
 	if not data:
@@ -110,10 +123,10 @@ def parse_board_msg(data):
 
 		elif isinstance(data, BpodTrial):
 			bpod_trial = data
-			states = bpod_trial.states_timestamps
-			events = bpod_trial.events_timestamps
+			states = bpod_trial.states_occurrences
+			events = bpod_trial.get_all_timestamps_by_event()
 
-			for index, state in enumerate(bpod_trial.states, start=1):
+			for index, state in enumerate(states, start=1):
 				for state_duration in state.timestamps:
 					parsed_message.append(StateEntry(state.name, state_duration.start, state_duration.end, index))
 
