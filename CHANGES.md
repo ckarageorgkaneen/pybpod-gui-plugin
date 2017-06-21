@@ -1,5 +1,9 @@
-## v1.3.5.beta
-VERSION IN DEVELOPMENT
+## v1.3.5 (2017/06/21)
+Improves documentation
+Updates default logging settings
+Uses a single logger for all libraries
+Support for latest changes on pybranch library
+Simplifies project installation from source (for developers)
 
 ## v1.3.4 (2017/05/04)
 Adds support for new pybpod default plugin (pybpod-gui-plugin-session-history)
