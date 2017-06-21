@@ -1,3 +1,6 @@
+## v1.3.6.beta ()
+VERSION IN DEVELOPMENT
+
 ## v1.3.5 (2017/06/21)
 Improves documentation
 Updates default logging settings
