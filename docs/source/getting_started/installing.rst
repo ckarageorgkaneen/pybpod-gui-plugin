@@ -32,18 +32,16 @@ Run the following commands inside the folder where you want to install the sourc
 
 2. Install requirements
 -----------------------
-For each project you should now install the requirements.
-
-.. warning::
-   This project requires Python 3! Python2 is not supported.
+Next, move inside the pybpod-gui-plugin folder and run the following command:
 
 ::
 
-    # Inside pybpod-api folder
-    pip3 install -r requirements-dev.txt --upgrade
-
     # Inside pybpod-gui-plugin folder
     pip3 install -r requirements-dev.txt --upgrade
+
+
+.. warning::
+   This project requires Python 3! Python2 is not supported.
 
 
 3. Set up user settings
