@@ -1,5 +1,7 @@
-## v1.3.6.beta ()
-VERSION IN DEVELOPMENT
+## v1.3.6 (2017/06/23)
+Adds build settings for mac os and windows binaries
+Adds requirements for releasing master versions (useful for building binaries)
+Improves documentation for building binaries locally
 
 ## v1.3.5 (2017/06/21)
 Improves documentation
