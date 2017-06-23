@@ -104,7 +104,7 @@ DEL git_version.txt
 
 ECHO Running pyinstaller now...
 
-IF /I "%GIT_BRANCH%" EQU "master" (
+IF /I "%PYBPODGUIPLUGIN_GIT_BRANCH%" EQU "master" (
    set "DISTJOBDIR=%PROJECTNAME%_v%DEV_VERSION%"
    pyinstaller --additional-hooks-dir "%BUILDSETTINGSDIR%\hooks" --name "!DISTJOBDIR!" --exclude-module IPython --exclude-module sqlalchemy --exclude-module PIL %EXCLUDE_MATPLOTLIB% %EXCLUDE_PYQT_WEB% --exclude-module requests --exclude-module xml.dom.domreg --exclude-module visvis --exclude-module OpenGL --icon "%BUILDSETTINGSDIR%\%ICONNAME%" --onedir  --noconsole --paths "%QT5_DLL_PATH%" "%MAINSCRIPT%"
 ) ELSE (
