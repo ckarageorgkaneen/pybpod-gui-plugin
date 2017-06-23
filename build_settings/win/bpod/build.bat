@@ -63,7 +63,7 @@ IF "%BUILD_DEPENDENCIES%"=="true" (
    pip install https://github.com/UmSenhorQualquer/pyforms/archive/"%PYFORMS_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/logging-bootstrap/get/"%LOGGING_BOOTSTRAP_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/pybranch/get/"%PYBRANCH_GIT_BRANCH%".zip --upgrade
-   pip install https://bitbucket.org/fchampalimaud/pyforms_generic_editor/get/"%PGE_GIT_BRANCH%".zip --upgrade
+   pip install https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/"%PGE_GIT_BRANCH%".zip --upgrade
 
    pip install https://bitbucket.org/fchampalimaud/pybpod-api/get/"%PYBPODAPI_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/"%PYBPODGUIPLUGIN_TIMELINE_GIT_BRANCH%".zip --upgrade
