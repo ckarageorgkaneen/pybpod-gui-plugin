@@ -68,6 +68,7 @@ IF "%BUILD_DEPENDENCIES%"=="true" (
    pip install https://bitbucket.org/fchampalimaud/pybpod-api/get/"%PYBPODAPI_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/"%PYBPODGUIPLUGIN_TIMELINE_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history/get/"%PYBPODGUIPLUGIN_SESSION_HISTORY_GIT_BRANCH%".zip --upgrade
+
 )
 
 IF "%WITH_MATPLOTLIB%"=="true" (
@@ -85,6 +86,9 @@ IF "%WITH_PYQT_WEB%"=="true" (
     ECHO PyQt Web lib disabled
     SET "EXCLUDE_PYQT_WEB=--exclude-module PyQt5.QtWebEngineWidgets"
 )
+
+:: install this library, needed to get package version
+pip install .
 
 python "%WORKSPACE%\build_settings\get_package_version.py" pybpodgui_plugin > software_version.txt
 "C:\Program Files\Git\bin\git.exe" rev-list  --all --count > git_version.txt
