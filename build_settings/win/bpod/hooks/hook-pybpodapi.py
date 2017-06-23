@@ -1,0 +1,1 @@
+hiddenimports = ['pybpodapi.settings'] 
