@@ -9,22 +9,21 @@ numpy
 sip
 pyqt5
 qscintilla
+matplotlib # for user plugins
 
-# rtd dependencies
-sphinx>=1.5.5
-sphinx_rtd_theme>=0.2.4
-recommonmark
+# for mac os builds (only useful if you want to build Mac OS executables)
+py2app
+
+# rtd dependencies (only useful if you want to write documentation)
+#sphinx>=1.5.5
+#sphinx_rtd_theme>=0.2.4
+#recommonmark
 
 # swp dependencies
 https://github.com/UmSenhorQualquer/pysettings/archive/master.zip
-https://github.com/UmSenhorQualquer/pyforms/archive/master.zip
-
 https://bitbucket.org/fchampalimaud/logging-bootstrap/get/master.zip
+https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
+https://github.com/UmSenhorQualquer/pyforms/archive/master.zip
 https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/master.zip
 https://bitbucket.org/fchampalimaud/pybpod-api/get/master.zip
-https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
 
-# plugins
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/get/master.zip
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/master.zip
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history/get/master.zip

@@ -27,7 +27,7 @@ PYFORMS_STYLESHEET_DARWIN = ''
 PYFORMS_SILENT_PLUGINS_FINDER = True
 
 PYFORMS_MATPLOTLIB_ENABLED = True
-PYFORMS_WEB_ENABLED = False
+PYFORMS_WEB_ENABLED = True
 PYFORMS_GL_ENABLED = False
 PYFORMS_VISVIS_ENABLED = False
 
@@ -38,17 +38,19 @@ GENERIC_EDITOR_PLUGINS_LIST = [
 	'pybpodgui_plugin',
 	'pybpodgui_plugin_timeline',
 	'pybpodgui_plugin_session_history',
+	'pge_welcome_plugin',
 ]
 
-############ BPODLGUI PLUGIN SETTINGS ############
+WELCOME_PLUGIN_URL = 'http://pybpod.readthedocs.io'
 
-# YOU MUST USE DOUBLE SLASH FOR PATHS
-#DEFAULT_PROJECT_PATH = 'C:\\Users\\YOUR_NAME\\pybpod\\simple_project'
 
+############ BPODGUI PLUGIN SETTINGS ############
+
+# DEFAULT_PROJECT_PATH = ''
 
 BOARD_LOG_WINDOW_REFRESH_RATE = 0.2 # s
 SESSIONLOG_PLUGIN_REFRESH_RATE = 0.2 # s
 
-PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 1 # timer for thread look for events (seconds)
-PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 1 # timer for process look for events (seconds)
+PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 0.1 # timer for thread look for events (seconds)
+PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 0.1 # timer for process look for events (seconds)
 PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE = 5 # wait before killing process (seconds)
