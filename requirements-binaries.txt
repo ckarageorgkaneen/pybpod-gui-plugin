@@ -27,3 +27,9 @@ https://github.com/UmSenhorQualquer/pyforms/archive/master.zip
 https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/master.zip
 https://bitbucket.org/fchampalimaud/pybpod-api/get/master.zip
 
+# plugins
+https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/get/master.zip
+https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/master.zip
+https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history/get/master.zip
+https://bitbucket.org/fchampalimaud/pge-welcome-plugin/get/master.zip
+
