@@ -23,9 +23,9 @@ matplotlib # for user plugins
 https://github.com/UmSenhorQualquer/pysettings/archive/master.zip
 https://bitbucket.org/fchampalimaud/logging-bootstrap/get/master.zip
 https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
-https://github.com/UmSenhorQualquer/pyforms/archive/v2.0.0.beta.zip
+https://github.com/UmSenhorQualquer/pyforms/archive/master.zip
 https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/development.zip
-#https://bitbucket.org/fchampalimaud/pybpod-api/get/master.zip
+#https://bitbucket.org/fchampalimaud/pybpod-api/get/development.zip
 
 ../pybpod-api/
 
