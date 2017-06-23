@@ -32,7 +32,7 @@ SET "QT5_DLL_PATH=C:\WinPython\WinPython-64bit-3.5.3.0Qt5\python-3.5.3.amd64\Lib
 
 SET "PROJECTNAME=PyBpodGUI"
 SET "BUILDSETTINGSDIR=%WORKSPACE%\build_settings\win\bpod"
-SET "MAINSCRIPT=%WORKSPACE%\pybpod_gui_plugin\__main__.py"
+SET "MAINSCRIPT=%WORKSPACE%\pybpodgui_plugin\__main__.py"
 SET "BUILDOUTDIR=%WORKSPACE%\build"
 SET "DISTOUTDIR=%WORKSPACE%\dist"
 SET "ICONNAME=cf_icon_128x128.ico"
