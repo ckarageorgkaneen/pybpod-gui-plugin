@@ -14,15 +14,14 @@ class BpodRunner(PybranchRunHandler):
 
 	"""
 
-	def __init__(self, in_queue=None, out_queue=None, refresh_time=None):
+	def __init__(self, in_queue=None, out_queue=None):
 		"""
 
 		:param in_queue:
 		:param out_queue:
-		:param refresh_time:
 		"""
 
-		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
+		PybranchRunHandler.__init__(self, in_queue, out_queue)
 
 	def runner_bpod_run_protocol(self, serial_port, protocol_name, protocol_path, workspace_path):
 		"""
@@ -39,7 +38,11 @@ class BpodRunner(PybranchRunHandler):
 		print = self.my_print
 		BPOD_INSTANCE = BpodInstance(self.my_print).start(serial_port, workspace_path, protocol_name)
 		ldict = locals()
-		exec(open(protocol_path).read(), globals(), ldict)
+		try:
+			exec(open(protocol_path).read(), globals(), ldict)
+		except Exception as err:
+			logger.error(str(err))
+			raise Exception(str(err))
 		mybpod = ldict['my_bpod']
 		BPOD_INSTANCE.stop()
 

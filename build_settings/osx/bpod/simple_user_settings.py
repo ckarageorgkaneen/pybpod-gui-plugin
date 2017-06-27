@@ -8,12 +8,12 @@ import logging
 ############ LOGGERS SETTINGS ############
 
 # GUI logger
-#BPODGUI_LOG_HANDLER_FILE_LEVEL = logging.WARNING
-#BPODGUI_LOG_HANDLER_CONSOLE_LEVEL = logging.WARNING
+#BPODGUI_LOG_HANDLER_FILE_LEVEL = logging.DEBUG # default is logging.WARNING
+#BPODGUI_LOG_HANDLER_CONSOLE_LEVEL = logging.DEBUG # default is logging.WARNING
 
 # Other libraries logger
-#APP_LOG_HANDLER_CONSOLE_LEVEL = logging.WARNING
-#APP_LOG_HANDLER_FILE_LEVEL = logging.WARNING
+#APP_LOG_HANDLER_CONSOLE_LEVEL = logging.DEBUG # default is logging.WARNING
+#APP_LOG_HANDLER_FILE_LEVEL = logging.DEBUG # default is logging.WARNING
 
 ############ PYFORMS GENERIC EDITOR SETTINGS ############
 
@@ -48,9 +48,8 @@ WELCOME_PLUGIN_URL = 'http://pybpod.readthedocs.io'
 
 # DEFAULT_PROJECT_PATH = ''
 
-BOARD_LOG_WINDOW_REFRESH_RATE = 0.2 # s
-SESSIONLOG_PLUGIN_REFRESH_RATE = 0.2 # s
+#BOARD_LOG_WINDOW_REFRESH_RATE = 0.5 # timer to update content on console (seconds), default is 1s
+#SESSIONLOG_PLUGIN_REFRESH_RATE = 0.5 # timer to update plugin content (seconds), default is 1s
 
-PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 0.1 # timer for thread look for events (seconds)
-PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 0.1 # timer for process look for events (seconds)
-PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE = 5 # wait before killing process (seconds)
+#PYBRANCH_THREAD_IDLE_REFRESH_TIME  = 5 # timer for thread look for events (seconds), default is 1s
+#PYBRANCH_PROCESS_TIME_2_LIVE = 5 # wait before killing process (seconds), default is 5s
