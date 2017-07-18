@@ -26,7 +26,7 @@ SET "QT_API=pyqt5"
 
 :: http://stackoverflow.com/questions/38674400/missing-dll-files-when-using-pyinstaller
 SET "QT5_DLL_PATH=C:\WinPython\WinPython-64bit-3.5.3.0Qt5\python-3.5.3.amd64\Lib\site-packages\PyQt5\Qt\bin"
-
+SET "QT_PLUGIN_PATH=C:\WinPython\WinPython-64bit-3.5.3.0Qt5\python-3.5.3.amd64\Lib\site-packages\PyQt5\Qt\plugins"
 :: 2
 :: PYINSTALLER SETTINGS
 
