@@ -4,7 +4,7 @@ SETLOCAL enableextensions enabledelayedexpansion
 :: 1
 :: WINPYTHON SETTINGS
 
-set "WINPYDIR=C:\WinPython\WinPython-64bit-3.5.3.0Qt5-behavior\python-3.5.3.amd64"
+set "WINPYDIR=C:\WinPython\WinPython-64bit-3.5.3.0Qt5\python-3.5.3.amd64"
 set "WINPYVER=3.5.3.0Qt5"
 set "HOME=%WINPYDIR%\..\settings"
 set "WINPYARCH=WIN-AMD64"
