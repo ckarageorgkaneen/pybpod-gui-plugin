@@ -14,7 +14,7 @@ class PrintStatement(HistoryMessage):
 
 	"""
 
-	MESSAGE_TYPE_ALIAS = 'print_statement'
+	MESSAGE_TYPE_ALIAS = 'stdout'
 
 	def __init__(self, message):
 		super(PrintStatement, self).__init__(content=message)

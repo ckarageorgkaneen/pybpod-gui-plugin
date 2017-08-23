@@ -1,12 +1,13 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, sys
 
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
-from pybpodgui_plugin.com.bpod_instance import BpodInstance
+from pybpodapi.bpod import Bpod
 
 logger = logging.getLogger(__name__)
+
 
 
 class BpodRunner(PybranchRunHandler):
@@ -36,12 +37,32 @@ class BpodRunner(PybranchRunHandler):
 		:param protocol_path:
 		:return:
 		"""
-		print = self.my_print
-		BPOD_INSTANCE = BpodInstance(self.my_print).start(serial_port, workspace_path, protocol_name)
-		ldict = locals()
-		exec(open(protocol_path).read(), globals(), ldict)
-		mybpod = ldict['my_bpod']
-		BPOD_INSTANCE.stop()
+		global_dict = globals()
+		local_dict  = locals()
+
+		__builtins__['print'] = self.my_print
+
+		exec("""
+from pysettings import conf
+
+class RunnerSettings:
+	SETTINGS_PRIORITY = 0
+	WORKSPACE_PATH 	= None
+	PROTOCOL_NAME 	= None
+	SERIAL_PORT 	= '{serialport}'
+
+	PYBPOD_API_PUBLISH_DATA_FUNC = print
+
+conf += RunnerSettings
+		""".format(serialport=serial_port, workspace=workspace_path), 
+		global_dict, local_dict)
+
+		exec( open(protocol_path).read(), global_dict, local_dict)
+		for var in local_dict.values():
+			if isinstance(var, Bpod):
+				var.stop()
+
+
 
 	def my_print(self, *args):
 		self.log_msg(args[0], last_call=False, evt_idx=self._current_evt_idx)

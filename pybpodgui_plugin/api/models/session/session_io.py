@@ -48,6 +48,7 @@ class SessionIO(SessionBase):
 		"""
 		with open(session_path, "r") as f:
 			for line in f:
+				print(line)
 				message = parse_session_msg(line)
 				if message:
 					self.messages_history.append(message)

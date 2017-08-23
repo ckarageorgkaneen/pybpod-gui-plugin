@@ -5,8 +5,8 @@ import logging
 import re
 import dateutil.parser
 
-from pybpodapi.model.trial import Trial as BpodTrial
-from pybpodapi.model.event_occurrence import EventOccurrence as BpodEventOccurrence
+from pybpodapi.trial import Trial as BpodTrial
+from pybpodapi.event_occurrence import EventOccurrence as BpodEventOccurrence
 
 from pybpodgui_plugin.com.messaging import ErrorMessage
 from pybpodgui_plugin.com.messaging import BoardMessage

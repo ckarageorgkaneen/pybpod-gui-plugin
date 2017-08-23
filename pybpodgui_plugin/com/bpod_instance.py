@@ -4,7 +4,7 @@
 import logging
 
 from copy import deepcopy
-from pybpodapi.model.bpod import Bpod
+from pybpodapi.bpod import Bpod
 
 logger = logging.getLogger(__name__)
 
