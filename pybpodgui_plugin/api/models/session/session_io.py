@@ -1,14 +1,12 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import os
-import re
-import datetime
+import os, csv, datetime
 
-from pybpodgui_plugin.api.models.session.session_base import SessionBase
-from pybpodgui_plugin.api.exceptions.invalid_session import InvalidSessionError
-from pybpodgui_plugin.com.messaging.msg_factory import parse_session_msg
+from pybpodgui_plugin.api.models.session.session_base 	import SessionBase
+from pybpodgui_plugin.api.exceptions.invalid_session 	import InvalidSessionError
 
+from pybpodgui_plugin.com.messaging.msg_factory import BpodMessageParser
 
 class SessionIO(SessionBase):
 	"""
@@ -46,9 +44,10 @@ class SessionIO(SessionBase):
 
 		:param str session_path: path to session history file
 		"""
-		with open(session_path, "r") as f:
-			for line in f:
-				print(line)
-				message = parse_session_msg(line)
-				if message:
+		parser = BpodMessageParser()
+		with open(session_path, 'r', newline='\n') as csvfile:
+			csvreader = csv.reader(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			for row in csvreader:
+				message = parser.fromlist(row)
+				if message: 
 					self.messages_history.append(message)

@@ -133,7 +133,7 @@ jar -cMf "%DISTOUTDIR%\%DISTJOBDIR%.zip" -C "%DISTOUTDIR%\%DISTJOBDIR%" .
 :: UPLOAD DIST FOLDER FOR BITBUCKET
 IF "%UPLOAD_2_BITBUCKET%"=="true" (
    ECHO Uploading to bitbucket now...
-   curl --progress-bar --netrc-file c:\curl_auth\bitbucket_auth.txt -X POST https://api.bitbucket.org/2.0/repositories/fchampalimaud/pycontrol-gui/downloads -F files=@"%DISTOUTDIR%\%DISTJOBDIR%.zip" > curl_output.log
+   curl --progress-bar --netrc-file c:\curl_auth\bitbucket_auth.txt -X POST https://api.bitbucket.org/2.0/repositories/fchampalimaud/pybpod-gui-plugin/downloads -F files=@"%DISTOUTDIR%\%DISTJOBDIR%.zip" > curl_output.log
    type curl_output.log
 )
 

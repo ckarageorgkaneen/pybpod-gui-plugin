@@ -89,7 +89,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		:param msg:
 		:return:
 		"""
-		self._running_session.log_msg(msg, self._session_log_file)
+		self._running_session.log_msg(msg)
 
 	def unique_id(self, handler_evt=None):
 		if handler_evt is None: handler_evt = self.unique_id_handler_evt
@@ -104,10 +104,12 @@ class BoardCom(AsyncBpod, BoardIO):
 
 		func_group_id = uuid.uuid4()
 
+		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1) 
+
 		self._running_task = board_task.task
 		self._running_session = session
 
-		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1)
+		session.open()
 
 		AsyncBpod.run_protocol(self,
 		                       board_task.board.serial_port, board_task.task.name, board_task.task.path, workspace_path,
@@ -129,11 +131,11 @@ class BoardCom(AsyncBpod, BoardIO):
 					self.log_session_history(result)
 
 			if e.last_call:
-				self._session_log_file.close()
+				self._running_session.close() 
 				self._running_task = None
 				self._running_session = None
 		except Exception as err:
+			self._running_session.close() 
 			self._running_task = None
 			self._running_session = None
-			self._session_log_file.close()
 			raise err

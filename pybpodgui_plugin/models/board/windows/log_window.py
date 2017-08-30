@@ -15,7 +15,7 @@ from pyforms.Controls import ControlTextArea
 from pyforms.Controls import ControlCheckBox
 from pyforms.Controls import ControlButton
 
-from pybpodgui_plugin.com.messaging import DebugMessage
+from pybranch.com.messaging.debug import DebugMessage
 from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
 
 logger = logging.getLogger(__name__)
@@ -83,7 +83,7 @@ class LogWindow(BaseWidget):
 						pc_timestamp=message.pc_timestamp.strftime(
 							'%Y%m%d_%H%M%S'),
 						message_type=message.MESSAGE_TYPE_ALIAS,
-						message=message.content)
+						message=str(message) )
 
 
 		except RunSetupError as err:

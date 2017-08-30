@@ -1,9 +1,10 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import logging, sys
+import logging, sys, traceback
 
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
+from pybranch.com.messaging.stderr import StderrMessage
 from pybpodapi.bpod import Bpod
 
 logger = logging.getLogger(__name__)
@@ -42,7 +43,10 @@ class BpodRunner(PybranchRunHandler):
 
 		__builtins__['print'] = self.my_print
 
-		exec("""
+
+		try:
+
+			exec("""
 from pysettings import conf
 
 class RunnerSettings:
@@ -54,18 +58,25 @@ class RunnerSettings:
 	PYBPOD_API_PUBLISH_DATA_FUNC = print
 
 conf += RunnerSettings
-		""".format(serialport=serial_port, workspace=workspace_path), 
-		global_dict, local_dict)
+			""".format(serialport=serial_port, workspace=workspace_path), 
+			global_dict, local_dict)
 
-		exec( open(protocol_path).read(), global_dict, local_dict)
-		for var in local_dict.values():
-			if isinstance(var, Bpod):
-				var.stop()
+			exec( open(protocol_path).read(), global_dict, local_dict)
+			for var in local_dict.values():
+				if isinstance(var, Bpod):
+					var.stop()
 
-
+		except Exception as err:
+			self.my_print( StderrMessage( err ))
+			
 
 	def my_print(self, *args):
-		self.log_msg(args[0], last_call=False, evt_idx=self._current_evt_idx)
+		if len(args)>1: 
+			msg = ' '.join(map(str, args))
+		else:
+			msg = args[0]
+			
+		self.log_msg(msg, last_call=False, evt_idx=self._current_evt_idx)
 
 #
 # class MyWriter(object):
