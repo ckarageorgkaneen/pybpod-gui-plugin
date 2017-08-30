@@ -80,7 +80,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 				self._running_session.setup.stop_task()
 
 			self._running_session = None
-			self._running_task = None
+			self._running_task 	  = None
 
 			logger.error(traceback.format_exc())
 			QMessageBox.critical(self, "Error", str(err))

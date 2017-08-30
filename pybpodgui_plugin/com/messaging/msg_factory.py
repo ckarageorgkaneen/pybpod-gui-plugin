@@ -12,6 +12,7 @@ from pybranch.com.messaging.stdout 	import StdoutMessage
 from pybranch.com.messaging.warning import WarningMessage
 from pybranch.com.messaging.parser  import MessageParser
 
+from pybpodapi.bpod.com.messaging.base_message			import BaseMessage
 from pybpodapi.bpod.com.messaging.end_trial				import EndTrial
 from pybpodapi.bpod.com.messaging.trial					import Trial
 from pybpodapi.bpod.com.messaging.event_occurrence 		import EventOccurrence
@@ -59,19 +60,9 @@ def parse_board_msg(data):
 	try:
 		parsed_message = []
 
-		if isinstance(data, str):
-			# get message code (character variable number string before the first space)
-			message_code = data.split(' ')[0]
-			if message_code == '!':
-				parsed_message.append(ErrorMessage(data))
-
-			else:
-				data = str(data).strip()
-				parsed_message.append(StdoutMessage(data))
-		else:
+		if isinstance(data, BaseMessage):
 			parsed_message.append(data)
-
-
+		
 	except Exception as err:
 		logger.warning("Could not parse bpod message: {0}".format(data), exc_info=True)
 		parsed_message.append(ErrorMessage(data))  # default case

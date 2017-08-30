@@ -15,8 +15,7 @@ from pybpodgui_plugin.api.models.board.board_operations import BoardOperations
 from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg
 from pybpodgui_plugin.api.models.setup.board_task import BoardTask  # used for type checking
 
-from pybpodgui_plugin.api.exceptions.board_error import BoardError
-from pybpodgui_plugin.api.exceptions.pycontrol_error import PycontrolError
+from pybranch.com.messaging.stderr import StderrMessage
 
 logger = logging.getLogger(__name__)
 
@@ -59,18 +58,6 @@ class BoardCom(AsyncBpod, BoardIO):
 	####### FUNCTIONS ########################################################
 	##########################################################################
 
-	def log_msg_error(self, msg):
-		tag_msg = '{0} {1}'.format(self.CONSOLE_ERROR_TAG, msg)  # adds sign to indicate message type
-		self.log_msg(tag_msg)
-
-	def log_msg_level1(self, msg):
-		tag_msg = '{0} {1}'.format(self.CONSOLE_COMMENT_LEVEL1_TAG, msg)  # adds sign to indicate message type
-		self.log_msg(tag_msg)
-
-	def log_msg_level2(self, msg):
-		tag_msg = '{0} {1}'.format(self.CONSOLE_COMMENT_LEVEL2_TAG, msg)  # adds sign to indicate message type
-		self.log_msg(tag_msg)
-
 	def log_msg(self, msg):
 		parsed_messages = parse_board_msg(msg)
 
@@ -99,8 +86,6 @@ class BoardCom(AsyncBpod, BoardIO):
 		self.log_msg('I Board {0} ID: {1}'.format(self.name, result))
 
 	def run_task(self, session, board_task, workspace_path):
-
-		self.log_msg_level1("Running protocol now")
 
 		func_group_id = uuid.uuid4()
 
@@ -135,7 +120,12 @@ class BoardCom(AsyncBpod, BoardIO):
 				self._running_task = None
 				self._running_session = None
 		except Exception as err:
+			self.log_session_history( StderrMessage(err) )
 			self._running_session.close() 
+
+			#if self._running_session:
+			#	self._running_session.setup.stop_task()
+
 			self._running_task = None
 			self._running_session = None
 			raise err

@@ -5,6 +5,7 @@ import logging, sys, traceback
 
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
 from pybranch.com.messaging.stderr import StderrMessage
+from pybranch.com.messaging.stdout import StdoutMessage
 from pybpodapi.bpod import Bpod
 
 logger = logging.getLogger(__name__)
@@ -75,7 +76,10 @@ conf += RunnerSettings
 			msg = ' '.join(map(str, args))
 		else:
 			msg = args[0]
-			
+		
+		if isinstance(msg, str): msg = StdoutMessage(msg)
+
+		#self.original_print(msg)
 		self.log_msg(msg, last_call=False, evt_idx=self._current_evt_idx)
 
 #
