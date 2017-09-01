@@ -18,6 +18,7 @@ from pybpodapi.bpod.com.messaging.trial					import Trial
 from pybpodapi.bpod.com.messaging.event_occurrence 		import EventOccurrence
 from pybpodapi.bpod.com.messaging.state_occurrence 		import StateOccurrence
 from pybpodapi.bpod.com.messaging.softcode_occurrence 	import SoftcodeOccurrence
+from pybpodapi.bpod.com.messaging.event_resume 			import EventResume
 
 from pybpodapi.bpod.com.messaging.trial import Trial
 
@@ -37,7 +38,8 @@ class BpodMessageParser(MessageParser):
 		WarningMessage,
 		SoftcodeOccurrence,
 		StateOccurrence,
-		EventOccurrence
+		EventOccurrence,
+		EventResume
 	]
 
 

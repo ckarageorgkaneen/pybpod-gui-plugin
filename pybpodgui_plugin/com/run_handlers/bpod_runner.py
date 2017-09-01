@@ -42,7 +42,7 @@ class BpodRunner(PybranchRunHandler):
 		global_dict = globals()
 		local_dict  = locals()
 
-		__builtins__['print'] = self.my_print
+		
 
 
 		try:
@@ -71,7 +71,7 @@ conf += RunnerSettings
 			self.my_print( StderrMessage( err ))
 			
 
-	def my_print(self, *args):
+"""	def my_print(self, *args):
 		if len(args)>1: 
 			msg = ' '.join(map(str, args))
 		else:
@@ -81,7 +81,7 @@ conf += RunnerSettings
 
 		#self.original_print(msg)
 		self.log_msg(msg, last_call=False, evt_idx=self._current_evt_idx)
-
+"""
 #
 # class MyWriter(object):
 #
