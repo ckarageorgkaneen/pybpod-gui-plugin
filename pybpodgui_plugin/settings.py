@@ -47,9 +47,10 @@ GENERIC_EDITOR_PLUGINS_LIST = [
 
 #DEFAULT_PROJECT_PATH = '/home/ricardo/bitbucket/pybpod/pybpod-gui-plugin/projects/Untitled project 1'
 
-BOARD_LOG_WINDOW_REFRESH_RATE = 0.2 # s
-SESSIONLOG_PLUGIN_REFRESH_RATE = 0.2 # s
+BOARD_LOG_WINDOW_REFRESH_RATE  = 2000
+SESSIONLOG_PLUGIN_REFRESH_RATE = 30000
+TIMELINE_PLUGIN_REFRESH_RATE   = 2000
 
-PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 0.2 # timer for thread look for events (seconds)
-PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 0.2 # timer for process look for events (seconds)
-PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE = 5 # wait before killing process (seconds)
+PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 2.0 # timer for thread look for events (seconds)
+PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 2.0 # timer for process look for events (seconds)
+PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE = 0 # wait before killing process (seconds)
