@@ -26,6 +26,10 @@ class BoardBase(object):
 
 		self.project += self
 
+		self.enabled_bncports 		= None
+		self.enabled_wiredports 	= None
+		self.enabled_behaviorports 	= None
+
 	##########################################################################
 	####### PROPERTIES #######################################################
 	##########################################################################
@@ -70,6 +74,21 @@ class BoardBase(object):
 	def path(self, value):
 		self._path = value
 
+	@property
+	def enabled_bncports(self):				return self._enabled_bncports
+	@enabled_bncports.setter
+	def enabled_bncports(self, value): 		self._enabled_bncports = value
+
+	@property
+	def enabled_wiredports(self):			return self._enabled_wiredports
+	@enabled_wiredports.setter
+	def enabled_wiredports(self, value): self._enabled_wiredports = value
+
+	@property
+	def enabled_behaviorports(self):		return self._enabled_behaviorports
+	@enabled_behaviorports.setter
+	def enabled_behaviorports(self, value): self._enabled_behaviorports = value
+
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################
@@ -82,3 +101,5 @@ class BoardBase(object):
 
 	def __str__(self):
 		return self.__unicode__()
+
+

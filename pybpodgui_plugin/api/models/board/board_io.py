@@ -35,8 +35,11 @@ class BoardIO(BoardBase):
 				os.makedirs(board_path)
 
 			data2save = {
-				'name': self.name,
-				'serial_port': self.serial_port
+				'name': 					self.name,
+				'serial_port': 	 			self.serial_port,
+				'enabled-bncports': 		self.enabled_bncports,
+				'enabled-wiredports': 		self.enabled_wiredports,
+				'enabled-behaviorports':	self.enabled_behaviorports,
 			}
 
 			self.__save_on_file(data2save, board_path, 'board-settings.json')
@@ -49,10 +52,16 @@ class BoardIO(BoardBase):
 		settings_path = os.path.join(board_path, 'board-settings.json')
 		with open(settings_path, 'r') as output_file:
 			data = json.load(output_file)
-			self.name = data['name']
+			
+			self.name 		 = data['name']
 			self.serial_port = data['serial_port']
+			self._path 		 = board_path
 
-			self._path = board_path
+			self.enabled_bncports 		= data.get('enabled-bncports', 		None)
+			self.enabled_wiredports 	= data.get('enabled-wiredports', 	None)
+			self.enabled_behaviorports = data.get('enabled-behaviorports', None)
+
+			
 
 	def __generate_boards_path(self, project_path):
 		return os.path.join(project_path, 'boards')

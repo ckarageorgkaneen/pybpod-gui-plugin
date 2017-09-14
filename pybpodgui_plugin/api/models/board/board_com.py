@@ -86,22 +86,47 @@ class BoardCom(AsyncBpod, BoardIO):
 		self.log_msg('I Board {0} ID: {1}'.format(self.name, result))
 
 	def run_task(self, session, board_task, workspace_path):
-
-		func_group_id = uuid.uuid4()
-
-		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1) 
-
-		self._running_task = board_task.task
-		self._running_session = session
-
+		self._session_log_file 	= open(session.path, 'w+', newline='\n', buffering=1) 
+		self._running_task 		= board_task.task
+		self._running_session 	= session
 		session.open()
 
+		board = board_task.board
+
+		bpod_settings = """
+from pysettings import conf
+
+class RunnerSettings:
+	SETTINGS_PRIORITY = 0
+	WORKSPACE_PATH 	= None
+	PROTOCOL_NAME 	= None
+	SERIAL_PORT 	= '{serialport}'
+
+	PYBPOD_API_PUBLISH_DATA_FUNC = print
+
+	{bnp_ports}
+	{wired_ports}
+	{behavior_ports}
+
+conf += RunnerSettings
+		""".format(
+			serialport 		= board.serial_port,
+			bnp_ports 	 	= ('BPOD_BNC_PORTS_ENABLED = {0}'.format(board.enabled_bncports) 			if board.enabled_bncports else '') ,
+			wired_ports 	= ('BPOD_WIRED_PORTS_ENABLED = {0}'.format(board.enabled_wiredports) 		if board.enabled_wiredports else '') ,
+			behavior_ports 	= ('BPOD_BEHAVIOR_PORTS_ENABLED = {0}'.format(board.enabled_behaviorports) 	if board.enabled_behaviorports else '')
+		)
+		print(bpod_settings)
+
 		AsyncBpod.run_protocol(self,
-		                       board_task.board.serial_port, board_task.task.name, board_task.task.path, workspace_path,
-		                       handler_evt=self.run_task_handler_evt,
-		                       extra_args=(BoardOperations.RUN_PROTOCOL,),
-		                       group=func_group_id
-		                       )
+			bpod_settings,
+			board_task.task.path,
+			handler_evt=self.run_task_handler_evt,
+			extra_args=(BoardOperations.RUN_PROTOCOL,),
+			group=uuid.uuid4()
+		)
+
+
+
 
 	def run_task_handler_evt(self, e, result):
 		called_operation = e.extra_args[0]
