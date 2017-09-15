@@ -60,10 +60,12 @@ class ExperimentWindow(Experiment, BaseWidget):
 
 		self._name = ControlText('Exp. name')
 		self._task = ControlCombo('Protocol')
+		self._runsetup = ControlButton('Run all')
 
 		self._formset = [
 			'_name',
 			'_task',
+			'_runsetup',
 			' '
 		]
 
@@ -73,6 +75,11 @@ class ExperimentWindow(Experiment, BaseWidget):
 
 		self._name.changed_event = self.__name_changed_evt
 		self._task.changed_event = self.__task_changed_evt
+		self._runsetup.value = self.__run_all
+
+	def __run_all(self):
+		for setup in self.setups:
+			setup._run_task()
 
 	def __task_changed_evt(self):
 		"""

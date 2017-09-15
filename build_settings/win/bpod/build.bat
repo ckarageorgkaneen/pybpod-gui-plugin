@@ -26,7 +26,7 @@ SET "QT_API=pyqt5"
 
 :: http://stackoverflow.com/questions/38674400/missing-dll-files-when-using-pyinstaller
 SET "QT5_DLL_PATH=C:\WinPython\WinPython-64bit-3.5.3.0Qt5\python-3.5.3.amd64\Lib\site-packages\PyQt5\Qt\bin"
-
+::SET "QT_PLUGIN_PATH=C:\WinPython\WinPython-64bit-3.5.3.0Qt5\python-3.5.3.amd64\Lib\site-packages\PyQt5\Qt\plugins"
 :: 2
 :: PYINSTALLER SETTINGS
 
@@ -133,7 +133,7 @@ jar -cMf "%DISTOUTDIR%\%DISTJOBDIR%.zip" -C "%DISTOUTDIR%\%DISTJOBDIR%" .
 :: UPLOAD DIST FOLDER FOR BITBUCKET
 IF "%UPLOAD_2_BITBUCKET%"=="true" (
    ECHO Uploading to bitbucket now...
-   curl --progress-bar --netrc-file c:\curl_auth\bitbucket_auth.txt -X POST https://api.bitbucket.org/2.0/repositories/fchampalimaud/pycontrol-gui/downloads -F files=@"%DISTOUTDIR%\%DISTJOBDIR%.zip" > curl_output.log
+   curl --progress-bar --netrc-file c:\curl_auth\bitbucket_auth.txt -X POST https://api.bitbucket.org/2.0/repositories/fchampalimaud/pybpod-gui-plugin/downloads -F files=@"%DISTOUTDIR%\%DISTJOBDIR%.zip" > curl_output.log
    type curl_output.log
 )
 

@@ -1,11 +1,8 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import os
-import datetime
-import logging
-
-from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg
+import os, csv, datetime, logging
+from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg, BpodMessageParser
 
 logger = logging.getLogger(__name__)
 
@@ -28,25 +25,38 @@ class SessionBase(object):
 		self.ended = None
 		self.messages_history = []
 
+
+	def open(self):
+		self.csvfile 	= open(self.path, 'w+', newline='\n', buffering=1)
+		self.csvwriter 	= csv.writer(self.csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+	def close(self):
+		self.csvfile.close()
+
+	def log_msg(self, msg): 
+		""" 
+		Parses board output and creates new session history entry 
+	 
+		:param msg: message to be parsed 
+		:param file_obj: file object reference to write output to session history file 
+		""" 
+		parsed_messages = parse_board_msg(msg) 
+
+		for m in parsed_messages: 
+			self.csvwriter.writerow(m.tolist()) 
+			self.messages_history.append(m) 
+		
+		
+
 	##########################################################################
 	####### PROPERTIES #######################################################
 	##########################################################################
 
+
 	def remove(self):
 		pass
 
-	def log_msg(self, msg, file_obj):
-		"""
-		Parses board output and creates new session history entry
-
-		:param msg: message to be parsed
-		:param file_obj: file object reference to write output to session history file
-		"""
-		parsed_messages = parse_board_msg(msg)
-
-		for m in parsed_messages:
-			file_obj.write(m.export())
-			self.messages_history.append(m)
+	
 
 	@property
 	def setup(self):

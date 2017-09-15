@@ -1,12 +1,15 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, sys, traceback
 
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
-from pybpodgui_plugin.com.bpod_instance import BpodInstance
+from pybranch.com.messaging.stderr import StderrMessage
+from pybranch.com.messaging.stdout import StdoutMessage
+from pybpodapi.bpod import Bpod
 
 logger = logging.getLogger(__name__)
+
 
 
 class BpodRunner(PybranchRunHandler):
@@ -24,7 +27,7 @@ class BpodRunner(PybranchRunHandler):
 
 		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
 
-	def runner_bpod_run_protocol(self, serial_port, protocol_name, protocol_path, workspace_path):
+	def runner_bpod_run_protocol(self, bpod_settings, protocol_path):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python
@@ -36,16 +39,33 @@ class BpodRunner(PybranchRunHandler):
 		:param protocol_path:
 		:return:
 		"""
-		print = self.my_print
-		BPOD_INSTANCE = BpodInstance(self.my_print).start(serial_port, workspace_path, protocol_name)
-		ldict = locals()
-		exec(open(protocol_path).read(), globals(), ldict)
-		mybpod = ldict['my_bpod']
-		BPOD_INSTANCE.stop()
+		global_dict = globals()
+		local_dict  = locals()
 
-	def my_print(self, *args):
-		self.log_msg(args[0], last_call=False, evt_idx=self._current_evt_idx)
+		try:
+			#execute the settings first
+			exec(bpod_settings, global_dict, local_dict)
 
+			exec( open(protocol_path).read(), global_dict, local_dict)
+			for var in local_dict.values():
+				if isinstance(var, Bpod):
+					var.stop()
+
+		except Exception as err:
+			self.my_print( StderrMessage( err ))
+			
+
+"""	def my_print(self, *args):
+		if len(args)>1: 
+			msg = ' '.join(map(str, args))
+		else:
+			msg = args[0]
+		
+		if isinstance(msg, str): msg = StdoutMessage(msg)
+
+		#self.original_print(msg)
+		self.log_msg(msg, last_call=False, evt_idx=self._current_evt_idx)
+"""
 #
 # class MyWriter(object):
 #

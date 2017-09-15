@@ -10,8 +10,12 @@ import pyforms as app
 from pyforms import BaseWidget
 from pyforms.Controls import ControlText
 from pyforms.Controls import ControlButton
+from pyforms.Controls import ControlCheckBoxList
 
 from pybpodgui_plugin.api.models.board import Board
+
+
+from pybpodapi.bpod.bpod_com_protocol_modules import BpodCOMProtocolModules as Bpod
 
 logger = logging.getLogger(__name__)
 
@@ -70,21 +74,42 @@ class BoardWindow(Board, BaseWidget):
 		BaseWidget.__init__(self, 'Board')
 		self.layout().setContentsMargins(5,10,5,5)
 
-		self._name = ControlText('Box name')
-		self._serial_port = ControlText('Serial port')
-		self._log_btn = ControlButton('Console')
+		self._name 				= ControlText('Box name')
+		self._serial_port 		= ControlText('Serial port')
+		self._log_btn 			= ControlButton('Console')
+		self._active_bnc 		= ControlCheckBoxList('BNC')
+		self._active_wired 		= ControlCheckBoxList('Wired')
+		self._active_behavior 	= ControlCheckBoxList('Behavior')
+		self._loadports_btn 	= ControlButton('Load ports')
 
 		Board.__init__(self, project)
 
 		self._formset = [
 			'_name',
-			'_serial_port',
-			(' ', ' ', '_log_btn'),
-			' '
+			('_serial_port','_log_btn'),
+			' ',
+			('Enabled or disable ports',' ','_loadports_btn'),			
+			'_active_bnc',
+			'_active_wired',
+			'_active_behavior'
 		]
 
-		self._name.changed_event = self.__name_changed_evt
+		self._name.changed_event 		= self.__name_changed_evt
 		self._serial_port.changed_event = self.__serial_changed_evt
+		self._loadports_btn.value 		= self.__load_bpod_ports
+
+	def __load_bpod_ports(self):
+		bpod = Bpod(self._serial_port.value)
+		bpod.start()
+		hw = bpod.hardware
+
+		### load the ports to the GUI ###############################
+		self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
+		self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
+		self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+		#############################################################
+		
+		bpod.stop()
 
 	def __name_changed_evt(self):
 		"""
@@ -124,6 +149,41 @@ class BoardWindow(Board, BaseWidget):
 		self._update_serial = True  # Flag to avoid recursive calls when editing the name text field
 		self._serial_port.value = value
 		self._update__serial = False
+
+
+	@property
+	def enabled_bncports(self):				return [b for v,b in self._active_bnc.items] if self._active_bnc.count>0 else None
+	@enabled_bncports.setter
+	def enabled_bncports(self, value): 
+		Board.enabled_bncports.fset(self, value)
+		if value is None:
+			self._active_bnc.value = []
+		else:
+			self._active_bnc.value = [ ('BNC{0}'.format(j+1), v) for j, v in enumerate(value)]
+		
+
+	@property
+	def enabled_wiredports(self):			return [b for v,b in self._active_wired.items] if self._active_wired.count>0 else None
+	@enabled_wiredports.setter
+	def enabled_wiredports(self, value):
+		Board.enabled_wiredports.fset(self, value)
+
+		if value is None:
+			self._active_wired.value = []
+		else:
+			self._active_wired.value = [ ('Wire{0}'.format(j+1), v) for j, v in enumerate(value)]
+		
+
+	@property
+	def enabled_behaviorports(self):		return [b for v,b in self._active_behavior.items] if self._active_behavior.count>0 else None
+	@enabled_behaviorports.setter
+	def enabled_behaviorports(self, value):
+		Board.enabled_behaviorports.fset(self, value)
+		if value is None:
+			self._active_behavior.value = []
+		else:
+			self._active_behavior.value = [ ('Port{0}'.format(j+1), v) for j, v in enumerate(value)]
+		
 
 	
 

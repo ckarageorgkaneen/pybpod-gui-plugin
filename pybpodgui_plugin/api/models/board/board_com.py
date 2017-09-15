@@ -15,8 +15,7 @@ from pybpodgui_plugin.api.models.board.board_operations import BoardOperations
 from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg
 from pybpodgui_plugin.api.models.setup.board_task import BoardTask  # used for type checking
 
-from pybpodgui_plugin.api.exceptions.board_error import BoardError
-from pybpodgui_plugin.api.exceptions.pycontrol_error import PycontrolError
+from pybranch.com.messaging.stderr import StderrMessage
 
 logger = logging.getLogger(__name__)
 
@@ -59,18 +58,6 @@ class BoardCom(AsyncBpod, BoardIO):
 	####### FUNCTIONS ########################################################
 	##########################################################################
 
-	def log_msg_error(self, msg):
-		tag_msg = '{0} {1}'.format(self.CONSOLE_ERROR_TAG, msg)  # adds sign to indicate message type
-		self.log_msg(tag_msg)
-
-	def log_msg_level1(self, msg):
-		tag_msg = '{0} {1}'.format(self.CONSOLE_COMMENT_LEVEL1_TAG, msg)  # adds sign to indicate message type
-		self.log_msg(tag_msg)
-
-	def log_msg_level2(self, msg):
-		tag_msg = '{0} {1}'.format(self.CONSOLE_COMMENT_LEVEL2_TAG, msg)  # adds sign to indicate message type
-		self.log_msg(tag_msg)
-
 	def log_msg(self, msg):
 		parsed_messages = parse_board_msg(msg)
 
@@ -89,7 +76,7 @@ class BoardCom(AsyncBpod, BoardIO):
 		:param msg:
 		:return:
 		"""
-		self._running_session.log_msg(msg, self._session_log_file)
+		self._running_session.log_msg(msg)
 
 	def unique_id(self, handler_evt=None):
 		if handler_evt is None: handler_evt = self.unique_id_handler_evt
@@ -99,22 +86,45 @@ class BoardCom(AsyncBpod, BoardIO):
 		self.log_msg('I Board {0} ID: {1}'.format(self.name, result))
 
 	def run_task(self, session, board_task, workspace_path):
+		self._session_log_file 	= open(session.path, 'w+', newline='\n', buffering=1) 
+		self._running_task 		= board_task.task
+		self._running_session 	= session
+		session.open()
 
-		self.log_msg_level1("Running protocol now")
+		board = board_task.board
 
-		func_group_id = uuid.uuid4()
+		bpod_settings = """
+from pysettings import conf
 
-		self._running_task = board_task.task
-		self._running_session = session
+class RunnerSettings:
+	SETTINGS_PRIORITY = 0
+	WORKSPACE_PATH 	= None
+	PROTOCOL_NAME 	= None
+	SERIAL_PORT 	= '{serialport}'
 
-		self._session_log_file = open(session.path, 'w+', newline='\n', buffering=1)
+	PYBPOD_API_PUBLISH_DATA_FUNC = print
+
+	{bnp_ports}
+	{wired_ports}
+	{behavior_ports}
+
+conf += RunnerSettings
+		""".format(
+			serialport 		= board.serial_port,
+			bnp_ports 	 	= ('BPOD_BNC_PORTS_ENABLED = {0}'.format(board.enabled_bncports) 			if board.enabled_bncports else '') ,
+			wired_ports 	= ('BPOD_WIRED_PORTS_ENABLED = {0}'.format(board.enabled_wiredports) 		if board.enabled_wiredports else '') ,
+			behavior_ports 	= ('BPOD_BEHAVIOR_PORTS_ENABLED = {0}'.format(board.enabled_behaviorports) 	if board.enabled_behaviorports else '')
+		)
 
 		AsyncBpod.run_protocol(self,
-		                       board_task.board.serial_port, board_task.task.name, board_task.task.path, workspace_path,
-		                       handler_evt=self.run_task_handler_evt,
-		                       extra_args=(BoardOperations.RUN_PROTOCOL,),
-		                       group=func_group_id
-		                       )
+			bpod_settings,
+			board_task.task.path,
+			handler_evt=self.run_task_handler_evt,
+			extra_args=(BoardOperations.RUN_PROTOCOL,),
+			group=uuid.uuid4()
+		)
+
+
 
 	def run_task_handler_evt(self, e, result):
 		called_operation = e.extra_args[0]
@@ -129,11 +139,16 @@ class BoardCom(AsyncBpod, BoardIO):
 					self.log_session_history(result)
 
 			if e.last_call:
-				self._session_log_file.close()
+				self._running_session.close() 
 				self._running_task = None
 				self._running_session = None
 		except Exception as err:
+			self.log_session_history( StderrMessage(err) )
+			self._running_session.close() 
+
+			#if self._running_session:
+			#	self._running_session.setup.stop_task()
+
 			self._running_task = None
 			self._running_session = None
-			self._session_log_file.close()
 			raise err

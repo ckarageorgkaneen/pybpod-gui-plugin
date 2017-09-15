@@ -20,11 +20,11 @@ class SessionWindow(Session, BaseWidget):
 		BaseWidget.__init__(self, 'Session')
 		self.layout().setContentsMargins(5, 10, 5, 5)
 
-		self._name = ControlText('Session name')
+		self._name = ControlText('Session')
 		self._path = ControlText('File path')
-		self._setup_name = ControlText('Subject name')
-		self._board_name = ControlText('Board name')
-		self._task_name = ControlText('Task name')
+		self._setup_name = ControlText('Subject')
+		self._board_name = ControlText('Board')
+		self._task_name = ControlText('Task')
 		self._board_serial_port = ControlText('Serial port')
 		self._started = ControlText('Started on')
 		self._ended = ControlText('Ended on')
@@ -33,8 +33,8 @@ class SessionWindow(Session, BaseWidget):
 
 		self._formset = [
 			'_name',
-			('_started', '_ended'),
-			('_setup_name', '_task_name'),
+			'_started', '_ended',
+			'_setup_name', '_task_name',
 			'_board_name',
 			'_board_serial_port',
 			'_path',
