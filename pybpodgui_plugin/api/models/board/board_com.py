@@ -115,7 +115,6 @@ conf += RunnerSettings
 			wired_ports 	= ('BPOD_WIRED_PORTS_ENABLED = {0}'.format(board.enabled_wiredports) 		if board.enabled_wiredports else '') ,
 			behavior_ports 	= ('BPOD_BEHAVIOR_PORTS_ENABLED = {0}'.format(board.enabled_behaviorports) 	if board.enabled_behaviorports else '')
 		)
-		print(bpod_settings)
 
 		AsyncBpod.run_protocol(self,
 			bpod_settings,
@@ -124,7 +123,6 @@ conf += RunnerSettings
 			extra_args=(BoardOperations.RUN_PROTOCOL,),
 			group=uuid.uuid4()
 		)
-
 
 
 
