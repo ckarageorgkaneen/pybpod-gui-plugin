@@ -41,7 +41,9 @@ Next, move inside the pybpod-gui-plugin folder and run the following command:
 
 
 .. warning::
-   This project requires Python 3! Python2 is not supported.
+   | This project requires Python 3! Python2 is not supported.
+   |
+   | **Windows**: Windows users can use `winpython 3.5 <http://winpython.sourceforge.net/>`_ .
 
 
 3. Set up user settings
@@ -61,10 +63,6 @@ Inside the pybpod-gui-plugin folder, locate the file :py:class:`user_settings.py
     # Inside pybpod-gui-plugin folder
     python3 -m pybpodgui_plugin
 
-
-.. seealso::
-   `Python Installation tutorial <http://swp-docs.readthedocs.io/en/latest/python-installation/index.html>`_ |
-   `Using pyenv for python management <http://swp-docs.readthedocs.io/en/latest/python-installation/pyenv.html>`_
 
 ================
 Try the examples
