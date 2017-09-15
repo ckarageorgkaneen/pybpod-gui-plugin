@@ -77,17 +77,18 @@ class BoardWindow(Board, BaseWidget):
 		self._name 				= ControlText('Box name')
 		self._serial_port 		= ControlText('Serial port')
 		self._log_btn 			= ControlButton('Console')
-		self._active_bnc 		= ControlCheckBoxList('BNC ports'	  )
-		self._active_wired 		= ControlCheckBoxList('Wired ports'	  )
-		self._active_behavior 	= ControlCheckBoxList('Behavior ports')
+		self._active_bnc 		= ControlCheckBoxList('BNC')
+		self._active_wired 		= ControlCheckBoxList('Wired')
+		self._active_behavior 	= ControlCheckBoxList('Behavior')
 		self._loadports_btn 	= ControlButton('Load ports')
 
 		Board.__init__(self, project)
 
 		self._formset = [
 			'_name',
-			'_serial_port',
-			('_loadports_btn', ' ', '_log_btn'),
+			('_serial_port','_log_btn'),
+			' ',
+			('Enabled or disable ports',' ','_loadports_btn'),			
 			'_active_bnc',
 			'_active_wired',
 			'_active_behavior'
@@ -103,9 +104,9 @@ class BoardWindow(Board, BaseWidget):
 		hw = bpod.hardware
 
 		### load the ports to the GUI ###############################
-		self._active_bnc.value 		= [ ('BNC{0}'.format(j),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
-		self._active_wired.value 	= [ ('Wire{0}'.format(j), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
-		self._active_behavior.value = [ ('Port{0}'.format(j), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+		self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
+		self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
+		self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
 		#############################################################
 		
 		bpod.stop()
@@ -158,7 +159,7 @@ class BoardWindow(Board, BaseWidget):
 		if value is None:
 			self._active_bnc.value = []
 		else:
-			self._active_bnc.value = [ ('BNC{0}'.format(j), v) for j, v in enumerate(value)]
+			self._active_bnc.value = [ ('BNC{0}'.format(j+1), v) for j, v in enumerate(value)]
 		
 
 	@property
@@ -170,7 +171,7 @@ class BoardWindow(Board, BaseWidget):
 		if value is None:
 			self._active_wired.value = []
 		else:
-			self._active_wired.value = [ ('Wire{0}'.format(j), v) for j, v in enumerate(value)]
+			self._active_wired.value = [ ('Wire{0}'.format(j+1), v) for j, v in enumerate(value)]
 		
 
 	@property
@@ -181,7 +182,7 @@ class BoardWindow(Board, BaseWidget):
 		if value is None:
 			self._active_behavior.value = []
 		else:
-			self._active_behavior.value = [ ('Port{0}'.format(j), v) for j, v in enumerate(value)]
+			self._active_behavior.value = [ ('Port{0}'.format(j+1), v) for j, v in enumerate(value)]
 		
 
 	
