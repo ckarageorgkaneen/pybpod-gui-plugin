@@ -8,9 +8,4 @@
 .. toctree::
    :titlesonly:
 
-   event_occurrence
-   print_statement
-   state_change
-   state_entry
-   board_message
    msg_factory
