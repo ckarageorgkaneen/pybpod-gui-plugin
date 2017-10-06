@@ -13,6 +13,9 @@ class ExperimentIO(ExperimentBase):
 	Save and Load actions for Experiment
 	"""
 
+	def __init__(self, project):
+		super(ExperimentIO, self).__init__(project)
+
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################

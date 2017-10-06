@@ -8,7 +8,9 @@ import os
 def path(filename):
 	return os.path.join(os.path.dirname(__file__), 'icons', filename)
 
-BOARDS_SMALL_ICON = path('boxes.png')
+BOARD_SMALL_ICON = path('board.png')
+
+BOARDS_SMALL_ICON = path('boards.png')
 BOX_SMALL_ICON = path('box.png')
 
 SUBJECT_SMALL_ICON = path('subject.png')

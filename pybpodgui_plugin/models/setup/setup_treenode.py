@@ -60,7 +60,7 @@ class SetupTreeNode(SetupWindow):
 		:return type: QTreeWidgetItem
 		"""
 
-		self.node = tree.create_child(self.name, self.experiment.node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
+		self.node = tree.create_child(self.name, self.experiment.node, icon=QIcon(conf.BOX_SMALL_ICON))
 		self.node.key_pressed_event = self.node_key_pressed_event
 		self.node.window = self
 		self.node.setExpanded(True)

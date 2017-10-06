@@ -10,6 +10,11 @@ logger = logging.getLogger(__name__)
 
 
 class SetupBaseIO(SetupBase):
+
+
+	def __init__(self, experiment):
+		super(SetupBaseIO, self).__init__(experiment)
+
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################

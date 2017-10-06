@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-A board represents the hardware that controls the running session for a specific subject.
+A board represents the hardware that controls the running session for a specific setup.
 """
 
 import os

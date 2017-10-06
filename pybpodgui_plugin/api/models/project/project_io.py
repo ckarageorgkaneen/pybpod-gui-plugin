@@ -16,6 +16,10 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectIO(ProjectBase):
+
+	def __init__(self):
+		super(ProjectIO, self).__init__()
+
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################
@@ -37,7 +41,7 @@ class ProjectIO(ProjectBase):
 
 			logger.debug("==== LOAD TASKS ====")
 
-			for path in self.__list_all_tasks_in_folder(project_path):
+			for infolder, path in self.__list_all_tasks_in_folder(project_path):
 				task = self.create_task()
 				task.load(path, {})
 
@@ -124,10 +128,13 @@ class ProjectIO(ProjectBase):
 
 		# remove from the tasks directory the unused tasks files
 		tasks_paths = [task.path for task in self.tasks]
-		for path in self.__list_all_tasks_in_folder(project_path):
+		for infolder, path in self.__list_all_tasks_in_folder(project_path):
 			if path not in tasks_paths:
 				logger.debug("Sending file [{0}] to trash".format(path))
-				send2trash(path)
+				if infolder:
+					send2trash(os.path.dirname(path))
+				else:
+					send2trash(path)
 
 		########### SAVE THE BOARDS ###########
 		logger.debug("Saving boards to {0}".format(project_path))
@@ -200,8 +207,10 @@ class ProjectIO(ProjectBase):
 	def __list_all_tasks_in_folder(self, project_path):
 		path = os.path.join(project_path, 'tasks')
 		if not os.path.exists(path): return []
-		search_4_files_path = os.path.join(path, '*.py')
-		return sorted(glob.glob(search_4_files_path))
+		
+		tasksfiles 	 =  [(False, os.path.join(path, d)) for d in os.listdir(path) if os.path.isfile(os.path.join(path,d)) and d.lower().endswith('.py')]
+		tasksfiles 	 += [(True,  os.path.join(path, d, d+'.py')) for d in os.listdir(path) if os.path.isdir(os.path.join(path,d)) ]
+		return sorted(tasksfiles)
 
 	def __list_all_boards_in_folder(self, project_path):
 		search_4_dirs_path = os.path.join(project_path, 'boards')

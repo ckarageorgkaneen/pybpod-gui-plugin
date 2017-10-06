@@ -99,7 +99,7 @@ from pysettings import conf
 class RunnerSettings:
 	SETTINGS_PRIORITY = 0
 	WORKSPACE_PATH 	= None
-	PROTOCOL_NAME 	= None
+	PROTOCOL_NAME 	= '{protocolname}'
 	SERIAL_PORT 	= '{serialport}'
 
 	PYBPOD_API_PUBLISH_DATA_FUNC = print
@@ -113,12 +113,15 @@ conf += RunnerSettings
 			serialport 		= board.serial_port,
 			bnp_ports 	 	= ('BPOD_BNC_PORTS_ENABLED = {0}'.format(board.enabled_bncports) 			if board.enabled_bncports else '') ,
 			wired_ports 	= ('BPOD_WIRED_PORTS_ENABLED = {0}'.format(board.enabled_wiredports) 		if board.enabled_wiredports else '') ,
-			behavior_ports 	= ('BPOD_BEHAVIOR_PORTS_ENABLED = {0}'.format(board.enabled_behaviorports) 	if board.enabled_behaviorports else '')
+			behavior_ports 	= ('BPOD_BEHAVIOR_PORTS_ENABLED = {0}'.format(board.enabled_behaviorports) 	if board.enabled_behaviorports else ''),
+			protocolname 	= board_task.task.name
 		)
 
 		AsyncBpod.run_protocol(self,
 			bpod_settings,
 			board_task.task.path,
+			board_task.board.name,
+			session.setup.name,
 			handler_evt=self.run_task_handler_evt,
 			extra_args=(BoardOperations.RUN_PROTOCOL,),
 			group=uuid.uuid4()

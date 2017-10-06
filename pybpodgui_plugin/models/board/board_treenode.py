@@ -56,7 +56,7 @@ class BoardTreeNode(BoardCom):
 		:return: new created node
 		:return type: QTreeWidgetItem
 		"""
-		self.node = tree.create_child(self.name, self.project.boards_node, icon=QIcon(conf.BOX_SMALL_ICON))
+		self.node = tree.create_child(self.name, self.project.boards_node, icon=QIcon(conf.BOARD_SMALL_ICON))
 		self.node.key_pressed_event = self.node_key_pressed_event
 		self.node.double_clicked_event = self.node_double_clicked_event
 		self.node.window = self

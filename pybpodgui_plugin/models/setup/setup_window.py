@@ -77,7 +77,7 @@ class SetupWindow(Setup, BaseWidget):
 		BaseWidget.__init__(self, 'Experiment')
 		self.layout().setContentsMargins(5, 10, 5, 5)
 
-		self._name = ControlText('Subject name')
+		self._name = ControlText('Setup name')
 		self._board = ControlCombo('Box')
 		self._run_task_btn = ControlButton('Run')
 

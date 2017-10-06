@@ -57,7 +57,7 @@ class SetupDockWindow(SetupTreeNode):
 		"""
 		if not self.experiment.MARKED_FOR_REMOVAL:
 			reply = QMessageBox.question(self, 'Warning',
-			                             'Subject {0} will be deleted. Are you sure?'.format(self.name),
+			                             'The setup {0} will be deleted. Are you sure?'.format(self.name),
 			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 		else:
 			reply = True

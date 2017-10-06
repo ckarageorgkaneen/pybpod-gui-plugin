@@ -22,7 +22,7 @@ class SessionWindow(Session, BaseWidget):
 
 		self._name = ControlText('Session')
 		self._path = ControlText('File path')
-		self._setup_name = ControlText('Subject')
+		self._setup_name = ControlText('Setup')
 		self._board_name = ControlText('Board')
 		self._task_name = ControlText('Task')
 		self._board_serial_port = ControlText('Serial port')

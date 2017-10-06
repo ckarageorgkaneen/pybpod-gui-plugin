@@ -43,7 +43,16 @@ class TaskBase(object):
 		if not self.path or not os.path.exists(self.path):
 			tasks_path = os.path.join(self.project.path, 'tasks')
 			if not os.path.exists(tasks_path): os.makedirs(tasks_path)
-			self.path = os.path.join(tasks_path, self.name)+'.py'
+
+			task_folder = os.path.join(tasks_path, self.name)
+			if not os.path.exists(task_folder): 
+				os.makedirs(task_folder)
+
+			initfile = os.path.join(task_folder, '__init__.py')
+			if not os.path.exists(initfile): 
+				with open(initfile, "w") as file: pass
+
+			self.path = os.path.join(task_folder, self.name)+'.py'
 		with open(self.path, "w") as file: file.write(value)
 
 	@property

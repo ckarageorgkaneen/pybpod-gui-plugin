@@ -82,7 +82,7 @@ class SetupCom(SetupBaseIO):
 			raise RunSetupError("Project must be saved before run protocol")
 
 		if not self.board or not self.task:
-			logger.warning("Subject has no protocol assigned.")
+			logger.warning("Setup has no protocol assigned.")
 			raise RunSetupError("Please assign a board and protocol first")
 
 		try:
