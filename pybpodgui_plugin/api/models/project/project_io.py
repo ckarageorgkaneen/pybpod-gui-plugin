@@ -6,7 +6,7 @@ import logging
 import glob
 import json
 import hashlib
-from utils.send2trash_wrapper import send2trash
+from pybpodgui_plugin.utils.send2trash_wrapper import send2trash
 
 from pybpodgui_plugin.api.models.project.project_base import ProjectBase
 

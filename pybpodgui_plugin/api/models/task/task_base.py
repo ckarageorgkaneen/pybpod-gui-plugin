@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, os
-from utils.send2trash_wrapper import send2trash
+from pybpodgui_plugin.utils.send2trash_wrapper import send2trash
 
 logger = logging.getLogger(__name__)
 
