@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, os
-from send2trash import send2trash
+from utils.send2trash_wrapper import send2trash
 
 logger = logging.getLogger(__name__)
 

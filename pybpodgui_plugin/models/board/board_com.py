@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import traceback
+import traceback, sys
 
 from pysettings import conf
 
@@ -50,6 +50,8 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 		:param board_task: board and task object
 		:return: True if no problems occur, False otherwise.
 		"""
+		print(sys.path)
+		
 		flag = None
 		self._enable_btn_flag = True
 		self._tmp_setup = session.setup

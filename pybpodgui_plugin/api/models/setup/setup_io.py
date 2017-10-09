@@ -3,7 +3,7 @@
 
 import logging
 import os, json, glob, hashlib
-from send2trash import send2trash
+from utils.send2trash_wrapper import send2trash
 from pybpodgui_plugin.api.models.setup.setup_base import SetupBase
 
 logger = logging.getLogger(__name__)
