@@ -21,7 +21,7 @@ class SetupBase(object):
 			setup_path = os.path.join(setups_path, self.name)
 			if not os.path.exists(setup_path): os.makedirs(setup_path)
 
-		self.name = "Untitled setup {0}".format(len(self.experiment.setups))
+		self.name = "Untitled subject {0}".format(len(self.experiment.setups))
 		self._sessions = []
 		self.path = setup_path
 		self.board = None
