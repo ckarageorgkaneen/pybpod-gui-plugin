@@ -122,6 +122,7 @@ conf += RunnerSettings
 			board_task.task.path,
 			board_task.board.name,
 			session.setup.name,
+			[s.name for s in session.setup.subjects],
 			handler_evt=self.run_task_handler_evt,
 			extra_args=(BoardOperations.RUN_PROTOCOL,),
 			group=uuid.uuid4()

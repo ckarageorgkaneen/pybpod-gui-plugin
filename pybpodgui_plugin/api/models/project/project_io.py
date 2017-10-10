@@ -52,12 +52,21 @@ class ProjectIO(ProjectBase):
 				board = self.create_board()
 				board.load(path, {})
 
+			logger.debug("==== LOAD SUBJECTS ====")
+
+			# load experiments
+			for path in self.__list_all_subjects_in_folder(project_path):
+				subject = self.create_subject()
+				subject.load(path, {})
+
 			logger.debug("==== LOAD EXPERIMENTS ====")
 
 			# load experiments
 			for path in self.__list_all_experiments_in_folder(project_path):
 				experiment = self.create_experiment()
 				experiment.load(path, {})
+
+			
 
 			self.__save_project_hash()
 
@@ -109,7 +118,6 @@ class ProjectIO(ProjectBase):
 		:param str project_path: path to project
 		:return: project data saved on settings file
 		"""
-
 		logger.debug("Saving project path: %s", project_path)
 		logger.debug("Current project name: %s", self.name)
 		logger.debug("Current project path: %s", self.path)
@@ -151,6 +159,14 @@ class ProjectIO(ProjectBase):
 
 		self.__clean_experiments_path(project_path)
 
+		########### SAVE THE SUBJECTS ###############
+		logger.debug("Saving subjects to {0}".format(project_path))
+
+		for subject in self.subjects:
+			subject.save(project_path)
+
+		self.__clean_subjects_path(project_path)
+
 		########### SAVE THE PROJECT ############
 
 		# create root nodes
@@ -183,6 +199,16 @@ class ProjectIO(ProjectBase):
 				logger.debug("Sending directory [{0}] to trash".format(path))
 				send2trash(path)
 
+	def __clean_subjects_path(self, project_path):
+		"""
+		Remove from the experiments directory the unused experiment files
+		"""
+		subjects_paths = [subject.path for subject in self.subjects]
+		for path in self.__list_all_subjects_in_folder(project_path):
+			if path not in subjects_paths:
+				logger.debug("Sending directory [{0}] to trash".format(path))
+				send2trash(path)
+
 	def __clean_boards_path(self, project_path):
 		"""
 		Remove from the boards directory the unused boards files
@@ -200,6 +226,12 @@ class ProjectIO(ProjectBase):
 
 	def __list_all_experiments_in_folder(self, project_path):
 		search_4_dirs_path = os.path.join(project_path, 'experiments')
+		if not os.path.exists(search_4_dirs_path): return []
+		return sorted([os.path.join(search_4_dirs_path, d) for d in os.listdir(search_4_dirs_path) if
+		               os.path.isdir(os.path.join(search_4_dirs_path, d))])
+
+	def __list_all_subjects_in_folder(self, project_path):
+		search_4_dirs_path = os.path.join(project_path, 'subjects')
 		if not os.path.exists(search_4_dirs_path): return []
 		return sorted([os.path.join(search_4_dirs_path, d) for d in os.listdir(search_4_dirs_path) if
 		               os.path.isdir(os.path.join(search_4_dirs_path, d))])

@@ -7,6 +7,7 @@ from pybpodgui_plugin import utils
 
 
 class ProjectsTreeNode(ProjectsWindow):
+	
 	def create_project(self):
 		"""
 		Invoke project creation and focus GUI on the new tree node.

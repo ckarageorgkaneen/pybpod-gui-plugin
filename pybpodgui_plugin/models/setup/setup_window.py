@@ -13,6 +13,7 @@ else:
 import pyforms as app
 from pyforms import BaseWidget
 from pyforms.Controls import ControlText
+from pyforms.Controls import ControlList
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCombo
 
@@ -77,9 +78,13 @@ class SetupWindow(Setup, BaseWidget):
 		BaseWidget.__init__(self, 'Experiment')
 		self.layout().setContentsMargins(5, 10, 5, 5)
 
-		self._name = ControlText('Setup name')
-		self._board = ControlCombo('Box')
-		self._run_task_btn = ControlButton('Run')
+		self._name 			= ControlText('Setup name')
+		self._board 		= ControlCombo('Box')
+		self._run_task_btn 	= ControlButton('Run')
+
+		self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
+		self._add_subject 	= ControlButton('Add subject')
+		self._allsubjects   = ControlCombo('Add subject')
 
 		Setup.__init__(self, experiment)
 
@@ -89,13 +94,29 @@ class SetupWindow(Setup, BaseWidget):
 			'_name',
 			'_board',
 			(' ', ' ', '_run_task_btn'),
-			' '
+			' ',
+			'_allsubjects',
+			'_add_subject',
+			'_subjects_list',
 		]
 
-		self._name.changed_event = self.__name_changed_evt
-		self._board.changed_event = self.__board_changed_evt
+		self._subjects_list.readonly = True
 
-		self._run_task_btn.value = self._run_task
+		self._add_subject.value   = self.__add_subject
+		self._name.changed_event  = self.__name_changed_evt
+		self._board.changed_event = self.__board_changed_evt
+		self._run_task_btn.value  = self._run_task
+
+	def __add_subject(self):
+		self += self._allsubjects.value
+		self._subjects_list.value = [[s.name] for s in self.subjects]
+
+	def __remove_subject(self):
+		if self._subjects_list.selected_row_index is not None:
+			name 	= self._subjects_list.value[self._subjects_list.selected_row_index][0]
+			subject = self.project.find_subject(name)
+			self 	-= subject
+			self._subjects_list -= -1
 
 	def _run_task(self):
 		"""
@@ -146,8 +167,16 @@ class SetupWindow(Setup, BaseWidget):
 		for board in self.project.boards: self._board.add_item(board.name, board)
 		self._board.current_index = 0
 
-		if current_selected_board:
-			self.board = current_selected_board
+		if current_selected_board: 	self.board = current_selected_board
+
+		self._allsubjects.clear()
+		self._allsubjects.add_item('', 0)
+		for subject in sorted([s for s in self.project.subjects], key=lambda x: x.name.lower()): 
+			self._allsubjects.add_item(subject.name, subject)
+		self._allsubjects.current_index = 0
+
+		self._subjects_list.value = [[s.name] for s in self.subjects]
+
 
 	def create_board_task(self):
 		"""

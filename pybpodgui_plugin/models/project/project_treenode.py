@@ -16,6 +16,7 @@ from pybpodgui_plugin.models.project.project_window import ProjectWindow
 from pybpodgui_plugin.models.experiment import Experiment
 from pybpodgui_plugin.models.board import Board
 from pybpodgui_plugin.models.task import Task
+from pybpodgui_plugin.models.subject import Subject
 
 logger = logging.getLogger(__name__)
 
@@ -46,9 +47,16 @@ class ProjectTreeNode(ProjectWindow):
 		tree.add_popup_menu_option('Add experiment', self._add_experiment, item=self.experiments_node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
 
+		self.subjects_node = tree.create_child('Subjects', parent=self.node, icon=QIcon(conf.SUBJECTS_SMALL_ICON))
+		tree.add_popup_menu_option('Add subject', self.create_subject, item=self.subjects_node,
+		                           icon=QIcon(conf.ADD_SMALL_ICON))
+		self.subjects_node.window = self
+		#self.subjects_node.setExpanded(True)
+
+
 		self.boards_node = tree.create_child('Bpod Boxes', parent=self.node, icon=QIcon(conf.BOARDS_SMALL_ICON))
 		self.boards_node.window = self
-		self.boards_node.setExpanded(True)
+		#self.boards_node.setExpanded(True)
 
 		tree.add_popup_menu_option('Add Bpod box', self._add_board, item=self.boards_node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
@@ -57,8 +65,9 @@ class ProjectTreeNode(ProjectWindow):
 		tree.add_popup_menu_option('Add protocol', self._add_task, item=self.tasks_node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
 		self.tasks_node.window = self
-		self.tasks_node.setExpanded(True)
+		#self.tasks_node.setExpanded(True)
 
+		
 		tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
 		                           icon=QIcon(conf.OPEN_SMALL_ICON))
 
@@ -86,6 +95,11 @@ class ProjectTreeNode(ProjectWindow):
 		task = Task(self)
 		self.tree.setCurrentItem(task.node)
 		return task
+
+	def create_subject(self):
+		subject = Subject(self)
+		self.tree.setCurrentItem(subject.node)
+		return subject
 
 	def close(self, silent=False):
 		confirmation = True
@@ -123,6 +137,8 @@ class ProjectTreeNode(ProjectWindow):
 		else:
 			entity = self.create_task()
 			entity.focus_name()
+
+
 
 	def import_task(self, filepath=None):
 		"""

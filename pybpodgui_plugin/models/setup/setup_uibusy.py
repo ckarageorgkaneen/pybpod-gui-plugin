@@ -37,7 +37,7 @@ class SetupUIBusy(SetupCom):
 
 		if self.status == Setup.STATUS_READY:
 
-			self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.BOX_SMALL_ICON))
 
 			self._run_task_btn.label = 'Run'
 

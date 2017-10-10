@@ -86,6 +86,11 @@ class SessionIO(SessionBase):
 						elif msg.infoname==BpodRunner.INFO_SETUP_NAME:
 							self.setup_name = msg.infovalue
 
+						elif msg.infoname==BpodRunner.INFO_SUBJECT_NAME:
+							subjects = self.subjects
+							subjects.append( msg.infovalue )
+							self.subjects = subjects
+
 
 
 					

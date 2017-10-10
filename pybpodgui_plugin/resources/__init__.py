@@ -14,6 +14,7 @@ BOARDS_SMALL_ICON = path('boards.png')
 BOX_SMALL_ICON = path('box.png')
 
 SUBJECT_SMALL_ICON = path('subject.png')
+SUBJECTS_SMALL_ICON = path('subjects.png')
 UPLOAD_SMALL_ICON = path('upload.png')
 
 EXPERIMENT_SMALL_ICON = path('experiment.png')

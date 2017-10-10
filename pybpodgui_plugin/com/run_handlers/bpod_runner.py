@@ -3,6 +3,7 @@
 
 import logging, sys, traceback, os
 
+import pybpodgui_plugin
 from datetime import datetime
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
 from pybranch.com.messaging.stderr import StderrMessage
@@ -21,6 +22,8 @@ class BpodRunner(PybranchRunHandler):
 	"""
 	INFO_BOARD_NAME 		= 'BOARD-NAME'
 	INFO_SETUP_NAME 		= 'SETUP-NAME'
+	INFO_SUBJECT_NAME 		= 'SUBJECT-NAME'
+	INFO_BPODGUI_VERSION	= 'BPOD-GUI-VERSION'
 	
 
 	def __init__(self, in_queue=None, out_queue=None, refresh_time=None):
@@ -33,7 +36,7 @@ class BpodRunner(PybranchRunHandler):
 
 		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
 
-	def runner_bpod_run_protocol(self, bpod_settings, protocol_path, board_name, setup_name):
+	def runner_bpod_run_protocol(self, bpod_settings, protocol_path, board_name, setup_name, subjects):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python
@@ -60,6 +63,8 @@ class BpodRunner(PybranchRunHandler):
 					var.session += SessionInfo(self.INFO_BOARD_NAME, board_name)
 					var.session += SessionInfo(self.INFO_SETUP_NAME, setup_name)
 					var.session += SessionInfo(var.session.INFO_SESSION_ENDED, datetime.now())
+					for subject in subjects: var.session += SessionInfo(self.INFO_SUBJECT_NAME, subject)
+					var.session += SessionInfo(self.INFO_BPODGUI_VERSION, pybpodgui_plugin.__version__)
 					del var
 					
 

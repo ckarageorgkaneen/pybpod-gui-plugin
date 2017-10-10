@@ -25,6 +25,7 @@ class SessionBase(object):
 		self.started 			= datetime.datetime.now()
 		self.ended 				= None
 		self.messages_history 	= []
+		self.subjects 			= []
 
 
 	def open(self):

@@ -33,7 +33,7 @@ class BoardUIBusy(BoardDockWindow):
 		if self.status > BoardUIBusy.STATUS_READY:
 			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 		else:
-			self.node.setIcon(0, QIcon(conf.BOX_SMALL_ICON))
+			self.node.setIcon(0, QIcon(conf.BOARD_SMALL_ICON))
 
 	##########################################################################
 	####### PROPERTIES #######################################################
