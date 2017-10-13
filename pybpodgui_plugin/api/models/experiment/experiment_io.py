@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, os, json, hashlib
-from send2trash import send2trash
+from pybpodgui_plugin.utils.send2trash_wrapper import send2trash
 from pybpodgui_plugin.api.models.experiment.experiment_base import ExperimentBase
 
 logger = logging.getLogger(__name__)
@@ -12,6 +12,9 @@ class ExperimentIO(ExperimentBase):
 	"""
 	Save and Load actions for Experiment
 	"""
+
+	def __init__(self, project):
+		super(ExperimentIO, self).__init__(project)
 
 	##########################################################################
 	####### FUNCTIONS ########################################################

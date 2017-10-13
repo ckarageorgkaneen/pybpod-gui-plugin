@@ -54,7 +54,7 @@ class ExperimentDockWindow(ExperimentTreeNode):
 
 		"""
 		reply = QMessageBox.question(self, 'Warning',
-		                             'Experiment {0} and all subjects will be deleted. Are you sure?'.format(
+		                             'Experiment {0} and all setups will be deleted. Are you sure?'.format(
 			                             self.name),
 		                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 

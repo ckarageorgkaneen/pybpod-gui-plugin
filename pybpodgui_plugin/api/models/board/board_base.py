@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-A board represents the hardware that controls the running session for a specific subject.
+A board represents the hardware that controls the running session for a specific setup.
 """
 
 import os
@@ -17,7 +17,7 @@ class BoardBase(object):
 	"""
 
 	def __init__(self, project):
-		self.name = 'Untitled board {0}'.format(len(project.boards))
+		self.name = 'Untitled box {0}'.format(len(project.boards))
 		self.serial_port = None
 		self.project = project
 

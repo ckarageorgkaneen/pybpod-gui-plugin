@@ -1,6 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+
 import os, csv, datetime, logging
 from pybpodgui_plugin.com.messaging.msg_factory import parse_board_msg, BpodMessageParser
 
@@ -14,16 +15,17 @@ class SessionBase(object):
 
 	def __init__(self, setup):
 		setup += self
-		self.setup = setup
-		self.name = "{0}".format(datetime.datetime.now().strftime('%d%m%Y_%H%M%S'))
-		self.path = os.path.join(self.setup.path, "{0}.txt".format(self.name))
-		self.setup_name = setup.name
-		self.board_name = setup.board.name if setup.board else None
-		self.task_name = setup.task.name if setup.task else None
-		self.board_serial_port = setup.board.serial_port if setup.board else None
-		self.started = datetime.datetime.now()
-		self.ended = None
-		self.messages_history = []
+		self.setup 				= setup
+		self.name 				= datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+		self.path 				= os.path.join(self.setup.path, "{0}.txt".format(self.name))
+		self.setup_name 		= setup.name
+		self.board_name 		= setup.board.name if setup.board else None
+		self.task_name 			= setup.task.name if setup.task else None
+		self.board_serial_port 	= setup.board.serial_port if setup.board else None
+		self.started 			= datetime.datetime.now()
+		self.ended 				= None
+		self.messages_history 	= []
+		self.subjects 			= []
 
 
 	def open(self):

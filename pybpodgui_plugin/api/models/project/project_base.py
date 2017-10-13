@@ -6,8 +6,10 @@
 """
 import logging
 from pybpodgui_plugin.api.models.experiment import Experiment
-from pybpodgui_plugin.api.models.board import Board
-from pybpodgui_plugin.api.models.task import Task
+from pybpodgui_plugin.api.models.board 		import Board
+from pybpodgui_plugin.api.models.task 		import Task
+from pybpodgui_plugin.api.models.subject 	import Subject
+
 
 logger = logging.getLogger(__name__)
 
@@ -21,17 +23,20 @@ class ProjectBase(object):
 		"""
 		:project_path: full path to project including project name
 		"""
-		self.name = ''
-		self.path = None
-		self._experiments = []
-		self._tasks = []
-		self._boards = []
+		self.name 			= ''
+		self.path 			= None
+		self._experiments 	= []
+		self._tasks 		= []
+		self._boards 		= []
+		self._subjects 		= []
 
 	##########################################################################
 	####### PROPERTIES #######################################################
 	##########################################################################
 
-
+	@property
+	def subjects(self):
+		return self._subjects
 
 	@property
 	def experiments(self):
@@ -67,14 +72,16 @@ class ProjectBase(object):
 
 	def __add__(self, obj):
 		if isinstance(obj, Experiment): self._experiments.append(obj)
-		if isinstance(obj, Board):        self._boards.append(obj)
-		if isinstance(obj, Task):        self._tasks.append(obj)
+		if isinstance(obj, Board):      self._boards.append(obj)
+		if isinstance(obj, Task):       self._tasks.append(obj)
+		if isinstance(obj, Subject):    self._subjects.append(obj)
 		return self
 
 	def __sub__(self, obj):
 		if isinstance(obj, Experiment): self._experiments.remove(obj)
-		if isinstance(obj, Board):        self._boards.remove(obj)
-		if isinstance(obj, Task):        self._tasks.remove(obj)
+		if isinstance(obj, Board):      self._boards.remove(obj)
+		if isinstance(obj, Task):       self._tasks.remove(obj)
+		if isinstance(obj, Subject):    self._subjects.remove(obj)
 		return self
 
 	def find_board(self, name):
@@ -87,6 +94,11 @@ class ProjectBase(object):
 			if task.name == name: return task
 		return None
 
+	def find_subject(self, name):
+		for subject in self.subjects:
+			if subject.name == name: return subject
+		return None
+
 	def create_experiment(self):
 		return Experiment(self)
 
@@ -95,3 +107,6 @@ class ProjectBase(object):
 
 	def create_task(self):
 		return Task(self)
+
+	def create_subject(self):
+		return Subject(self)

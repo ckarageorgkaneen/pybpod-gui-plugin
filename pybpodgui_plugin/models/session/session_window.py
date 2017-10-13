@@ -6,6 +6,7 @@ import datetime
 
 from pyforms import BaseWidget
 from pyforms.Controls import ControlText
+from pyforms.Controls import ControlList
 
 from pybpodgui_plugin.api.models.session import Session
 from pybpodgui_plugin.api.exceptions.invalid_session import InvalidSessionError
@@ -20,14 +21,15 @@ class SessionWindow(Session, BaseWidget):
 		BaseWidget.__init__(self, 'Session')
 		self.layout().setContentsMargins(5, 10, 5, 5)
 
-		self._name = ControlText('Session')
-		self._path = ControlText('File path')
-		self._setup_name = ControlText('Subject')
-		self._board_name = ControlText('Board')
-		self._task_name = ControlText('Task')
+		self._name 			= ControlText('Session')
+		self._path 			= ControlText('File path')
+		self._setup_name 	= ControlText('Setup')
+		self._board_name 	= ControlText('Board')
+		self._task_name  	= ControlText('Task')
 		self._board_serial_port = ControlText('Serial port')
-		self._started = ControlText('Started on')
-		self._ended = ControlText('Ended on')
+		self._started 		= ControlText('Started on')
+		self._ended 		= ControlText('Ended on')
+		self._subjects 		= ControlList('Subjects')
 
 		Session.__init__(self, setup)
 
@@ -38,9 +40,11 @@ class SessionWindow(Session, BaseWidget):
 			'_board_name',
 			'_board_serial_port',
 			'_path',
-			' '
+			'_subjects'
 		]
 
+		self._subjects.readonly = True
+		self._subjects.enabled = False
 		self._path.enabled = self._setup_name.enabled = self._board_name.enabled = self._task_name.enabled = False
 		self._board_serial_port.enabled = self._started.enabled = self._ended.enabled = False
 		self._name.changed_event = self.__name_edited_evt
@@ -130,3 +134,12 @@ class SessionWindow(Session, BaseWidget):
 	@ended.setter
 	def ended(self, value):
 		self._ended.value = value.strftime('%Y/%m/%d %H:%M:%S') if value else None
+
+
+	@property
+	def subjects(self):
+		return [v[0] for v in self._subjects.value]
+
+	@subjects.setter
+	def subjects(self, value):
+		self._subjects.value = [ [v] for v in value ]

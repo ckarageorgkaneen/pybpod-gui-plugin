@@ -1,8 +1,6 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
-
 import logging
-
 from pysettings import conf
 
 if conf.PYFORMS_USE_QT5:
@@ -12,12 +10,12 @@ else:
 	from PyQt4.QtGui import QIcon
 	from PyQt4 import QtCore
 
-from pybpodgui_plugin.models.board.board_com import BoardCom
+from pybpodgui_plugin.models.subject.subject_window import SubjectWindow
 
 logger = logging.getLogger(__name__)
 
 
-class BoardTreeNode(BoardCom):
+class SubjectTreeNode(SubjectWindow):
 	"""
 	Extends board window to show up in the project tree section.
 	Define here actions related to the board tree node.
@@ -35,7 +33,7 @@ class BoardTreeNode(BoardCom):
 	"""
 
 	def __init__(self, project):
-		BoardCom.__init__(self, project)
+		SubjectWindow.__init__(self, project)
 		self.create_treenode(self.tree)
 
 	def create_treenode(self, tree):
@@ -56,10 +54,10 @@ class BoardTreeNode(BoardCom):
 		:return: new created node
 		:return type: QTreeWidgetItem
 		"""
-		self.node = tree.create_child(self.name, self.project.boards_node, icon=QIcon(conf.BOARD_SMALL_ICON))
-		self.node.key_pressed_event = self.node_key_pressed_event
-		self.node.double_clicked_event = self.node_double_clicked_event
-		self.node.window = self
+		self.node = tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
+		self.node.key_pressed_event 	= self.node_key_pressed_event
+		self.node.double_clicked_event 	= self.node_double_clicked_event
+		self.node.window 				= self
 		self.node.setExpanded(True)
 
 		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
@@ -77,7 +75,7 @@ class BoardTreeNode(BoardCom):
 
 		"""
 		self.project -= self
-		self.project.boards_node.removeChild(self.node)
+		self.project.subjects_node.removeChild(self.node)
 
 	def node_key_pressed_event(self, event):
 		"""
@@ -100,11 +98,11 @@ class BoardTreeNode(BoardCom):
 		if hasattr(self, 'node'):
 			return str(self.node.text(0))
 		else:
-			return BoardCom.name.fget(self)
+			return SubjectWindow.name.fget(self)
 
 	@name.setter
 	def name(self, value):
-		BoardCom.name.fset(self, value)
+		SubjectWindow.name.fset(self, value)
 		if hasattr(self, 'node'): self.node.setText(0, value)
 
 	@property

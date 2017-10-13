@@ -4,6 +4,7 @@
 import logging, os
 from pybpodgui_plugin.api.models.setup.board_task import BoardTask
 from pybpodgui_plugin.api.models.session import Session
+from pybpodgui_plugin.api.models.subject import Subject
 
 logger = logging.getLogger(__name__)
 
@@ -21,13 +22,16 @@ class SetupBase(object):
 			setup_path = os.path.join(setups_path, self.name)
 			if not os.path.exists(setup_path): os.makedirs(setup_path)
 
-		self.name = "Untitled subject {0}".format(len(self.experiment.setups))
+		self.name = "Untitled box {0}".format(len(self.experiment.setups))
 		self._sessions = []
-		self.path = setup_path
-		self.board = None
-		self.task = self.experiment.task
+		self._subjects = []
+		self.path 	= setup_path
+		self.board 	= None
+		self.task 	= self.experiment.task
 
 		self.experiment += self
+
+
 
 	##########################################################################
 	####### PROPERTIES #######################################################
@@ -40,6 +44,10 @@ class SetupBase(object):
 	@name.setter
 	def name(self, value):
 		self._name = value
+
+	@property
+	def subjects(self):
+		return self._subjects
 
 	@property
 	def board(self):
@@ -111,9 +119,11 @@ class SetupBase(object):
 		return self.__unicode__()
 
 	def __add__(self, obj):
-		if isinstance(obj, Session): self._sessions.append(obj)
+		if isinstance(obj, Session) and obj not in self._sessions: self._sessions.append(obj)
+		if isinstance(obj, Subject) and obj not in self._subjects: self._subjects.append(obj)
 		return self
 
 	def __sub__(self, obj):
 		if isinstance(obj, Session): self._sessions.remove(obj)
+		if isinstance(obj, Subject): self._subjects.remove(obj)
 		return self

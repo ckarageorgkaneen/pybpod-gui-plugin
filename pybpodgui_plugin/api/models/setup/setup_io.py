@@ -3,13 +3,18 @@
 
 import logging
 import os, json, glob, hashlib
-from send2trash import send2trash
+from pybpodgui_plugin.utils.send2trash_wrapper import send2trash
 from pybpodgui_plugin.api.models.setup.setup_base import SetupBase
 
 logger = logging.getLogger(__name__)
 
 
 class SetupBaseIO(SetupBase):
+
+
+	def __init__(self, experiment):
+		super(SetupBaseIO, self).__init__(experiment)
+
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################
@@ -43,6 +48,7 @@ class SetupBaseIO(SetupBase):
 			data2save = {}
 			data2save.update({'name': self.name})
 			data2save.update({'board': self.board.name if self.board else None})
+			data2save.update({'subjects': [subject.name for subject in self.subjects]})
 			data2save.update(board_task_data)
 
 			self.__clean_sessions_path(setup_path)
@@ -59,8 +65,10 @@ class SetupBaseIO(SetupBase):
 
 		with open(settings_path, 'r') as output_file:
 			data = json.load(output_file)
-			self.name = data['name']
+			self.name  = data['name']
 			self.board = data.get('board', None)
+			for subject_name in data.get('subjects', []):
+				self += self.project.find_subject(subject_name)
 
 			self.board_task.load(setup_path, data)
 

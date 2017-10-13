@@ -55,7 +55,7 @@ class ExperimentTreeNode(ExperimentWindow):
 		This methods is called when the experiment is first created.
 
 		The following actions get assigned to node:
-			* *Add subject*: :class:`ExperimentTreeNode._ExperimentTreeNode__add_setup`.
+			* *Add setup*: :class:`ExperimentTreeNode._ExperimentTreeNode__add_setup`.
 			* *Remove*: :class:`ExperimentTreeNode.remove`.
 
 		Sets key events:
@@ -73,7 +73,7 @@ class ExperimentTreeNode(ExperimentWindow):
 		self.node.window = self
 		self.node.setExpanded(True)
 
-		tree.add_popup_menu_option('Add subject', self.__add_setup, item=self.node,
+		tree.add_popup_menu_option('Add box', self.__add_setup, item=self.node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
 		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
 
@@ -81,7 +81,7 @@ class ExperimentTreeNode(ExperimentWindow):
 
 	def __add_setup(self):
 		"""
-		Bind events for adding new setup (a.k.a subject). Invokes :class:`ExperimentTreeNode.create_setup`.
+		Bind events for adding new setup (a.k.a setup). Invokes :class:`ExperimentTreeNode.create_setup`.
 
 		"""
 		setup = self.create_setup()
@@ -89,7 +89,7 @@ class ExperimentTreeNode(ExperimentWindow):
 
 	def create_setup(self):
 		"""
-		Invoke setup (a.k.a subject) creation and focus GUI on the new node.
+		Invoke setup (a.k.a setup) creation and focus GUI on the new node.
 
 		:return: the setup just created.
 		:return type: Setup
@@ -104,7 +104,7 @@ class ExperimentTreeNode(ExperimentWindow):
 
 	def remove(self):
 		"""
-		Iterates over all setups (a.k.a. subjects) and remove them.
+		Iterates over all setups (a.k.a. setup) and remove them.
 		Finally, removes experiment node from project tree and remove experiment from project.
 
 		.. seealso::

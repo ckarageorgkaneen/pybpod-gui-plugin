@@ -1,12 +1,16 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import logging, sys, traceback
+import logging, sys, traceback, os
 
+import pybpodgui_plugin
+from datetime import datetime
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
 from pybranch.com.messaging.stderr import StderrMessage
 from pybranch.com.messaging.stdout import StdoutMessage
 from pybpodapi.bpod import Bpod
+from pybpodapi.session import Session
+from pybpodapi.bpod.com.messaging.session_info 			import SessionInfo
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +20,11 @@ class BpodRunner(PybranchRunHandler):
 	"""
 
 	"""
+	INFO_BOARD_NAME 		= 'BOARD-NAME'
+	INFO_SETUP_NAME 		= 'SETUP-NAME'
+	INFO_SUBJECT_NAME 		= 'SUBJECT-NAME'
+	INFO_BPODGUI_VERSION	= 'BPOD-GUI-VERSION'
+	
 
 	def __init__(self, in_queue=None, out_queue=None, refresh_time=None):
 		"""
@@ -27,7 +36,7 @@ class BpodRunner(PybranchRunHandler):
 
 		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
 
-	def runner_bpod_run_protocol(self, bpod_settings, protocol_path):
+	def runner_bpod_run_protocol(self, bpod_settings, protocol_path, board_name, setup_name, subjects):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python
@@ -42,14 +51,22 @@ class BpodRunner(PybranchRunHandler):
 		global_dict = globals()
 		local_dict  = locals()
 
+		sys.path.insert(0,os.path.dirname(protocol_path))
+
 		try:
 			#execute the settings first
 			exec(bpod_settings, global_dict, local_dict)
-
 			exec( open(protocol_path).read(), global_dict, local_dict)
 			for var in local_dict.values():
 				if isinstance(var, Bpod):
 					var.stop()
+					var.session += SessionInfo(self.INFO_BOARD_NAME, board_name)
+					var.session += SessionInfo(self.INFO_SETUP_NAME, setup_name)
+					var.session += SessionInfo(var.session.INFO_SESSION_ENDED, datetime.now())
+					for subject in subjects: var.session += SessionInfo(self.INFO_SUBJECT_NAME, subject)
+					var.session += SessionInfo(self.INFO_BPODGUI_VERSION, pybpodgui_plugin.__version__)
+					del var
+					
 
 		except Exception as err:
 			self.my_print( StderrMessage( err ))

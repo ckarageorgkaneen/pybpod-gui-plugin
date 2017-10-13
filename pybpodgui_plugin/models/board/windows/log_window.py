@@ -32,14 +32,15 @@ class LogWindow(BaseWidget):
 		self.board = board
 		self.layout().setContentsMargins(5, 5, 5, 5)
 
-		self._debug_checkbox = ControlCheckBox('Show detailed log')
-		self._debug_checkbox.changed_event = self.reset_history
+		self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', True)
+		self._autoscroll_checkbox.changed_event = self.__auto_scroll_evt
 
-		self._refresh_button = ControlButton('Reset')
-		self._refresh_button.value = self.reset_history
+		self._refresh_button = ControlButton('Clear')
+		self._refresh_button.value = self.__clear_log_evt
 
 		self._log = ControlTextArea()
-		self._log.readOnly = True
+		self._log.readonly 	 = True
+		self._log.autoscroll = True
 
 		self._session_history_index = 0
 		self._read_active = True
@@ -47,7 +48,7 @@ class LogWindow(BaseWidget):
 		self._timer = QTimer()
 		self._timer.timeout.connect(self.read_message_queue)
 
-		self.formset = [(' ', '_debug_checkbox', '_refresh_button'), '_log']
+		self.formset = [(' ', '_autoscroll_checkbox', '_refresh_button'), '_log']
 
 	def show(self):
 		# Prevent the call to be recursive because of the mdi_area
@@ -67,8 +68,10 @@ class LogWindow(BaseWidget):
 		self._timer.stop()
 		return False
 
-	def reset_history(self):
-		self._session_history_index = 0
+	def __auto_scroll_evt(self):
+		self._log.autoscroll = self._autoscroll_checkbox.value
+
+	def __clear_log_evt(self):
 		self._log.value = ''
 
 	def read_message_queue(self):

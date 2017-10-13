@@ -19,6 +19,8 @@ from pybpodapi.bpod.com.messaging.event_occurrence 		import EventOccurrence
 from pybpodapi.bpod.com.messaging.state_occurrence 		import StateOccurrence
 from pybpodapi.bpod.com.messaging.softcode_occurrence 	import SoftcodeOccurrence
 from pybpodapi.bpod.com.messaging.event_resume 			import EventResume
+from pybpodapi.bpod.com.messaging.untagged_message		import UntaggedMessage
+from pybpodapi.bpod.com.messaging.session_info 			import SessionInfo
 
 from pybpodapi.bpod.com.messaging.trial import Trial
 
@@ -39,7 +41,9 @@ class BpodMessageParser(MessageParser):
 		SoftcodeOccurrence,
 		StateOccurrence,
 		EventOccurrence,
-		EventResume
+		EventResume,
+		SessionInfo,
+		UntaggedMessage
 	]
 
 

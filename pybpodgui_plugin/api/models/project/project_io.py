@@ -6,7 +6,7 @@ import logging
 import glob
 import json
 import hashlib
-from send2trash import send2trash
+from pybpodgui_plugin.utils.send2trash_wrapper import send2trash
 
 from pybpodgui_plugin.api.models.project.project_base import ProjectBase
 
@@ -16,6 +16,10 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectIO(ProjectBase):
+
+	def __init__(self):
+		super(ProjectIO, self).__init__()
+
 	##########################################################################
 	####### FUNCTIONS ########################################################
 	##########################################################################
@@ -37,7 +41,7 @@ class ProjectIO(ProjectBase):
 
 			logger.debug("==== LOAD TASKS ====")
 
-			for path in self.__list_all_tasks_in_folder(project_path):
+			for infolder, path in self.__list_all_tasks_in_folder(project_path):
 				task = self.create_task()
 				task.load(path, {})
 
@@ -48,12 +52,21 @@ class ProjectIO(ProjectBase):
 				board = self.create_board()
 				board.load(path, {})
 
+			logger.debug("==== LOAD SUBJECTS ====")
+
+			# load experiments
+			for path in self.__list_all_subjects_in_folder(project_path):
+				subject = self.create_subject()
+				subject.load(path, {})
+
 			logger.debug("==== LOAD EXPERIMENTS ====")
 
 			# load experiments
 			for path in self.__list_all_experiments_in_folder(project_path):
 				experiment = self.create_experiment()
 				experiment.load(path, {})
+
+			
 
 			self.__save_project_hash()
 
@@ -105,7 +118,6 @@ class ProjectIO(ProjectBase):
 		:param str project_path: path to project
 		:return: project data saved on settings file
 		"""
-
 		logger.debug("Saving project path: %s", project_path)
 		logger.debug("Current project name: %s", self.name)
 		logger.debug("Current project path: %s", self.path)
@@ -124,10 +136,13 @@ class ProjectIO(ProjectBase):
 
 		# remove from the tasks directory the unused tasks files
 		tasks_paths = [task.path for task in self.tasks]
-		for path in self.__list_all_tasks_in_folder(project_path):
+		for infolder, path in self.__list_all_tasks_in_folder(project_path):
 			if path not in tasks_paths:
 				logger.debug("Sending file [{0}] to trash".format(path))
-				send2trash(path)
+				if infolder:
+					send2trash(os.path.dirname(path))
+				else:
+					send2trash(path)
 
 		########### SAVE THE BOARDS ###########
 		logger.debug("Saving boards to {0}".format(project_path))
@@ -143,6 +158,14 @@ class ProjectIO(ProjectBase):
 			experiment.save(project_path)
 
 		self.__clean_experiments_path(project_path)
+
+		########### SAVE THE SUBJECTS ###############
+		logger.debug("Saving subjects to {0}".format(project_path))
+
+		for subject in self.subjects:
+			subject.save(project_path)
+
+		self.__clean_subjects_path(project_path)
 
 		########### SAVE THE PROJECT ############
 
@@ -176,6 +199,16 @@ class ProjectIO(ProjectBase):
 				logger.debug("Sending directory [{0}] to trash".format(path))
 				send2trash(path)
 
+	def __clean_subjects_path(self, project_path):
+		"""
+		Remove from the experiments directory the unused experiment files
+		"""
+		subjects_paths = [subject.path for subject in self.subjects]
+		for path in self.__list_all_subjects_in_folder(project_path):
+			if path not in subjects_paths:
+				logger.debug("Sending directory [{0}] to trash".format(path))
+				send2trash(path)
+
 	def __clean_boards_path(self, project_path):
 		"""
 		Remove from the boards directory the unused boards files
@@ -197,11 +230,19 @@ class ProjectIO(ProjectBase):
 		return sorted([os.path.join(search_4_dirs_path, d) for d in os.listdir(search_4_dirs_path) if
 		               os.path.isdir(os.path.join(search_4_dirs_path, d))])
 
+	def __list_all_subjects_in_folder(self, project_path):
+		search_4_dirs_path = os.path.join(project_path, 'subjects')
+		if not os.path.exists(search_4_dirs_path): return []
+		return sorted([os.path.join(search_4_dirs_path, d) for d in os.listdir(search_4_dirs_path) if
+		               os.path.isdir(os.path.join(search_4_dirs_path, d))])
+
 	def __list_all_tasks_in_folder(self, project_path):
 		path = os.path.join(project_path, 'tasks')
 		if not os.path.exists(path): return []
-		search_4_files_path = os.path.join(path, '*.py')
-		return sorted(glob.glob(search_4_files_path))
+		
+		tasksfiles 	 =  [(False, os.path.join(path, d)) for d in os.listdir(path) if os.path.isfile(os.path.join(path,d)) and d.lower().endswith('.py')]
+		tasksfiles 	 += [(True,  os.path.join(path, d, d+'.py')) for d in os.listdir(path) if os.path.isdir(os.path.join(path,d)) ]
+		return sorted(tasksfiles)
 
 	def __list_all_boards_in_folder(self, project_path):
 		search_4_dirs_path = os.path.join(project_path, 'boards')
