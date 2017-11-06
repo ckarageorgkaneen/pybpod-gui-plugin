@@ -2,7 +2,7 @@
 :mod:`board` --- Bpod board
 ***************************
 
-.. module:: pybpodgui_plugin.api.models.board
+.. module:: pybpodgui_api.models.board
    :synopsis: Bpod board
 
 .. toctree::

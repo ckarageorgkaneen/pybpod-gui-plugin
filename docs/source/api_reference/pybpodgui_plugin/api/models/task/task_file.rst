@@ -2,7 +2,7 @@
 :mod:`task_file` --- Task File
 ===========================================
 
-.. module:: pybpodgui_plugin.api.models.task.task_file
+.. module:: pybpodgui_api.models.task.task_file
    :synopsis: Task file
 
 .. warning ::
@@ -18,6 +18,6 @@ The purpose of this module is to provide file operation for task.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.task.task_file.TaskFile
+.. autoclass:: pybpodgui_api.models.task.task_file.TaskFile
     :members:
 

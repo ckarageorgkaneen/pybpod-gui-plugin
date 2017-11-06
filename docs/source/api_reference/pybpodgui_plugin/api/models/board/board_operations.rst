@@ -2,7 +2,7 @@
 :mod:`board_operations` --- Board Operations
 ============================================
 
-.. module:: pybpodgui_plugin.api.models.board.board_operations
+.. module:: pybpodgui_api.models.board.board_operations
    :synopsis: Board UI refresh handling
 
 --------
@@ -15,6 +15,6 @@ Enumerates Bpod board supported operations.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.board.board_operations.BoardOperations
+.. autoclass:: pybpodgui_api.models.board.board_operations.BoardOperations
     :members:
 

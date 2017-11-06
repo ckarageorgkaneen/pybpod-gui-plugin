@@ -15,7 +15,7 @@ hiddenimports = [
  + collect_submodules('pyforms_generic_editor.models') \
  + collect_submodules('pybpodgui_plugin.models') \
  + collect_submodules('pybpodgui_plugin.com') \
- + collect_submodules('pybpodgui_plugin.api') \
+ + collect_submodules('pybpodgui_api') \
  + collect_submodules('pybpodgui_plugin_timeline.models') \
  + collect_submodules('pybpodgui_plugin_session_history.models')
 

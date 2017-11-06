@@ -2,7 +2,7 @@
 :mod:`setup` --- Bpod setup
 ***************************
 
-.. module:: pybpodgui_plugin.api.models.setup
+.. module:: pybpodgui_api.models.setup
    :synopsis: Bpod setup
 
 .. toctree::

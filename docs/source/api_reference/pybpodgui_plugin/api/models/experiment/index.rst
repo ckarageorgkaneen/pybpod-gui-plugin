@@ -2,7 +2,7 @@
 :mod:`experiment` --- Bpod experiment
 *************************************
 
-.. module:: pybpodgui_plugin.api.models.experiment
+.. module:: pybpodgui_api.models.experiment
    :synopsis: Bpod experiment
 
 .. toctree::

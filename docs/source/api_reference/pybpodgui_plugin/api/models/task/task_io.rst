@@ -2,7 +2,7 @@
 :mod:`task_io` --- Task I/O
 ==================================================
 
-.. module:: pybpodgui_plugin.api.models.task.task_io
+.. module:: pybpodgui_api.models.task.task_io
    :synopsis: Task I/O handling
 
 --------
@@ -15,6 +15,6 @@ The purpose of this module is to handle task I/O operations.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.task.task_io.TaskIO
+.. autoclass:: pybpodgui_api.models.task.task_io.TaskIO
     :members:
 

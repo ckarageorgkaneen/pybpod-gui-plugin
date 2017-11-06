@@ -2,7 +2,7 @@
 :mod:`board_com` --- Board com
 ==============================
 
-.. module:: pybpodgui_plugin.api.models.board.board_com
+.. module:: pybpodgui_api.models.board.board_com
    :synopsis: Bpod board communication
 
 --------
@@ -15,6 +15,6 @@ The purpose of this module is to configure Bpod board communication.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.board.board_com.BoardCom
+.. autoclass:: pybpodgui_api.models.board.board_com.BoardCom
     :members:
 

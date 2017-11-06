@@ -132,9 +132,9 @@ Every node on the project tree node has a window assigned to it.
 In order to plugins show up on a project tree node, we need to extend the corresponing node window behavior.
 For example:
 
-    * an experiment node is connected to the :py:class:`pybpodgui_plugin.api.models.experiment.experiment_treenode.ExperimentTreeNode` class
-    * a board node is connected to the :py:class:`pybpodgui_plugin.api.models.board.board_treenode.BoardTreeNode` class
-    * a session node is connected to the :py:class:`pybpodgui_plugin.api.models.session.session_treenode.SessionTreeNode` class
+    * an experiment node is connected to the :py:class:`pybpodgui_api.models.experiment.experiment_treenode.ExperimentTreeNode` class
+    * a board node is connected to the :py:class:`pybpodgui_api.models.board.board_treenode.BoardTreeNode` class
+    * a session node is connected to the :py:class:`pybpodgui_api.models.session.session_treenode.SessionTreeNode` class
 
 The **PyformsGenericEditor** enables that all these classes may be extended by looking for classes on plugins that have the same name and path.
 
@@ -171,7 +171,7 @@ We also override other methods to personalize details such as window title or do
             Extends create_treenode behavior by calling the parent and adding a new option
             when user right-clicks the node.
 
-            See also: pybpodgui_plugin.api.models.session.session_treenode.SessionTreeNode.create_treenode
+            See also: pybpodgui_api.models.session.session_treenode.SessionTreeNode.create_treenode
 
             """
             node = super(SessionTreeNode, self).create_treenode(tree)
