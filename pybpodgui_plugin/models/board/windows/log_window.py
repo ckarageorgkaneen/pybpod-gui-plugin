@@ -16,7 +16,7 @@ from pyforms.Controls import ControlCheckBox
 from pyforms.Controls import ControlButton
 
 from pybranch.com.messaging.debug import DebugMessage
-from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
+from pybpodgui_api.exceptions.run_setup import RunSetupError
 
 if conf.PYFORMS_USE_QT5:
 	from PyQt5.QtCore import QEventLoop

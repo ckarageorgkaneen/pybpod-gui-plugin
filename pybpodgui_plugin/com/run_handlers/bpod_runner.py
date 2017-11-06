@@ -10,7 +10,7 @@ from pybranch.com.messaging.stderr import StderrMessage
 from pybranch.com.messaging.stdout import StdoutMessage
 from pybpodapi.bpod import Bpod
 from pybpodapi.session import Session
-from pybpodapi.bpod.com.messaging.session_info 			import SessionInfo
+from pybpodapi.com.messaging.session_info 			import SessionInfo
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +20,9 @@ class BpodRunner(PybranchRunHandler):
 	"""
 
 	"""
+	INFO_CREATOR_NAME 		= 'CREATOR-NAME'
+	INFO_PROJECT_NAME 		= 'PROJECT-NAME'
+	INFO_EXPERIMENT_NAME 	= 'EXPERIMENT-NAME'
 	INFO_BOARD_NAME 		= 'BOARD-NAME'
 	INFO_SETUP_NAME 		= 'SETUP-NAME'
 	INFO_SUBJECT_NAME 		= 'SUBJECT-NAME'
@@ -36,7 +39,9 @@ class BpodRunner(PybranchRunHandler):
 
 		PybranchRunHandler.__init__(self, in_queue, out_queue, refresh_time)
 
-	def runner_bpod_run_protocol(self, bpod_settings, protocol_path, board_name, setup_name, subjects):
+	def runner_bpod_run_protocol(self, bpod_settings, protocol_path, 
+		user_name, project_name, experiment_name, board_name, 
+		setup_name, subjects, variables):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python
@@ -49,27 +54,37 @@ class BpodRunner(PybranchRunHandler):
 		:return:
 		"""
 		global_dict = globals()
-		local_dict  = locals()
-
 		sys.path.insert(0,os.path.dirname(protocol_path))
+
+		
 
 		try:
 			#execute the settings first
-			exec(bpod_settings, global_dict, local_dict)
-			exec( open(protocol_path).read(), global_dict, local_dict)
-			for var in local_dict.values():
+			exec(bpod_settings, global_dict)
+			
+			for var_name, var_value in variables: 
+				global_dict[var_name] = var_value
+			exec(open(protocol_path).read(), global_dict)
+			
+			#force bpod stop
+			for var in global_dict.values():
 				if isinstance(var, Bpod):
 					var.stop()
-					var.session += SessionInfo(self.INFO_BOARD_NAME, board_name)
-					var.session += SessionInfo(self.INFO_SETUP_NAME, setup_name)
-					var.session += SessionInfo(var.session.INFO_SESSION_ENDED, datetime.now())
-					for subject in subjects: var.session += SessionInfo(self.INFO_SUBJECT_NAME, subject)
-					var.session += SessionInfo(self.INFO_BPODGUI_VERSION, pybpodgui_plugin.__version__)
-					del var
 					
-
 		except Exception as err:
 			self.my_print( StderrMessage( err ))
+
+		for var in global_dict.values():
+			if isinstance(var, Bpod):
+				
+				var.session += SessionInfo(self.INFO_CREATOR_NAME, 		user_name) 	# TODO
+				var.session += SessionInfo(self.INFO_PROJECT_NAME, 		project_name) 	
+				var.session += SessionInfo(self.INFO_EXPERIMENT_NAME, 	experiment_name)
+				var.session += SessionInfo(self.INFO_SETUP_NAME, setup_name)
+				var.session += SessionInfo(var.session.INFO_SESSION_ENDED, datetime.now())
+				for subject in subjects: var.session += SessionInfo(self.INFO_SUBJECT_NAME, subject)
+				var.session += SessionInfo(self.INFO_BPODGUI_VERSION, pybpodgui_plugin.__version__)
+				del var
 			
 
 """	def my_print(self, *args):

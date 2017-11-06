@@ -10,7 +10,7 @@ from pyforms import BaseWidget
 from pyforms.Controls import ControlText
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCheckBoxList
-from pybpodgui_plugin.api.models.subject import Subject
+from pybpodgui_api.models.subject import Subject
 
 logger = logging.getLogger(__name__)
 

@@ -16,9 +16,9 @@ from pyforms.Controls import ControlText
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCombo
 
-from pybpodgui_plugin.api.models.task import Task
-from pybpodgui_plugin.api.models.experiment import Experiment
-from pybpodgui_plugin.api.models.project import Project
+from pybpodgui_api.models.task import Task
+from pybpodgui_api.models.experiment import Experiment
+from pybpodgui_api.models.project import Project
 
 logger = logging.getLogger(__name__)
 
@@ -141,7 +141,7 @@ class ExperimentWindow(Experiment, BaseWidget):
 		try:
 			for setup in self.setups:
 				setup.task = value
-				setup.board_task.load_task_details()
+				
 		except FileNotFoundError as err:
 			logger.warning(str(err))
 
