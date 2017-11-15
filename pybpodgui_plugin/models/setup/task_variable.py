@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pybpodgui_api.models.task_variable import TaskVariable
+from pybpodgui_api.models.setup.task_variable import TaskVariable
 from pyforms.Controls import ControlCombo
 from pyforms.utils.make_lambda import make_lambda_func
 

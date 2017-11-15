@@ -13,7 +13,7 @@ from pyforms.Controls import ControlList
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCombo
 
-from pybpodgui_plugin.models.task_variable import TaskVariableWindow
+from pybpodgui_plugin.models.setup.task_variable import TaskVariableWindow
 from pybpodgui_api.models.setup.board_task import BoardTask
 
 logger = logging.getLogger(__name__)
