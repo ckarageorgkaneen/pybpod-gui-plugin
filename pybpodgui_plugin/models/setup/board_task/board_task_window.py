@@ -1,22 +1,20 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, re
 
 from pysettings import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QCheckBox, QMessageBox
-else:
-	from PyQt4.QtGui import QCheckBox, QMessageBox
-
+from AnyQt.QtWidgets import QCheckBox, QMessageBox
 
 import pyforms as app
 from pyforms import BaseWidget
 from pyforms.Controls import ControlList
 from pyforms.Controls import ControlButton
+from pyforms.Controls import ControlCombo
 
-from pybpodgui_plugin.api.models.setup.board_task import BoardTask
+from pybpodgui_plugin.models.setup.task_variable import TaskVariableWindow
+from pybpodgui_api.models.setup.board_task import BoardTask
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +30,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 	.. seealso::
 		This class heavy relies on the corresponding API module.
 
-		:py:class:`pybpodgui_plugin.api.models.setup.board_task.BoardTask`
+		:py:class:`pybpodgui_api.models.setup.board_task.BoardTask`
 
 	**Properties**
 
@@ -81,117 +79,73 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 	def __init__(self, setup):
 		BaseWidget.__init__(self, "Variables config for {0}".format(setup.name))
-		# self.layout().setMargin(5)
-
-		self._vars = ControlList('Variables')
-		self._states = ControlList('States')
-		self._events = ControlList('Events')
-		self._sync_btn = ControlButton('Sync variables')
-		self._load_btn = ControlButton('Read task file')
-
+		
+		self._vars = ControlList('Variables', 
+			add_function	= self.__add_variable, 
+			remove_function	= self.__remove_variable
+		)
 		BoardTask.__init__(self, setup)
 
-		self._vars.horizontalHeaders = ['NAME', 'VALUE', 'PERSISTENT']
-		# self._vars.dataChangedEvent 	= self._table_task_variables_data_changed
-
-		self._states.horizontalHeaders = ['ID', 'NAME']
-		self._states.readOnly = True
-		self._states.selectEntireRow = True
-
-		self._events.horizontalHeaders = ['ID', 'NAME']
-		self._events.readOnly = True
-		self._events.selectEntireRow = True
-
-		self._load_btn.value = self.__load_task_details
-		self._sync_btn.value = self.sync_variables
-
-		self._formset = [
-			('_states', '_events'),
-			'_vars',
-			(' ', '_load_btn', '_sync_btn')
-		]
-
-	@property
-	def states(self):
-		return dict([(int(values[0]), values[1]) for values in self._states.value])
-
-	@states.setter
-	def states(self, value):
-		self._states.value = value.items()
-		if value and len(value) > 0:
-			self.highest_state_id = sorted( map(int, value.keys()) )[-1]
-
-	@property
-	def events(self):
-		return dict([(int(values[0]), values[1]) for values in self._events.value])
-
-	@events.setter
-	def events(self, value):
-		self._events.value = value.items()
 		
+		self._vars.horizontal_headers = ['NAME', 'TYPE', 'VALUE']
+		self._vars.data_changed_event = self.__varslist_data_changed_evt
 
-	@property
-	def variables(self):
-		logger.debug(self._vars.value)
-		values = []
-		for var in self._vars.value:
-			var_name 		= str(var[0])
-			var_persistent 	= var[2].isChecked()
-			var_value 		= str(var[1]) if (str(var[1])!='None' and len(str(var[1]))>0) else None
-			values.append( self.create_variable(var_name, var_value, var_persistent) )
+		self._formset = ['_vars']
 
-		return values
-		#return [self.create_variable(str(var[0]), None if (var[1] == 'None' or var[1] == '') else eval(str(var[1])),
-		#                     var[2].isChecked()) for var in self._vars.value]
+		self._variable_rule = re.compile('^[A-Z0-9\_]+$')
 
-	@variables.setter
-	def variables(self, value):
-		rows = []
 
-		for var in value:
-			checkbox = QCheckBox(self)
-			checkbox.setChecked(var.persistent)
-			#value = "'{0}'".format(var.value) if isinstance(var.value, str) else var.value
-			#if value == None: value = ''
-			row = [var.name, var.value, checkbox]
-			rows.append(row)
+	def create_variable(self, name=None, value=None, datatype='string'):
+		return TaskVariableWindow(self, name, value, datatype)
 
-		self._vars.value = rows
 
-	def beforeClose(self):
-		"""
-		Define behavior before window is closed.
-		"""
-		return False
+	def __varslist_data_changed_evt(self, row, col, item):
 
-	def sync_variables(self):
-		"""
-		Defines behavior of the button :attr:`BoardTaskWindow._sync_btn`.
-		This methods is called every time the user presses the button.
+		# only verify if the list is being edited
+		if hasattr(self, '_var_is_being_added'): return
 
-		.. seealso ::
-			This method invokes a board operation:
+		if col==0 and item is not None:
+			if not (self._variable_rule.match(item) and item.startswith('VAR_') ):
+				QMessageBox.about(self, 
+					"Error", 
+					"The name of the variable should start with VAR_, should be alphanumeric and upper case."
+				)
+				self._vars.set_value(
+					col, row, 
+					'VAR_{0}'.format( self._vars.rows_count )
+				)
 
-			:py:meth:`pybpodgui_plugin.models.board.board_com.ComBoard.sync_variables`
-		"""
-		if self.board and self.task:
-			self.board.sync_variables(self)
+		elif col==2:
+			datatype_combo = self._vars.get_value(1, row)
+			datatype = datatype_combo.value if datatype_combo else None
+			if datatype=='number' and isinstance(item, str) and not item.isnumeric():
+				QMessageBox.about(self, 
+					"Error", 
+					"The value should be numeric."
+				)
+				self._vars.set_value(
+					col, row, 
+					'0'
+				)
 
-	def __load_task_details(self):
-		"""
-		Defines behavior of the button :attr:`BoardTaskWindow._load_btn`.
-		This methods is called every time the user presses the button.
+	
+	def __add_variable(self):
+		self._var_is_being_added = True
+		var = self.create_variable(
+			'VAR_{0}'.format( self._vars.rows_count ),
+			'0'
+		)
+		del self._var_is_being_added
 
-		.. seealso ::
-			This method invokes API:
 
-			:py:meth:`pybpodgui_plugin.api.models.setup.board_task.BoardTask.load_task_details`
-		"""
-		reply = QMessageBox.question(self, 'Attention',
-		                                   'All the configured values will be deleted. Are sure you want to procede?',
-		                                   QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-		if reply == QMessageBox.Yes:
-			self.load_task_details()
+	def __remove_variable(self):
+		var = self.variables[self._vars.selected_index ]
+		self.variables.remove(var) 
+		self._vars -= -1
+
+	def before_close(self): return False
+
+	
 
 
 # Execute the application

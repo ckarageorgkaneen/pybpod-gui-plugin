@@ -7,7 +7,7 @@ import pyforms as app
 from pyforms import BaseWidget
 from pyforms.Controls import ControlText
 from pyforms.Controls import ControlButton
-from pybpodgui_plugin.api.models.task import Task
+from pybpodgui_api.models.task import Task
 
 logger = logging.getLogger(__name__)
 

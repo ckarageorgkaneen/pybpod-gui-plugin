@@ -31,4 +31,4 @@ https://bitbucket.org/fchampalimaud/pybpod-api/get/development.zip
 https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/get/development.zip
 https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/master.zip
 https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history/get/master.zip
-
+git+https://UmSenhorQualquer@bitbucket.org/fchampalimaud/pybpod-rotary-encoder-module.git

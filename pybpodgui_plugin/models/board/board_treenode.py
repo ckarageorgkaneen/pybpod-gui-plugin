@@ -72,8 +72,8 @@ class BoardTreeNode(BoardCom):
 
 		.. seealso::
 			* Board removal (dock window): :py:meth:`pybpodgui_plugin.models.board.board_dockwindow.BoardDockWindow.remove`.
-			* Board removal (API): :meth:`pybpodgui_plugin.api.models.board.board_base.BoardBase.remove`.
-			* Remove board from project: :meth:`pybpodgui_plugin.api.models.project.project_base.ProjectBase.__sub__`.
+			* Board removal (API): :meth:`pybpodgui_api.models.board.board_base.BoardBase.remove`.
+			* Remove board from project: :meth:`pybpodgui_api.models.project.project_base.ProjectBase.__sub__`.
 
 		"""
 		self.project -= self

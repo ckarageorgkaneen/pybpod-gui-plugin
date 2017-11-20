@@ -56,9 +56,13 @@ class AsyncBpod(AsyncHandler):
 			self.runner.close_serial_port()
 		logger.debug("Execution handler stopped")
 
-	def run_protocol(self, bpod_settings, protocol_path, board_name, setup_name, subjects, handler_evt=dummy, extra_args=None, group=None):
+	def run_protocol(self, bpod_settings, protocol_path, 
+		project_name, experiment_name, user_name, board_name, setup_name, subjects, 
+		variables,
+		handler_evt=dummy, extra_args=None, group=None):
 		self.call_function('runner_bpod_run_protocol', 
-			args=(bpod_settings, protocol_path, board_name, setup_name, subjects),
+			args=(bpod_settings, protocol_path, project_name, user_name, 
+				experiment_name, board_name, setup_name, subjects, variables),
 			handler_evt=handler_evt,
 			extra_args=extra_args,
 			group=group

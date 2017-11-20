@@ -2,7 +2,7 @@
 :mod:`setup_com` --- Setup com
 ==============================
 
-.. module:: pybpodgui_plugin.api.models.setup.setup_com
+.. module:: pybpodgui_api.models.setup.setup_com
    :synopsis: Bpod setup communication
 
 --------
@@ -15,6 +15,6 @@ The purpose of this module is to configure Bpod setup communication.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.setup.setup_com.SetupCom
+.. autoclass:: pybpodgui_api.models.setup.setup_com.SetupCom
     :members:
 

@@ -11,8 +11,8 @@ if conf.PYFORMS_USE_QT5:
 else:
 	from PyQt4.QtGui import QMessageBox
 
-from pybpodgui_plugin.api.models.setup import Setup
-from pybpodgui_plugin.api.models.board.board_operations import BoardOperations
+from pybpodgui_api.models.setup import Setup
+from pybpodgui_api.models.board.board_operations import BoardOperations
 
 from pybpodgui_plugin.com.async.qt_async_bpod import QtAsyncBpod
 from pybpodgui_plugin.models.board.board_window import BoardWindow
@@ -27,7 +27,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 	.. seealso::
 		This class heavy relies on the corresponding API module.
 
-		:py:class:`pybpodgui_plugin.api.models.board.board_com.BoardCom`
+		:py:class:`pybpodgui_api.models.board.board_com.BoardCom`
 
 	**Methods**
 
@@ -42,7 +42,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 
 	def run_task(self, session, board_task, workspace_path):
 		"""
-		Bases: :meth:`pybpodgui_plugin.api.models.board.board_com.BoardCom.run_task`
+		Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task`
 
 		Start running task on board by invoking API
 
@@ -65,7 +65,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 
 	def run_task_handler_evt(self, e, result):
 		"""
-		Bases: :meth:`pybpodgui_plugin.api.models.board.board_com.BoardCom.run_task_handler_evt`
+		Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task_handler_evt`
 
 		Call API corresponding method and handle "run task" action errors on UI.
 		"""

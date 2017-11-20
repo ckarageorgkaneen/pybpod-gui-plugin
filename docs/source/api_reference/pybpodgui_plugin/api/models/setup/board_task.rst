@@ -2,7 +2,7 @@
 :mod:`board_task` --- Board Task
 ========================================
 
-.. module:: pybpodgui_plugin.api.models.setup.board_task
+.. module:: pybpodgui_api.models.setup.board_task
    :synopsis: Setup board task
 
 --------
@@ -15,6 +15,6 @@ The purpose of this module is to handle board/task operations.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.setup.board_task.BoardTask
+.. autoclass:: pybpodgui_api.models.setup.board_task.BoardTask
     :members:
 

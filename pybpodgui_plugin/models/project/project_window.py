@@ -16,7 +16,7 @@ from pyforms.Controls import ControlText
 
 from pyforms_generic_editor.models.project import GenericProject
 
-from pybpodgui_plugin.api.models.project import Project
+from pybpodgui_api.models.project import Project
 
 logger = logging.getLogger(__name__)
 

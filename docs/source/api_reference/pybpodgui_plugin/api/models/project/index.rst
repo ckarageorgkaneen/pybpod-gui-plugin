@@ -2,7 +2,7 @@
 :mod:`project` --- Bpod Project
 *******************************
 
-.. module:: pybpodgui_plugin.api.models.project
+.. module:: pybpodgui_api.models.project
    :synopsis: Bpod project
 
 .. toctree::

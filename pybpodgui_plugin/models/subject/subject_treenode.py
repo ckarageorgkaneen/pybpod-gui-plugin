@@ -56,7 +56,6 @@ class SubjectTreeNode(SubjectWindow):
 		"""
 		self.node = tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
 		self.node.key_pressed_event 	= self.node_key_pressed_event
-		self.node.double_clicked_event 	= self.node_double_clicked_event
 		self.node.window 				= self
 		self.node.setExpanded(True)
 
@@ -70,8 +69,8 @@ class SubjectTreeNode(SubjectWindow):
 
 		.. seealso::
 			* Board removal (dock window): :py:meth:`pybpodgui_plugin.models.board.board_dockwindow.BoardDockWindow.remove`.
-			* Board removal (API): :meth:`pybpodgui_plugin.api.models.board.board_base.BoardBase.remove`.
-			* Remove board from project: :meth:`pybpodgui_plugin.api.models.project.project_base.ProjectBase.__sub__`.
+			* Board removal (API): :meth:`pybpodgui_api.models.board.board_base.BoardBase.remove`.
+			* Remove board from project: :meth:`pybpodgui_api.models.project.project_base.ProjectBase.__sub__`.
 
 		"""
 		self.project -= self
@@ -87,11 +86,6 @@ class SubjectTreeNode(SubjectWindow):
 		if event.key() == QtCore.Qt.Key_Delete:
 			self.remove()
 
-	def node_double_clicked_event(self):
-		"""
-		Open board console window when tree node is double clicked.
-		"""
-		self.open_log_window()
 
 	@property
 	def name(self):

@@ -11,7 +11,7 @@ class SetupCom(SetupDockWindow):
 	.. seealso::
 		This class heavy relies on the corresponding API module.
 
-		:py:class:`pybpodgui_plugin.api.models.setup.setup_com.SetupCom`
+		:py:class:`pybpodgui_api.models.setup.setup_com.SetupCom`
 
 	**Methods**
 

@@ -97,8 +97,8 @@ class TaskTreeNode(TaskWindow):
 
 		.. seealso::
 			* Task removal (dock window): :py:meth:`pybpodgui_plugin.models.task.task_dockwindow.TaskDockWindow.remove`.
-			* Task removal (API): :meth:`pybpodgui_plugin.api.models.board.board_base.TaskBase.remove`.
-			* Remove task from project: :meth:`pybpodgui_plugin.api.models.project.project_base.ProjectBase.__sub__`.
+			* Task removal (API): :meth:`pybpodgui_api.models.board.board_base.TaskBase.remove`.
+			* Remove task from project: :meth:`pybpodgui_api.models.project.project_base.ProjectBase.__sub__`.
 
 		"""
 		self.project -= self

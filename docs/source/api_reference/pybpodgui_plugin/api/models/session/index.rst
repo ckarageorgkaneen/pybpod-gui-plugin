@@ -2,7 +2,7 @@
 :mod:`session` --- Bpod session
 *******************************
 
-.. module:: pybpodgui_plugin.api.models.session
+.. module:: pybpodgui_api.models.session
    :synopsis: Bpod session
 
 .. toctree::

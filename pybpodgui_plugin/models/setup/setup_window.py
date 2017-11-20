@@ -1,24 +1,24 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, re
 
 from pysettings import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
-
 import pyforms as app
+
 from pyforms import BaseWidget
 from pyforms.Controls import ControlText
 from pyforms.Controls import ControlList
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCombo
+from pyforms.Controls import ControlEmptyWidget
 
-from pybpodgui_plugin.api.models.setup import Setup
-from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
+from AnyQt.QtWidgets import QMessageBox
+
+
+from pybpodgui_api.models.setup import Setup
+from pybpodgui_api.exceptions.run_setup import RunSetupError
 
 from pybpodgui_plugin.models.setup.board_task import BoardTask
 from pybpodgui_plugin.models.session import Session
@@ -86,6 +86,12 @@ class SetupWindow(Setup, BaseWidget):
 		self._add_subject 	= ControlButton('Add subject')
 		self._allsubjects   = ControlCombo('Add subject')
 
+		self._varspanel = ControlEmptyWidget()
+
+		self._btn = ControlButton('Open')
+
+		
+
 		Setup.__init__(self, experiment)
 
 		self.reload_boards()
@@ -93,19 +99,34 @@ class SetupWindow(Setup, BaseWidget):
 		self._formset = [
 			'_name',
 			'_board',
+			'_btn',
 			(' ', ' ', '_run_task_btn'),
 			' ',
-			'_allsubjects',
-			'_add_subject',
-			'_subjects_list',
+			{	
+				'Subjects':[
+					'_allsubjects',
+					'_add_subject',
+					'_subjects_list',
+				],
+				'Variables':[
+					'_varspanel',
+				],
+			}			
 		]
 
+		self._varspanel.value 	  = self.board_task
 		self._subjects_list.readonly = True
-
 		self._add_subject.value   = self.__add_subject
 		self._name.changed_event  = self.__name_changed_evt
 		self._board.changed_event = self.__board_changed_evt
 		self._run_task_btn.value  = self._run_task
+		
+		self._btn.value = self.__open_tst
+
+	def __open_tst(self):
+		self.board_task.show()
+
+	
 
 	def __add_subject(self):
 		self += self._allsubjects.value
@@ -183,7 +204,7 @@ class SetupWindow(Setup, BaseWidget):
 		Creates a new board task by calling the API.
 
 		.. seealso::
-			:py:class:`pybpodgui_plugin.api.models.setup.board_task.BoardTask`.
+			:py:class:`pybpodgui_api.models.setup.board_task.BoardTask`.
 		"""
 		return BoardTask(self)
 
@@ -192,7 +213,7 @@ class SetupWindow(Setup, BaseWidget):
 		Creates a new session by calling the API.
 
 		.. seealso::
-			:py:class:`pybpodgui_plugin.api.models.session.session_base.SessionBase`.
+			:py:class:`pybpodgui_api.models.session.session_base.SessionBase`.
 		"""
 		return Session(self)
 

@@ -8,8 +8,8 @@ from pyforms import BaseWidget
 from pyforms.Controls import ControlText
 from pyforms.Controls import ControlList
 
-from pybpodgui_plugin.api.models.session import Session
-from pybpodgui_plugin.api.exceptions.invalid_session import InvalidSessionError
+from pybpodgui_api.models.session import Session
+from pybpodgui_api.exceptions.invalid_session import InvalidSessionError
 
 logger = logging.getLogger(__name__)
 

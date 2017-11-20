@@ -12,7 +12,7 @@ from pyforms.Controls import ControlText
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCheckBoxList
 
-from pybpodgui_plugin.api.models.board import Board
+from pybpodgui_api.models.board import Board
 
 
 from pybpodapi.bpod.bpod_com_protocol_modules import BpodCOMProtocolModules as Bpod

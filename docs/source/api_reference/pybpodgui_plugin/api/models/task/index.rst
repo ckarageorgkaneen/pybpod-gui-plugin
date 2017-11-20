@@ -2,7 +2,7 @@
 :mod:`task` --- Bpod task
 *************************
 
-.. module:: pybpodgui_plugin.api.models.task
+.. module:: pybpodgui_api.models.task
    :synopsis: Bpod API task
 
 .. toctree::

@@ -10,7 +10,7 @@ if conf.PYFORMS_USE_QT5:
 else:
 	from PyQt4.QtGui import QIcon
 
-from pybpodgui_plugin.api.models.setup import Setup
+from pybpodgui_api.models.setup import Setup
 from pybpodgui_plugin.models.setup.setup_com import SetupCom
 
 logger = logging.getLogger(__name__)

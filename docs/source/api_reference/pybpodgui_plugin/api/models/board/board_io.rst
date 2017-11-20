@@ -2,7 +2,7 @@
 :mod:`board_io` --- Board I/O operations
 ========================================
 
-.. module:: pybpodgui_plugin.api.models.board.board_io
+.. module:: pybpodgui_api.models.board.board_io
    :synopsis: Board I/O operations
 
 --------
@@ -15,6 +15,6 @@ The purpose of this module is to handle board I/O operations.
 Implementation
 --------------
 
-.. autoclass:: pybpodgui_plugin.api.models.board.board_io.BoardIO
+.. autoclass:: pybpodgui_api.models.board.board_io.BoardIO
     :members:
 
