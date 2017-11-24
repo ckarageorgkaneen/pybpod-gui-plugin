@@ -73,7 +73,7 @@ class ExperimentTreeNode(ExperimentWindow):
 		self.node.window = self
 		self.node.setExpanded(True)
 
-		tree.add_popup_menu_option('Add box', self.__add_setup, item=self.node,
+		tree.add_popup_menu_option('Add setup', self.__add_setup, item=self.node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
 		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
 

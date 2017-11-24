@@ -54,11 +54,11 @@ class ProjectTreeNode(ProjectWindow):
 		#self.subjects_node.setExpanded(True)
 
 
-		self.boards_node = tree.create_child('Bpod Boxes', parent=self.node, icon=QIcon(conf.BOARDS_SMALL_ICON))
+		self.boards_node = tree.create_child('Bpod boards', parent=self.node, icon=QIcon(conf.BOARDS_SMALL_ICON))
 		self.boards_node.window = self
 		#self.boards_node.setExpanded(True)
 
-		tree.add_popup_menu_option('Add Bpod box', self._add_board, item=self.boards_node,
+		tree.add_popup_menu_option('Add Bpod boards', self._add_board, item=self.boards_node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
 
 		self.tasks_node = tree.create_child('Protocols', parent=self.node, icon=QIcon(conf.TASKS_SMALL_ICON))
