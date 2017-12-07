@@ -17,6 +17,11 @@ from pybpodgui_api.models.board import Board
 
 from pybpodapi.bpod.bpod_com_protocol_modules import BpodCOMProtocolModules as Bpod
 
+if conf.PYFORMS_USE_QT5:
+	from PyQt5.QtWidgets import  QMessageBox
+else:
+	from PyQt4.QtGui import  QMessageBox
+
 logger = logging.getLogger(__name__)
 
 
@@ -99,17 +104,21 @@ class BoardWindow(Board, BaseWidget):
 		self._loadports_btn.value 		= self.__load_bpod_ports
 
 	def __load_bpod_ports(self):
-		bpod = Bpod(self._serial_port.value)
-		bpod.start()
-		hw = bpod.hardware
+		try:
+			bpod = Bpod(self._serial_port.value)
+			bpod.start()
+			hw = bpod.hardware
 
-		### load the ports to the GUI ###############################
-		self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
-		self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
-		self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
-		#############################################################
+			### load the ports to the GUI ###############################
+			self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
+			self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
+			self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+			#############################################################
+			
+			bpod.stop()
+		except Exception as err:
+			QMessageBox.critical(self, "Error", str(err))
 		
-		bpod.stop()
 
 	def __name_changed_evt(self):
 		"""
