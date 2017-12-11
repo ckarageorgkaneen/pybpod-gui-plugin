@@ -118,8 +118,6 @@ class SetupWindow(Setup, BaseWidget):
 		self._board.changed_event = self.__board_changed_evt
 		self._run_task_btn.value  = self._run_task
 		
-		self._btn.value = self.__open_tst
-
 
 	def __add_subject(self):
 		self += self._allsubjects.value
