@@ -88,8 +88,6 @@ class SetupWindow(Setup, BaseWidget):
 
 		self._varspanel = ControlEmptyWidget()
 
-		self._btn = ControlButton('Open')
-
 		
 
 		Setup.__init__(self, experiment)
@@ -99,7 +97,6 @@ class SetupWindow(Setup, BaseWidget):
 		self._formset = [
 			'_name',
 			'_board',
-			'_btn',
 			(' ', ' ', '_run_task_btn'),
 			' ',
 			{	
@@ -123,10 +120,6 @@ class SetupWindow(Setup, BaseWidget):
 		
 		self._btn.value = self.__open_tst
 
-	def __open_tst(self):
-		self.board_task.show()
-
-	
 
 	def __add_subject(self):
 		self += self._allsubjects.value
