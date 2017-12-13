@@ -38,6 +38,8 @@ class SetupDockWindow(SetupTreeNode):
 		Also reload boards list on combo box.
 		"""
 		self.mainwindow.details.value = self
+		self._experiment_name.value = self.experiment.name
+		self._protocol_name.value = self.experiment._task.text
 		self.reload_boards(current_selected_board=self.board)
 
 	def focus_name(self):
