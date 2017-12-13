@@ -12,6 +12,7 @@ else:
 
 from pybpodgui_plugin.models.task.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.task.task_treenode import TaskTreeNode
+from AnyQt.QtWidgets import QApplication
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,7 @@ class TaskDockWindow(TaskTreeNode):
 		Select this window as the main window on the details section.
 		"""
 		self.mainwindow.details.value = self
+		QApplication.processEvents()
 
 	def focus_name(self):
 		"""

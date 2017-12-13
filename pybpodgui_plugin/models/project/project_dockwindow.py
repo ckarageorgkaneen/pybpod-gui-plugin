@@ -6,11 +6,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 from pybpodgui_plugin.models.project.project_treenode import ProjectTreeNode
-
+from AnyQt.QtWidgets import QApplication
 
 class ProjectDockWindow(ProjectTreeNode):
+
 	def show(self):
 		self.mainwindow.details.value = self
+		QApplication.processEvents()
 
 	def focus_name(self):
 		"""
