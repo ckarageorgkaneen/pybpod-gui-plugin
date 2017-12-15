@@ -58,9 +58,12 @@ class ProjectsWindow(object):
 		if not project_path:
 			project_path = QFileDialog.getExistingDirectory(self, "Select the project directory")
 		if project_path:
-			project = self.create_project()
-			project.load(str(project_path))
-
+			try:
+				project = self.create_project()
+				project.load(str(project_path))
+			except:
+				project.delete()
+				return None
 		return project
 
 
