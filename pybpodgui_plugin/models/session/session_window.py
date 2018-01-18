@@ -53,9 +53,9 @@ class SessionWindow(Session, BaseWidget):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
-	def load(self, session_path, data):
+	def load(self, *args, **kwargs):
 		try:
-			Session.load(self, session_path, data)
+			Session.load(self, *args, **kwargs)
 		except InvalidSessionError as err:
 			logger.warning(str(err))
 

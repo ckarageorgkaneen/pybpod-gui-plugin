@@ -13,7 +13,7 @@ from pyforms.Controls import ControlList
 from pyforms.Controls import ControlButton
 from pyforms.Controls import ControlCombo
 
-from pybpodgui_plugin.models.setup.task_variable import TaskVariableWindow
+from pybpodgui_plugin.models.setup.task_variable import TaskVariable
 from pybpodgui_api.models.setup.board_task import BoardTask
 
 logger = logging.getLogger(__name__)
@@ -96,7 +96,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 
 	def create_variable(self, name=None, value=None, datatype='string'):
-		return TaskVariableWindow(self, name, value, datatype)
+		return TaskVariable(self, name, value, datatype)
 
 
 	def __varslist_data_changed_evt(self, row, col, item):
