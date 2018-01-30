@@ -11,6 +11,7 @@ else:
 	from PyQt4.QtGui import QMessageBox
 
 from pybpodgui_plugin.models.setup.setup_treenode import SetupTreeNode
+from AnyQt.QtWidgets import QApplication
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,7 @@ class SetupDockWindow(SetupTreeNode):
 		"""
 		self.mainwindow.details.value = self
 		self.reload_boards(current_selected_board=self.board)
+		QApplication.processEvents()
 
 	def focus_name(self):
 		"""

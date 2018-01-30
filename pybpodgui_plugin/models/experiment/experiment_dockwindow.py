@@ -12,6 +12,8 @@ else:
 
 from pybpodgui_plugin.models.experiment.experiment_treenode import ExperimentTreeNode
 
+from AnyQt.QtWidgets import QApplication
+
 logger = logging.getLogger(__name__)
 
 
@@ -38,6 +40,7 @@ class ExperimentDockWindow(ExperimentTreeNode):
 		"""
 		self.mainwindow.details.value = self
 		self.reload_tasks(current_selected_task=self.task)
+		QApplication.processEvents()
 
 	def focus_name(self):
 		"""
