@@ -5,8 +5,8 @@ import logging
 import datetime
 
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlList
+from pyforms.controls import ControlText
+from pyforms.controls import ControlList
 
 from pybpodgui_api.models.session import Session
 from pybpodgui_api.exceptions.invalid_session import InvalidSessionError

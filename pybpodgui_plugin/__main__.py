@@ -38,7 +38,7 @@ try:
 	loggingbootstrap.create_double_logger("pyforms", conf.APP_LOG_HANDLER_CONSOLE_LEVEL, conf.APP_LOG_FILENAME,
 	                                      conf.APP_LOG_HANDLER_FILE_LEVEL)
 
-	# pyforms.Controls is imported here first time
+	# pyforms.controls is imported here first time
 	from pyforms_generic_editor.editor.base_editor import BaseEditor as Editor
 
 except Exception as err:

@@ -5,8 +5,8 @@ import logging
 
 import pyforms as app
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlButton
+from pyforms.controls import ControlText
+from pyforms.controls import ControlButton
 from pybpodgui_api.models.task import Task
 
 logger = logging.getLogger(__name__)
@@ -30,12 +30,12 @@ class TaskWindow(Task, BaseWidget):
 	**Private attributes**
 
 		_name
-			:class:`pyforms.Controls.ControlText`
+			:class:`pyforms.controls.ControlText`
 
 			Text field to edit task name. Editing this field fires the event :meth:`TaskWindow._TaskWindow__name_edited_evt`.
 
 		_edit_btn
-			:class:`pyforms.Controls.ControlButton`
+			:class:`pyforms.controls.ControlButton`
 
 			Button to edit task code. Pressing the button fires the event :meth:`BoardWindow._BoardWindow__install_framework_btn_evt`.
 

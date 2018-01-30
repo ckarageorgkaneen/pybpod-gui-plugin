@@ -9,9 +9,9 @@ from AnyQt.QtWidgets import QCheckBox, QMessageBox
 
 import pyforms as app
 from pyforms import BaseWidget
-from pyforms.Controls import ControlList
-from pyforms.Controls import ControlButton
-from pyforms.Controls import ControlCombo
+from pyforms.controls import ControlList
+from pyforms.controls import ControlButton
+from pyforms.controls import ControlCombo
 
 from pybpodgui_plugin.models.setup.task_variable import TaskVariableWindow
 from pybpodgui_api.models.setup.board_task import BoardTask
@@ -46,27 +46,27 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 	**Private attributes**
 
 		_states
-			:class:`pyforms.Controls.ControlList`
+			:class:`pyforms.controls.ControlList`
 
 			UI list to show BoardTask states.
 
 		_events
-			:class:`pyforms.Controls.ControlList`
+			:class:`pyforms.controls.ControlList`
 
 			UI list to show BoardTask events.
 
 		_vars
-			:class:`pyforms.Controls.ControlList`
+			:class:`pyforms.controls.ControlList`
 
 			UI list to show BoardTask variables.
 
 		_sync_btn
-			:class:`pyforms.Controls.ControlButton`
+			:class:`pyforms.controls.ControlButton`
 
 			Button to sync variables with board. Pressing the button fires the event :meth:`BoardTaskWindow.sync_variables`.
 
 		_load_btn
-			:class:`pyforms.Controls.ControlButton`
+			:class:`pyforms.controls.ControlButton`
 
 			Button to read task variables from board. Pressing the button fires the event :meth:`BoardTaskWindow._BoardTaskWindow__load_task_details`.
 

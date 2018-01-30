@@ -11,7 +11,7 @@ import pyforms
 from pyforms import BaseWidget
 
 try:
-	from pyforms.Controls import ControlCodeEditor
+	from pyforms.controls import ControlCodeEditor
 except:
 	logger.error("Could not import ControlCodeEditor. Is QScintilla installed?")
 

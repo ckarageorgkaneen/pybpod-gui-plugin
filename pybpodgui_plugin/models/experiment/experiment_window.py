@@ -12,9 +12,9 @@ else:
 
 import pyforms as app
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlButton
-from pyforms.Controls import ControlCombo
+from pyforms.controls import ControlText
+from pyforms.controls import ControlButton
+from pyforms.controls import ControlCombo
 
 from pybpodgui_api.models.task import Task
 from pybpodgui_api.models.experiment import Experiment
@@ -36,13 +36,13 @@ class ExperimentWindow(Experiment, BaseWidget):
 	_name
 		Field to edit experiment name
 
-		:type: :class:`pyforms.Controls.ControlText`
+		:type: :class:`pyforms.controls.ControlText`
 
 	_task
 		Combo box of available tasks. Current selected task is the task associated for this experiment
 		and all its setups. Selecting a different task fires the event :class:`ExperimentWindow._ExperimentWindow__task_changed_evt`.
 
-		:type: :class:`pyforms.Controls.ControlCombo`
+		:type: :class:`pyforms.controls.ControlCombo`
 
 	**Methods**
 

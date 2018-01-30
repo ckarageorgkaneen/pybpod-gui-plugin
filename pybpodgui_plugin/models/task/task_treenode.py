@@ -54,7 +54,7 @@ class TaskTreeNode(TaskWindow):
 
 
 		:param tree: the project tree
-		:type tree: pyforms.Controls.ControlTree
+		:type tree: pyforms.controls.ControlTree
 		:return: new created node
 		:return type: QtGui.QTreeWidgetItem
 		"""
