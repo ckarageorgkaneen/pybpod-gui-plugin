@@ -8,19 +8,14 @@ from pysettings import conf
 
 import pyforms as app
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlButton
-from pyforms.Controls import ControlCheckBoxList
+from pyforms.controls import ControlText
+from pyforms.controls import ControlButton
+from pyforms.controls import ControlCheckBoxList
 
 from pybpodgui_api.models.board import Board
 
 
 from pybpodapi.bpod.bpod_com_protocol_modules import BpodCOMProtocolModules as Bpod
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import  QMessageBox
-else:
-	from PyQt4.QtGui import  QMessageBox
 
 logger = logging.getLogger(__name__)
 
@@ -104,21 +99,17 @@ class BoardWindow(Board, BaseWidget):
 		self._loadports_btn.value 		= self.__load_bpod_ports
 
 	def __load_bpod_ports(self):
-		try:
-			bpod = Bpod(self._serial_port.value)
-			bpod.start()
-			hw = bpod.hardware
+		bpod = Bpod(self._serial_port.value)
+		bpod.start()
+		hw = bpod.hardware
 
-			### load the ports to the GUI ###############################
-			self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
-			self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
-			self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
-			#############################################################
-			
-			bpod.stop()
-		except Exception as err:
-			QMessageBox.critical(self, "Error", str(err))
+		### load the ports to the GUI ###############################
+		self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
+		self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
+		self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+		#############################################################
 		
+		bpod.stop()
 
 	def __name_changed_evt(self):
 		"""

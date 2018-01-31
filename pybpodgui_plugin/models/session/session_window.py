@@ -5,8 +5,8 @@ import logging
 import datetime
 
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlList
+from pyforms.controls import ControlText
+from pyforms.controls import ControlList
 
 from pybpodgui_api.models.session import Session
 from pybpodgui_api.exceptions.invalid_session import InvalidSessionError
@@ -53,9 +53,9 @@ class SessionWindow(Session, BaseWidget):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
-	def load(self, *args, **kwargs):
+	def load(self, session_path, data):
 		try:
-			Session.load(self, *args, **kwargs)
+			Session.load(self, session_path, data)
 		except InvalidSessionError as err:
 			logger.warning(str(err))
 

@@ -11,9 +11,9 @@ else:
 	from PyQt4.QtCore import QTimer
 
 from pyforms import BaseWidget
-from pyforms.Controls import ControlTextArea
-from pyforms.Controls import ControlCheckBox
-from pyforms.Controls import ControlButton
+from pyforms.controls import ControlTextArea
+from pyforms.controls import ControlCheckBox
+from pyforms.controls import ControlButton
 
 from pybranch.com.messaging.debug import DebugMessage
 from pybpodgui_api.exceptions.run_setup import RunSetupError

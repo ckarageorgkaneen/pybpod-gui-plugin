@@ -5,7 +5,6 @@ import logging
 
 from pybpodgui_plugin.models.session.session_treenode import SessionTreeNode
 
-from AnyQt.QtWidgets import QApplication
 logger = logging.getLogger(__name__)
 
 
@@ -18,7 +17,6 @@ class SessionDockWindow(SessionTreeNode):
 			logger.warning("Trying to load contents from session without file.")
 
 		self.mainwindow.details.value = self
-		QApplication.processEvents()
 
 	@property
 	def mainwindow(self):

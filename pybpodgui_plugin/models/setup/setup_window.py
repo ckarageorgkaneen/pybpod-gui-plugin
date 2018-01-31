@@ -8,12 +8,11 @@ from pysettings import conf
 import pyforms as app
 
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlList
-from pyforms.Controls import ControlButton
-from pyforms.Controls import ControlCombo
-from pyforms.Controls import ControlEmptyWidget
-from pyforms.Controls import ControlLabel
+from pyforms.controls import ControlText
+from pyforms.controls import ControlList
+from pyforms.controls import ControlButton
+from pyforms.controls import ControlCombo
+from pyforms.controls import ControlEmptyWidget
 
 from AnyQt.QtWidgets import QMessageBox
 
@@ -82,30 +81,25 @@ class SetupWindow(Setup, BaseWidget):
 		self._name 			= ControlText('Setup name')
 		self._board 		= ControlCombo('Box')
 		self._run_task_btn 	= ControlButton('Run')
-		self._experiment_name = ControlText('Experiment')
-		self._protocol_name = ControlText('Protocol')
+
 		self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
 		self._add_subject 	= ControlButton('Add subject')
 		self._allsubjects   = ControlCombo('Add subject')
 
 		self._varspanel = ControlEmptyWidget()
+
+		self._btn = ControlButton('Open')
+
 		
+
 		Setup.__init__(self, experiment)
-
-		self._experiment_name.enabled = False
-		self._protocol_name.enabled = False
-
-		self._experiment_name.value = experiment._name.value
-		self._protocol_name.value = experiment._task.text
 
 		self.reload_boards()
 
-
 		self._formset = [
-			'_experiment_name',
-			'_protocol_name',
 			'_name',
 			'_board',
+			'_btn',
 			(' ', ' ', '_run_task_btn'),
 			' ',
 			{	
@@ -127,6 +121,11 @@ class SetupWindow(Setup, BaseWidget):
 		self._board.changed_event = self.__board_changed_evt
 		self._run_task_btn.value  = self._run_task
 		
+		self._btn.value = self.__open_tst
+
+	def __open_tst(self):
+		self.board_task.show()
+
 	
 
 	def __add_subject(self):

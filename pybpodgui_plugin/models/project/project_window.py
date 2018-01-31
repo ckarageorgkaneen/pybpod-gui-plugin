@@ -12,7 +12,7 @@ else:
 	from PyQt4.QtGui import QFileDialog, QMessageBox
 
 import pyforms as app
-from pyforms.Controls import ControlText
+from pyforms.controls import ControlText
 
 from pyforms_generic_editor.models.project import GenericProject
 

@@ -2,28 +2,24 @@
 # -*- coding: utf-8 -*-
 
 
-import os
-import logging
-
-logger = logging.getLogger(__name__)
+import os, logging
 
 import pyforms
 from pyforms import BaseWidget
 
+from AnyQt.QtWidgets import QMessageBox
+
+logger = logging.getLogger(__name__)
+
 try:
-	from pyforms.Controls import ControlCodeEditor
-except:
-	logger.error("Could not import ControlCodeEditor. Is QScintilla installed?")
+	from pyforms.controls import ControlCodeEditor
+except Exception as e:
+	logger.error(e)
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
 
 
 class CodeEditor(BaseWidget):
+	
 	def __init__(self, board):
 		BaseWidget.__init__(self, board.name)
 		self.board = board

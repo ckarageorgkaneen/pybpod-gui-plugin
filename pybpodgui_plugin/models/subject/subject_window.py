@@ -7,9 +7,9 @@ import logging
 import pyforms as app
 from pysettings import conf
 from pyforms import BaseWidget
-from pyforms.Controls import ControlText
-from pyforms.Controls import ControlButton
-from pyforms.Controls import ControlCheckBoxList
+from pyforms.controls import ControlText
+from pyforms.controls import ControlButton
+from pyforms.controls import ControlCheckBoxList
 from pybpodgui_api.models.subject import Subject
 
 logger = logging.getLogger(__name__)

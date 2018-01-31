@@ -16,7 +16,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 try:
-    from pyforms.Controls import ControlCodeEditor
+    from pyforms.controls import ControlCodeEditor
 except:
     logger.error("Could not import ControlCodeEditor. Is QScintilla installed?")
 

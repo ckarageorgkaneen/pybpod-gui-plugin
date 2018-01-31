@@ -34,7 +34,11 @@ class ProjectUIBusy(ProjectDockWindow):
 			self.experiments_node.setIcon(0, QIcon(conf.EXPERIMENTS_SMALL_ICON))
 			self.boards_node.setIcon(0, QIcon(conf.BOARDS_SMALL_ICON))
 
-		elif busy_status in [Board.STATUS_RUNNING_TASK]:
+		elif busy_status in [
+			Board.STATUS_INSTALLING_FRAMEWORK,
+			Board.STATUS_INSTALLING_TASK,
+			Board.STATUS_SYNCING_VARS,
+			Board.STATUS_RUNNING_TASK]:
 
 			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.experiments_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))

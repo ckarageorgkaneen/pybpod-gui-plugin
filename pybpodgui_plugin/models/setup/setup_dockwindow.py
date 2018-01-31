@@ -11,7 +11,6 @@ else:
 	from PyQt4.QtGui import QMessageBox
 
 from pybpodgui_plugin.models.setup.setup_treenode import SetupTreeNode
-from AnyQt.QtWidgets import QApplication
 
 logger = logging.getLogger(__name__)
 
@@ -39,10 +38,7 @@ class SetupDockWindow(SetupTreeNode):
 		Also reload boards list on combo box.
 		"""
 		self.mainwindow.details.value = self
-		self._experiment_name.value = self.experiment.name
-		self._protocol_name.value = self.experiment._task.text
 		self.reload_boards(current_selected_board=self.board)
-		QApplication.processEvents()
 
 	def focus_name(self):
 		"""
