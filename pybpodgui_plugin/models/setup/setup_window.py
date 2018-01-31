@@ -49,17 +49,17 @@ class SetupWindow(Setup, BaseWidget):
 	**Private attributes**
 
 		_name
-			:class:`pyforms.Controls.ControlText`
+			:class:`pyforms.controls.ControlText`
 
 			Text field to edit board name. Editing this field fires the event :meth:`SetupWindow._SetupWindow__name_changed_evt`.
 
 		_board
-			:class:`pyforms.Controls.ControlCombo`
+			:class:`pyforms.controls.ControlCombo`
 
 			Combo box to select board associated with this setup. Editing this field fires the event :meth:`SetupWindow._SetupWindow__board_changed_evt`.
 
 		_run_task_btn
-			:class:`pyforms.Controls.ControlButton`
+			:class:`pyforms.controls.ControlButton`
 
 			Button to run task on board. Pressing the button fires the event :meth:`SetupWindow._SetupWindow__run_task`.
 

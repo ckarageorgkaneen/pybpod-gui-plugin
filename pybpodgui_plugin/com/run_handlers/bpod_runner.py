@@ -58,6 +58,13 @@ class BpodRunner(PybranchRunHandler):
 
 		
 
+		global_dict['PYBPOD_EXPERIMENT'] = project_name
+		global_dict['PYBPOD_EXPERIMENT'] = experiment_name
+		global_dict['PYBPOD_BOARD'] = board_name
+		global_dict['PYBPOD_SETUP'] = setup_name
+		global_dict['PYBPOD_SUBJECTS'] = subjects
+		
+
 		try:
 			#execute the settings first
 			exec(bpod_settings, global_dict)

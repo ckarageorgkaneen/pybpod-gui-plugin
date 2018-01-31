@@ -30,12 +30,12 @@ class TaskWindow(Task, BaseWidget):
 	**Private attributes**
 
 		_name
-			:class:`pyforms.Controls.ControlText`
+			:class:`pyforms.controls.ControlText`
 
 			Text field to edit task name. Editing this field fires the event :meth:`TaskWindow._TaskWindow__name_edited_evt`.
 
 		_edit_btn
-			:class:`pyforms.Controls.ControlButton`
+			:class:`pyforms.controls.ControlButton`
 
 			Button to edit task code. Pressing the button fires the event :meth:`BoardWindow._BoardWindow__install_framework_btn_evt`.
 

@@ -44,17 +44,17 @@ class BoardWindow(Board, BaseWidget):
 	**Private attributes**
 
 		_name
-			:class:`pyforms.Controls.ControlText`
+			:class:`pyforms.controls.ControlText`
 
 			Text field to edit board name. Editing this field fires the event :meth:`BoardWindow._BoardWindow__name_changed_evt`.
 
 		_serial_port
-			:class:`pyforms.Controls.ControlText`
+			:class:`pyforms.controls.ControlText`
 
 			Text field to edit serial port. Editing this field fires the event :meth:`BoardWindow._BoardWindow__serial_changed_evt`.
 
 		_log_btn
-			:class:`pyforms.Controls.ControlButton`
+			:class:`pyforms.controls.ControlButton`
 
 			Button to show this board events on a console window. Pressing the button fires the event :class:`BoardDockWindow.open_log_window`.
 

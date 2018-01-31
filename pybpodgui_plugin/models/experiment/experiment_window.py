@@ -36,13 +36,13 @@ class ExperimentWindow(Experiment, BaseWidget):
 	_name
 		Field to edit experiment name
 
-		:type: :class:`pyforms.Controls.ControlText`
+		:type: :class:`pyforms.controls.ControlText`
 
 	_task
 		Combo box of available tasks. Current selected task is the task associated for this experiment
 		and all its setups. Selecting a different task fires the event :class:`ExperimentWindow._ExperimentWindow__task_changed_evt`.
 
-		:type: :class:`pyforms.Controls.ControlCombo`
+		:type: :class:`pyforms.controls.ControlCombo`
 
 	**Methods**
 
