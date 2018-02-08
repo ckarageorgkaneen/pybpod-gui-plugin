@@ -22,7 +22,6 @@ class SessionWindow(Session, BaseWidget):
 		self.layout().setContentsMargins(5, 10, 5, 5)
 
 		self._name 			= ControlText('Session')
-		self._path 			= ControlText('File path')
 		self._setup_name 	= ControlText('Setup')
 		self._board_name 	= ControlText('Board')
 		self._task_name  	= ControlText('Task')
@@ -39,13 +38,12 @@ class SessionWindow(Session, BaseWidget):
 			'_setup_name', '_task_name',
 			'_board_name',
 			'_board_serial_port',
-			'_path',
 			'_subjects'
 		]
 
 		self._subjects.readonly = True
 		self._subjects.enabled = False
-		self._path.enabled = self._setup_name.enabled = self._board_name.enabled = self._task_name.enabled = False
+		self._setup_name.enabled = self._board_name.enabled = self._task_name.enabled = False
 		self._board_serial_port.enabled = self._started.enabled = self._ended.enabled = False
 		self._name.changed_event = self.__name_edited_evt
 
@@ -53,9 +51,9 @@ class SessionWindow(Session, BaseWidget):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
-	def load(self, session_path, data):
+	def load(self, repository):
 		try:
-			Session.load(self, session_path, data)
+			Session.load(self, repository)
 		except InvalidSessionError as err:
 			logger.warning(str(err))
 
@@ -77,13 +75,7 @@ class SessionWindow(Session, BaseWidget):
 		self._update_name = False
 		self.title = "{0}: {1}".format(self.setup.name, value)
 
-	@property
-	def path(self):
-		return self._path.value
 
-	@path.setter
-	def path(self, value):
-		self._path.value = value
 
 	@property
 	def setup_name(self):

@@ -35,13 +35,13 @@ class CodeEditor(BaseWidget):
 
     def __code_changed_evt(self):
         """
-        if self.task.path is None:
+        if self.task.filepath is None:
             filepath = QFileDialog.getSaveFileName(self.form, "Save file")
             if filepath:
-                self.task.path = str(filepath)
+                self.task.filepath = str(filepath)
             else:
-                return False"""
-
+                return False
+        """
         self.task.code = self._code.value
         return True
 

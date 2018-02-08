@@ -33,7 +33,6 @@ class ProjectsTreeNode(ProjectsWindow):
 
 		:param str project_path:
 		"""
-		print('passou aqui')
 		try:
 			self.tree.item_selection_changed_event = utils.do_nothing
 			project = ProjectsWindow.open_project(self, project_path)

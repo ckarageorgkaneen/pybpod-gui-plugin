@@ -1,4 +1,11 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
+from pysettings import conf
+from pybpodgui_plugin.models.project.project_uibusy import ProjectUIBusy
 
-from pybpodgui_plugin.models.project.project_uibusy import ProjectUIBusy as Project
+Project = type(
+    'Project',
+    tuple(conf.GENERIC_EDITOR_PLUGINS_FINDER.find_class('models.project.Project') + [ProjectUIBusy]),
+    {}
+)
+

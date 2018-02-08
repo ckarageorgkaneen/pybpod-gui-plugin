@@ -57,12 +57,14 @@ class AsyncBpod(AsyncHandler):
 		logger.debug("Execution handler stopped")
 
 	def run_protocol(self, bpod_settings, protocol_path, 
-		project_name, experiment_name, user_name, board_name, setup_name, subjects, 
+		project_name, experiment_name, user_name, board_name, setup_name, 
+		session_name, session_path, subjects, 
 		variables,
 		handler_evt=dummy, extra_args=None, group=None):
 		self.call_function('runner_bpod_run_protocol', 
 			args=(bpod_settings, protocol_path, project_name, user_name, 
-				experiment_name, board_name, setup_name, subjects, variables),
+				experiment_name, board_name, setup_name, session_name, session_path, 
+				subjects, variables),
 			handler_evt=handler_evt,
 			extra_args=extra_args,
 			group=group

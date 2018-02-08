@@ -41,7 +41,7 @@ class BpodRunner(PybranchRunHandler):
 
 	def runner_bpod_run_protocol(self, bpod_settings, protocol_path, 
 		user_name, project_name, experiment_name, board_name, 
-		setup_name, subjects, variables):
+		setup_name, session_name, session_path, subjects, variables):
 		"""
 
 		http://stackoverflow.com/questions/14197009/how-can-i-redirect-print-output-of-a-function-in-python
@@ -55,16 +55,15 @@ class BpodRunner(PybranchRunHandler):
 		"""
 		global_dict = globals()
 		sys.path.insert(0,os.path.dirname(protocol_path))
-
 		
-
-		global_dict['PYBPOD_EXPERIMENT'] = project_name
-		global_dict['PYBPOD_EXPERIMENT'] = experiment_name
-		global_dict['PYBPOD_BOARD'] = board_name
-		global_dict['PYBPOD_SETUP'] = setup_name
-		global_dict['PYBPOD_SUBJECTS'] = subjects
+		global_dict['PYBPOD_PROJECT'] 	   = project_name
+		global_dict['PYBPOD_EXPERIMENT']   = experiment_name
+		global_dict['PYBPOD_BOARD'] 	   = board_name
+		global_dict['PYBPOD_SETUP'] 	   = setup_name
+		global_dict['PYBPOD_SESSION'] 	   = session_name
+		global_dict['PYBPOD_SESSION_PATH'] = session_path
+		global_dict['PYBPOD_SUBJECTS'] 	   = subjects
 		
-
 		try:
 			#execute the settings first
 			exec(bpod_settings, global_dict)

@@ -12,7 +12,7 @@ class SessionDockWindow(SessionTreeNode):
 	def show(self):
 		try:
 			if len(self.messages_history) == 0:
-				self.load_contents(self.path)
+				self.load_contents(self.filepath)
 		except FileNotFoundError as err:
 			logger.warning("Trying to load contents from session without file.")
 
