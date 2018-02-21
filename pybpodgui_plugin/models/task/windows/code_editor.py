@@ -1,12 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-    from PyQt5.QtWidgets import QMessageBox
-else:
-    from PyQt4.QtGui import QMessageBox
+from pyforms import conf
 
 import pyforms
 from pyforms import BaseWidget
@@ -54,10 +49,9 @@ class CodeEditor(BaseWidget):
         
         """
         if self._code.is_modified:
-            reply = QMessageBox.question(self, 'Save the changes', 'Save the file',
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            reply = self.question('Save the changes', 'Save the file')
 
-            if reply == QMessageBox.Yes:
+            if reply:
                 self.__code_changed_evt()
 
     @property

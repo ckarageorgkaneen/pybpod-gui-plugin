@@ -3,12 +3,7 @@
 
 import logging
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+from pyforms import conf
 
 from pybpodgui_plugin.models.setup.setup_treenode import SetupTreeNode
 
@@ -56,13 +51,11 @@ class SetupDockWindow(SetupTreeNode):
 
 		"""
 		if not self.experiment.MARKED_FOR_REMOVAL:
-			reply = QMessageBox.question(self, 'Warning',
-			                             'The setup {0} will be deleted. Are you sure?'.format(self.name),
-			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+			reply = self.question('The setup {0} will be deleted. Are you sure?'.format(self.name) )
 		else:
 			reply = True
 
-		if reply == QMessageBox.Yes:
+		if reply:
 			self.mainwindow.details.value = None
 			super(SetupDockWindow, self).remove()
 

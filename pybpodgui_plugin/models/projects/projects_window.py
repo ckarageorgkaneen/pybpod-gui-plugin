@@ -3,14 +3,10 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QFileDialog
-	from PyQt5.QtCore import pyqtSignal
-else:
-	from PyQt4.QtGui import QFileDialog
-	from PyQt4.QtCore import pyqtSignal
+from AnyQt.QtWidgets import QFileDialog
+from AnyQt.QtCore import pyqtSignal
 
 import pyforms
 

@@ -4,7 +4,7 @@
 import logging
 import os
 
-from pysettings import conf
+from pyforms import conf
 
 from AnyQt.QtWidgets import QFileDialog, QMessageBox
 

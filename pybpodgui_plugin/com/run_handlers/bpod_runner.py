@@ -91,27 +91,3 @@ class BpodRunner(PybranchRunHandler):
 				for subject in subjects: var.session += SessionInfo(self.INFO_SUBJECT_NAME, subject)
 				var.session += SessionInfo(self.INFO_BPODGUI_VERSION, pybpodgui_plugin.__version__)
 				del var
-			
-
-"""	def my_print(self, *args):
-		if len(args)>1: 
-			msg = ' '.join(map(str, args))
-		else:
-			msg = args[0]
-		
-		if isinstance(msg, str): msg = StdoutMessage(msg)
-
-		#self.original_print(msg)
-		self.log_msg(msg, last_call=False, evt_idx=self._current_evt_idx)
-"""
-#
-# class MyWriter(object):
-#
-# 	def __init__(self, queue_handler):
-# 		self.queue_handler = queue_handler
-#
-#
-# 	def write(self, my_string):
-# 		self.queue_handler.log_msg("P 1 {0}\n".format(my_string), last_call=False, evt_idx=self._current_evt_idx)
-#
-#

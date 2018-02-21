@@ -3,15 +3,12 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QApplication
-	from PyQt5.QtGui import QIcon
-	from PyQt5 import QtCore
-else:
-	from PyQt4.QtGui import QIcon, QApplication
-	from PyQt4 import QtCore
+
+from AnyQt.QtWidgets import QApplication
+from AnyQt.QtGui import QIcon
+from AnyQt import QtCore
 
 from pybpodgui_plugin.models.task.task_window import TaskWindow
 

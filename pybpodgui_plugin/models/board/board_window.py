@@ -4,7 +4,7 @@
 import os
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
 import pyforms as app
 from pyforms import BaseWidget

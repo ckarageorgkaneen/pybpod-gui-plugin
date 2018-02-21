@@ -12,15 +12,15 @@ __status__ = "Development"
 import logging
 import loggingbootstrap
 
-from pysettings import conf
+from pyforms import conf
 
 conf += 'pybpodgui_plugin.settings'
 conf += 'pybpodgui_plugin.resources'
 
 # setup different loggers but output to single file
-loggingbootstrap.create_double_logger("pybpodgui_plugin", conf.BPODGUI_LOG_HANDLER_CONSOLE_LEVEL,
+loggingbootstrap.create_double_logger("pybpodgui_plugin", conf.APP_LOG_HANDLER_CONSOLE_LEVEL,
                                       conf.APP_LOG_FILENAME,
-                                      conf.BPODGUI_LOG_HANDLER_FILE_LEVEL)
+                                      conf.APP_LOG_HANDLER_FILE_LEVEL)
 
 loggingbootstrap.create_double_logger("pybranch", conf.APP_LOG_HANDLER_CONSOLE_LEVEL,
                                       conf.APP_LOG_FILENAME,

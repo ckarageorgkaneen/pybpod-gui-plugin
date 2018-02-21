@@ -6,12 +6,9 @@ import logging
 from pybranch.thread_handlers.async_handler import AsyncHandler
 from pybranch.thread_handlers.qt_thread import QtThread
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtCore import QEventLoop
-else:
-	from PyQt4.QtCore import QEventLoop
+from AnyQt.QtWidgets import QApplication
 
 logger = logging.getLogger(__name__)
 
@@ -34,4 +31,4 @@ class QtAsyncBpod(AsyncHandler):
 		return qtt
 
 	def update_gui(self):
-		QEventLoop()
+		QApplication.processEvents()

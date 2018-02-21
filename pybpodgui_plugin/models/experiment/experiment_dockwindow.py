@@ -3,12 +3,9 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+from AnyQt.QtWidgets import QMessageBox
 
 from pybpodgui_plugin.models.experiment.experiment_treenode import ExperimentTreeNode
 

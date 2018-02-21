@@ -3,12 +3,9 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtCore import QTimer
-else:
-	from PyQt4.QtCore import QTimer
+from AnyQt.QtCore import QTimer
 
 from pyforms import BaseWidget
 from pyforms.controls import ControlTextArea
@@ -18,10 +15,7 @@ from pyforms.controls import ControlButton
 from pybranch.com.messaging.debug import DebugMessage
 from pybpodgui_api.exceptions.run_setup import RunSetupError
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtCore import QEventLoop
-else:
-	from PyQt4.QtCore import QEventLoop
+from AnyQt.QtWidgets import QApplication
 
 logger = logging.getLogger(__name__)
 
@@ -32,15 +26,11 @@ class LogWindow(BaseWidget):
 		self.board = board
 		self.layout().setContentsMargins(5, 5, 5, 5)
 
-		self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', True)
+		self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', default=True)
 		self._autoscroll_checkbox.changed_event = self.__auto_scroll_evt
 
-		self._refresh_button = ControlButton('Clear')
-		self._refresh_button.value = self.__clear_log_evt
-
-		self._log = ControlTextArea()
-		self._log.readonly 	 = True
-		self._log.autoscroll = True
+		self._refresh_button = ControlButton('Clear', default=self.__clear_log_evt)
+		self._log 			 = ControlTextArea(readonly=True, autoscroll=False)
 
 		self._session_history_index = 0
 		self._read_active = True
@@ -51,6 +41,11 @@ class LogWindow(BaseWidget):
 		self.formset = [(' ', '_autoscroll_checkbox', '_refresh_button'), '_log']
 
 	def show(self):
+		# show only the last 20 messages
+		if self._session_history_index<(len(self.board.log_messages)-20):
+			self._log += "\n\n...\n\n"
+		self._session_history_index = len(self.board.log_messages)-20
+
 		# Prevent the call to be recursive because of the mdi_area
 		if hasattr(self, '_show_called'):
 			BaseWidget.show(self)
@@ -60,6 +55,8 @@ class LogWindow(BaseWidget):
 		del self._show_called
 
 		self._timer.start(conf.BOARD_LOG_WINDOW_REFRESH_RATE)
+
+
 
 	def hide(self):
 		self._timer.stop()
@@ -93,7 +90,7 @@ class LogWindow(BaseWidget):
 						message_type=message.MESSAGE_TYPE_ALIAS,
 						message=str(message) )
 
-					QEventLoop()
+					QApplication.processEvents()
 
 
 		except RunSetupError as err:

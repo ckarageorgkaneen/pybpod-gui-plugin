@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pysettings import conf
+from pyforms import conf
 from pybpodgui_plugin.models.projects.projects_treenode import ProjectsTreeNode
 
 Projects = type(

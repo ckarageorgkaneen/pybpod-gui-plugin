@@ -3,12 +3,7 @@
 
 import logging
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+from pyforms import conf
 
 import pyforms as app
 from pyforms import BaseWidget
@@ -145,9 +140,7 @@ class ExperimentWindow(Experiment, BaseWidget):
 		except FileNotFoundError as err:
 			logger.warning(str(err))
 
-			QMessageBox.about(self,
-			                  "Task file does not exists yet.",
-			                  "The task file does not exists yet.\nPlease save the project to create the task file.")
+			self.message("The task file does not exists yet.\nPlease save the project to create the task file.", "Task file does not exists yet.")
 
 			self._task.value = last_task
 

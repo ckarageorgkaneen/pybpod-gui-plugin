@@ -3,12 +3,7 @@
 
 import logging
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+from pyforms import conf
 
 from pybpodgui_plugin.models.task.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.task.task_treenode import TaskTreeNode
@@ -55,10 +50,8 @@ class TaskDockWindow(TaskTreeNode):
 			This method extends task tree node :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.remove`.
 
 		"""
-		reply = QMessageBox.question(self, 'Warning',
-		                             'Task {0} will be deleted. Are you sure?'.format(self.name),
-		                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-		if reply == QMessageBox.Yes:
+		reply = self.question('Task {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
+		if reply:
 			if hasattr(self, '_code_editor'):
 				self.mainwindow.mdi_area -= self._code_editor
 			super(TaskDockWindow, self).remove()
@@ -73,8 +66,7 @@ class TaskDockWindow(TaskTreeNode):
 				* Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
 		"""
 		if self.project.path is None:
-			QMessageBox.warning(self, "Cannot edit the file yet.",
-			                  "The project was not saved yet.\nPlease save it first.")
+			self.warning("The project was not saved yet.\nPlease save it first.", "Cannot edit the file yet.")
 		else:
 			try:
 				if not hasattr(self, '_code_editor'):
@@ -82,8 +74,9 @@ class TaskDockWindow(TaskTreeNode):
 				self.mainwindow.mdi_area += self._code_editor
 			except FileNotFoundError as err:
 				logger.warning(str(err))
-				QMessageBox.warning(self, "Cannot edit the file yet.",
-				                  "Task file does not exist yet.\nPlease save the project to create the task file.")
+				self.warning(
+					"Task file does not exist yet.\nPlease save the project to create the task file.",
+					"Cannot edit the file yet.")
 
 	@property
 	def mainwindow(self):

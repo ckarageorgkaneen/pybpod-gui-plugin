@@ -1,6 +1,6 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
-from pysettings import conf
+from pyforms import conf
 from pybpodgui_plugin.models.project.project_uibusy import ProjectUIBusy
 
 Project = type(

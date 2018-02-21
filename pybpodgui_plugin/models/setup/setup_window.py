@@ -3,7 +3,7 @@
 
 import logging, re
 
-from pysettings import conf
+from pyforms import conf
 
 import pyforms as app
 
@@ -12,10 +12,8 @@ from pyforms.controls import ControlText
 from pyforms.controls import ControlList
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlCombo
+from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlEmptyWidget
-
-from AnyQt.QtWidgets import QMessageBox
-
 
 from pybpodgui_api.models.setup import Setup
 from pybpodgui_api.exceptions.run_setup import RunSetupError
@@ -86,6 +84,8 @@ class SetupWindow(Setup, BaseWidget):
 		self._add_subject 	= ControlButton('Add subject')
 		self._allsubjects   = ControlCombo('Add subject')
 
+		self._detached 		= ControlCheckBox('Detach from GUI')
+
 		self._varspanel = ControlEmptyWidget()
 
 		self._btn = ControlButton('Open')
@@ -100,7 +100,7 @@ class SetupWindow(Setup, BaseWidget):
 			'_name',
 			'_board',
 			'_btn',
-			(' ', ' ', '_run_task_btn'),
+			('_detached', '_run_task_btn'),
 			' ',
 			{	
 				'Subjects':[
@@ -126,8 +126,6 @@ class SetupWindow(Setup, BaseWidget):
 	def __open_tst(self):
 		self.board_task.show()
 
-	
-
 	def __add_subject(self):
 		self += self._allsubjects.value
 		self._subjects_list.value = [[s.name] for s in self.subjects]
@@ -146,14 +144,14 @@ class SetupWindow(Setup, BaseWidget):
 		This methods is called every time the user presses the button.
 		"""
 		try:
-			if self.status == SetupWindow.STATUS_RUNNING_TASK_HANDLER:
+			if self.status == SetupWindow.STATUS_RUNNING_TASK:
 				self.stop_task()
 			elif self.status == SetupWindow.STATUS_READY:
 				self.run_task()
 		except RunSetupError as err:
-			QMessageBox.warning(self, "Warning", str(err))
+			self.warning(str(err), "Warning")
 		except Exception as err:
-			QMessageBox.critical(self, "Unexpected Error", str(err))
+			self.alert(str(err), "Unexpected Error")
 
 	def __board_changed_evt(self):
 		"""
@@ -243,6 +241,12 @@ class SetupWindow(Setup, BaseWidget):
 		self._board.value = value
 		self._update_name = False
 		Setup.board.fset(self, value)
+
+	@property
+	def detached(self): return self._detached.value
+	@detached.setter
+	def detached(self, value): self._detached.value = value
+
 
 
 # Execute the application

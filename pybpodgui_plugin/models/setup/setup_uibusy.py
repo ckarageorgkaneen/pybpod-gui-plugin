@@ -3,12 +3,9 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-else:
-	from PyQt4.QtGui import QIcon
+from AnyQt.QtGui import QIcon
 
 from pybpodgui_api.models.setup import Setup
 from pybpodgui_plugin.models.setup.setup_com import SetupCom
@@ -38,15 +35,13 @@ class SetupUIBusy(SetupCom):
 		if self.status == Setup.STATUS_READY:
 
 			self.node.setIcon(0, QIcon(conf.BOX_SMALL_ICON))
-
 			self._run_task_btn.label = 'Run'
-
 			if self.board:
 				self.enable_all_task_buttons()
 			else:
 				self.disable_all_task_buttons()
-
-			self._board.enabled = True
+			self._board.enabled    = True
+			self._detached.enabled = True
 
 		elif self.status == Setup.STATUS_BOARD_LOCKED:
 
@@ -54,35 +49,14 @@ class SetupUIBusy(SetupCom):
 			self.disable_all_task_buttons()
 			self._board.enabled = False
 
-		elif self.status == Setup.STATUS_INSTALLING_TASK:
-
-			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			self.disable_all_task_buttons()
-			self._board.enabled = False
-
-		elif self.status == Setup.STATUS_SYNCING_VARS:
-
-			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			self.disable_all_task_buttons()
-			self._board.enabled = False
-
 		elif self.status == Setup.STATUS_RUNNING_TASK:
 
 			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
-			self._board.enabled = False
+			self._board.enabled    = False
+			self._detached.enabled = False
 
-		elif self.status == Setup.STATUS_RUNNING_TASK_HANDLER:
-
-			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			self._run_task_btn.label = 'Stop'
-			self._run_task_btn.enabled = True
-
-		elif self.status == Setup.STATUS_RUNNING_TASK_ABOUT_2_STOP:
-
-			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			self._run_task_btn.enabled = False
-			self._run_task_btn.label = 'Stop'
+		
 
 		self.board_task.update_ui()
 		if self.last_session: self.last_session.update_ui()

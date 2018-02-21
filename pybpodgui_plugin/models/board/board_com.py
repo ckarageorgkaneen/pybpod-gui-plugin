@@ -4,15 +4,9 @@
 import logging
 import traceback, sys
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+from pyforms import conf
 
 from pybpodgui_api.models.setup import Setup
-from pybpodgui_api.models.board.board_operations import BoardOperations
 
 from pybpodgui_plugin.com.async.qt_async_bpod import QtAsyncBpod
 from pybpodgui_plugin.models.board.board_window import BoardWindow
@@ -40,7 +34,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 	####### FUNCTIONS ########################################################
 	##########################################################################
 
-	def run_task(self, session, board_task, workspace_path):
+	def run_task(self, session, board_task, workspace_path, detached=False):
 		"""
 		Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task`
 
@@ -50,13 +44,11 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 		:param board_task: board and task object
 		:return: True if no problems occur, False otherwise.
 		"""
-		print(sys.path)
-		
 		flag = None
 		self._enable_btn_flag = True
 		self._tmp_setup = session.setup
 		try:
-			flag = super(BoardCom, self).run_task(session, board_task, workspace_path)
+			flag = super(BoardCom, self).run_task(session, board_task, workspace_path, detached)
 		except Exception:
 			board_task.setup.status = Setup.STATUS_READY
 			self.status = self.STATUS_READY
@@ -74,7 +66,7 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 
 			called_operation = e.extra_args[0]
 
-			if called_operation == BoardOperations.RUN_PROTOCOL:
+			if called_operation == BoardCom.STATUS_RUNNING_TASK:
 				self.project.update_ui()
 
 		except Exception as err:
@@ -85,4 +77,4 @@ class BoardCom(QtAsyncBpod, BoardWindow):
 			self._running_task 	  = None
 
 			logger.error(traceback.format_exc())
-			QMessageBox.critical(self, "Error", str(err))
+			self.alert(self, str(err), "Error")

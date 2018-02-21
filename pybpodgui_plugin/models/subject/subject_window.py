@@ -5,7 +5,7 @@ import os
 import logging
 
 import pyforms as app
-from pysettings import conf
+from pyforms import conf
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton

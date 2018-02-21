@@ -3,9 +3,9 @@
 
 import logging, re
 
-from pysettings import conf
+from pyforms import conf
 
-from AnyQt.QtWidgets import QCheckBox, QMessageBox
+from AnyQt.QtWidgets import QCheckBox
 
 import pyforms as app
 from pyforms import BaseWidget
@@ -106,7 +106,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 		if col==0 and item is not None:
 			if not (self._variable_rule.match(item) and item.startswith('VAR_') ):
-				QMessageBox.about(self, 
+				self.message(self, 
 					"Error", 
 					"The name of the variable should start with VAR_, should be alphanumeric and upper case."
 				)
@@ -119,10 +119,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 			datatype_combo = self._vars.get_value(1, row)
 			datatype = datatype_combo.value if datatype_combo else None
 			if datatype=='number' and isinstance(item, str) and not item.isnumeric():
-				QMessageBox.about(self, 
-					"Error", 
-					"The value should be numeric."
-				)
+				self.message("The value should be numeric.", "Error")
 				self._vars.set_value(
 					col, row, 
 					'0'

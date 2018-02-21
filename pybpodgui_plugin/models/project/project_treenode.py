@@ -4,13 +4,10 @@
 import os
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-    from PyQt5.QtWidgets import QMessageBox, QFileDialog
-    from PyQt5.QtGui import QIcon
-else:
-    from PyQt4.QtGui import QIcon, QMessageBox, QFileDialog
+from AnyQt.QtWidgets import QFileDialog
+from AnyQt.QtGui import QIcon
 
 from pybpodgui_plugin.models.project.project_window import ProjectWindow
 from pybpodgui_plugin.models.experiment import Experiment
@@ -105,10 +102,9 @@ class ProjectTreeNode(ProjectWindow):
         confirmation = True
 
         if not silent:
-            reply = QMessageBox.question(self, 'Close project', 'Are sure you want to close the project?',
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            reply = self.question('Are sure you want to close the project?','Close project')
 
-            if reply == QMessageBox.Yes:
+            if reply:
                 confirmation = True
             else:
                 confirmation = False
@@ -132,8 +128,7 @@ class ProjectTreeNode(ProjectWindow):
 
     def _add_task(self):
         if self.path is None or len(self.path) == 0 or not self.is_saved():
-            reply = QMessageBox.warning(self, 'Project not saved yet',
-                                        'To create a new protocol you need to save the project first.')
+            reply = self.warning('To create a new protocol you need to save the project first.','Project not saved yet')
         else:
             entity = self.create_task()
             entity.focus_name()
@@ -151,8 +146,7 @@ class ProjectTreeNode(ProjectWindow):
         :return: 
         """
         if self.path is None or len(self.path) == 0 or not self.is_saved():
-            reply = QMessageBox.warning(self, 'Project not saved yet',
-                                        'To import a protocol you need to save the project first.')
+            reply = self.warning('To import a protocol you need to save the project first.','Project not saved yet')
         else:
             if not filepath:
                 filepath, _ = QFileDialog.getOpenFileName(self, 'OpenFile')

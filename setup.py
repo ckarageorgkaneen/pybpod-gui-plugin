@@ -10,7 +10,7 @@ with open('pybpodgui_plugin/__init__.py', 'r') as fd: version = re.search(r'^__v
 if not version: raise RuntimeError('Cannot find version information')
 
 requirements = [
-	'pysettings>=1.0.0',
+	'pyforms>=1.0.0',
 	'pyforms=1.0.beta',
 	'pyforms_generic_editor>=1.1.0',
 	'pyserial>= 3.1.1',
