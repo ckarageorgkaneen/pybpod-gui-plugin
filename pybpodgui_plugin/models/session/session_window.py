@@ -7,6 +7,7 @@ import datetime
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlList
+from pyforms.controls import ControlProgress
 
 from pybpodgui_api.models.session import Session
 from pybpodgui_api.exceptions.invalid_session import InvalidSessionError
@@ -25,11 +26,12 @@ class SessionWindow(Session, BaseWidget):
 		self._setup_name 	= ControlText('Setup')
 		self._board_name 	= ControlText('Board')
 		self._task_name  	= ControlText('Task')
-		self._board_serial_port = ControlText('Serial port')
 		self._started 		= ControlText('Started on')
 		self._ended 		= ControlText('Ended on')
 		self._subjects 		= ControlList('Subjects')
-
+		self._board_serial_port = ControlText('Serial port')
+		self._progress 	    = ControlProgress('Loading', visible=False)
+		
 		Session.__init__(self, setup)
 
 		self._formset = [
@@ -38,7 +40,8 @@ class SessionWindow(Session, BaseWidget):
 			'_setup_name', '_task_name',
 			'_board_name',
 			'_board_serial_port',
-			'_subjects'
+			'_subjects',
+			'_progress'
 		]
 
 		self._subjects.readonly = True
@@ -59,6 +62,25 @@ class SessionWindow(Session, BaseWidget):
 
 	def remove(self):
 		self.setup -= self
+
+	def __init_loading_progress(self, max_nbytes):
+		self._progress.show()
+		self._progress.max = max_nbytes
+
+	def __update_loading_progress(self, nbytes_loaded):
+		self._progress.value = nbytes_loaded
+
+	def __end_loading_progress(self):
+		self._progress.hide()
+
+	def load_contents(self):
+		self._progress.min   = 0
+		self._progress.value = 0
+		super(SessionWindow, self).load_contents(
+			self.__init_loading_progress, 
+			self.__update_loading_progress, 
+			self.__end_loading_progress
+		)
 
 	##########################################################################
 	####### PROPERTIES #######################################################

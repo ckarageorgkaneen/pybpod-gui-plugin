@@ -4,7 +4,7 @@
 import logging, sys, traceback, os
 
 import pybpodgui_plugin
-from datetime import datetime
+from datetime import datetime as datetime_now
 from pybpodgui_plugin.com.run_handlers import PybranchRunHandler
 from pybranch.com.messaging.stderr import StderrMessage
 from pybranch.com.messaging.stdout import StdoutMessage
@@ -87,7 +87,7 @@ class BpodRunner(PybranchRunHandler):
 				var.session += SessionInfo(self.INFO_PROJECT_NAME, 		project_name) 	
 				var.session += SessionInfo(self.INFO_EXPERIMENT_NAME, 	experiment_name)
 				var.session += SessionInfo(self.INFO_SETUP_NAME, setup_name)
-				var.session += SessionInfo(var.session.INFO_SESSION_ENDED, datetime.now())
+				var.session += SessionInfo(var.session.INFO_SESSION_ENDED, datetime_now.now())
 				for subject in subjects: var.session += SessionInfo(self.INFO_SUBJECT_NAME, subject)
 				var.session += SessionInfo(self.INFO_BPODGUI_VERSION, pybpodgui_plugin.__version__)
 				del var
