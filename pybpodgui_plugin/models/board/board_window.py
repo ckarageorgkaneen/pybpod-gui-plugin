@@ -99,17 +99,21 @@ class BoardWindow(Board, BaseWidget):
 		self._loadports_btn.value 		= self.__load_bpod_ports
 
 	def __load_bpod_ports(self):
-		bpod = Bpod(self._serial_port.value)
-		bpod.start()
-		hw = bpod.hardware
 
-		### load the ports to the GUI ###############################
-		self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
-		self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
-		self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
-		#############################################################
-		
-		bpod.stop()
+		try:
+			bpod = Bpod(self._serial_port.value)
+			bpod.start()
+			hw = bpod.hardware
+
+			### load the ports to the GUI ###############################
+			self._active_bnc.value 		= [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes) 	]
+			self._active_wired.value 	= [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes) 	]
+			self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+			#############################################################
+			
+			bpod.stop()
+		except Exception as e:
+			self.critical(str(e), 'Error loading ports')
 
 	def __name_changed_evt(self):
 		"""

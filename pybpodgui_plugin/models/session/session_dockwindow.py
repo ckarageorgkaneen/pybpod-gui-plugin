@@ -13,7 +13,7 @@ class SessionDockWindow(SessionTreeNode):
     def show(self):
         
         try:
-            if len(self.messages_history) == 0:
+            if len(self.messages_history) == 0 and not self.is_running:
                 self.load_info()
         except FileNotFoundError as err:
             logger.warning("Error when trying to load the session info.")
