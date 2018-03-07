@@ -9,12 +9,12 @@ from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
 from pybpodgui_api.models.task import Task
 
-from .other_taskfile import OtherTaskFile
+from pybpodgui_api.models.task.other_taskfile import OtherTaskFile
 
 logger = logging.getLogger(__name__)
 
 
-class TaskWindow(Task, BaseWidget):
+class OtherTaskFileWindow(OtherTaskFile, BaseWidget):
     """
     Define here which fields from the task model should appear on the details section.
 
@@ -48,50 +48,33 @@ class TaskWindow(Task, BaseWidget):
 
     """
 
-    def __init__(self, experiment=None):
-        BaseWidget.__init__(self, 'Task')
+    def __init__(self, task=None):
+        BaseWidget.__init__(self, 'Other task file')
+        
         self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name = ControlText('Task name')
+        self._name_field = ControlText('Task name')
         self._edit_btn = ControlButton('Edit')
 
-        self._formset = [
-            '_name',
+        self._formset  = [
+            '_name_field',
             (' ', '_edit_btn'),
             ' '
         ]
 
-        self._name.changed_event = self.__name_edited_evt
+        #self._name.changed_event = self.__name_edited_evt
 
-        Task.__init__(self, experiment)
+        OtherTaskFile.__init__(self, task)
 
-    def __name_edited_evt(self):
-        """
-        React to changes on text field :py:attr:`_name`.
-
-        This methods is called every time the user changes the field.
-        """
-        if not hasattr(self, '_update_name') or not self._update_name:
-            self.name = self._name.value
-
-    def create_otherfile(self):
-        """
-        Add a other file to a task and return it.
-        
-        :rtype: Experiment
-        """
-        return OtherTaskFile(self)
 
     @property
-    def name(self): return self._name.value
+    def name(self): return OtherTaskFile.name.fget(self)
 
     @name.setter
     def name(self, value):
-        self._update_name = True  # Flag to avoid recurse calls when editing the name text field
-        self._name.value = value
-        self._update_name = False
+        OtherTaskFile.name.fset(self, value)
+        self._name_field.value = value
+        
 
 
-# Execute the application
-if __name__ == "__main__":
-    app.start_app(TaskWindow)
+        
