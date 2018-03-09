@@ -47,3 +47,4 @@ uninstall-requirements-dev-*.txt
 
 projects/**
 .vscode
+pybpodgui_plugin/resources/icons/\.DS_Store

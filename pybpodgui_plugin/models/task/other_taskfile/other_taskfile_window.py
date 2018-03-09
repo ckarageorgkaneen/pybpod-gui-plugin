@@ -7,6 +7,7 @@ import pyforms as app
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlCheckBox
 from pybpodgui_api.models.task import Task
 
 from pybpodgui_api.models.task.other_taskfile import OtherTaskFile
@@ -53,12 +54,18 @@ class OtherTaskFileWindow(OtherTaskFile, BaseWidget):
         
         self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name_field = ControlText('Task name')
-        self._edit_btn = ControlButton('Edit')
+        self._name_field = ControlText('Task name', changed_event=self.__name_changed_evt)
+        self._edit_btn   = ControlButton('Edit')
+
+        self._execute_field  = ControlCheckBox('Execute before the task', changed_event=self.__execute_changed_evt)
+        self._detached_field = ControlCheckBox('Detached execution', changed_event=self.__detached_changed_evt)
+
 
         self._formset  = [
             '_name_field',
             (' ', '_edit_btn'),
+            '_execute_field',
+            '_detached_field',
             ' '
         ]
 
@@ -66,6 +73,15 @@ class OtherTaskFileWindow(OtherTaskFile, BaseWidget):
 
         OtherTaskFile.__init__(self, task)
 
+    def __name_changed_evt(self):
+        self.name = self._name_field.value
+
+    def __execute_changed_evt(self):
+        self._execute = self._execute_field.value
+
+    def __detached_changed_evt(self):
+        #self._update_detached_flag = True
+        self._detached = self._detached_field.value
 
     @property
     def name(self): return OtherTaskFile.name.fget(self)
@@ -74,6 +90,24 @@ class OtherTaskFileWindow(OtherTaskFile, BaseWidget):
     def name(self, value):
         OtherTaskFile.name.fset(self, value)
         self._name_field.value = value
+
+
+    @property
+    def execute(self): return OtherTaskFile.execute.fget(self)
+
+    @execute.setter
+    def execute(self, value):
+        OtherTaskFile.execute.fset(self, value)
+        self._execute_field.value = value
+        
+
+    @property
+    def detached(self): return OtherTaskFile.detached.fget(self)
+
+    @detached.setter
+    def detached(self, value):
+        OtherTaskFile.detached.fset(self, value)
+        self._detached_field.value = value
         
 
 

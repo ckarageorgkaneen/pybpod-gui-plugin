@@ -22,3 +22,6 @@ EXPERIMENTS_SMALL_ICON = path('experiments.png')
 
 TASK_SMALL_ICON = path('task.png')
 TASKS_SMALL_ICON = path('tasks.png')
+
+CODEFILE_SMALL_ICON = path('codefile.png')
+OTHERFILE_SMALL_ICON = path('otherfile.png')

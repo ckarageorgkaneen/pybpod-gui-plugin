@@ -56,7 +56,9 @@ class OtherTaskFileTreeNode(OtherTaskFileWindow):
         :return: new created node
         :return type: QtGui.QTreeWidgetItem
         """
-        self.node = tree.create_child(self.name, self.task.node, icon=QIcon(conf.TASK_SMALL_ICON))
+
+        icon = conf.CODEFILE_SMALL_ICON if self.file_extension=='py' else conf.OTHERFILE_SMALL_ICON
+        self.node = tree.create_child(self.name, self.task.node, icon=QIcon(icon))
         #self.node.key_pressed_event = self.node_key_pressed_event
         #self.node.double_clicked_event = self.node_double_clicked_event
         self.node.window = self
@@ -97,4 +99,18 @@ class OtherTaskFileTreeNode(OtherTaskFileWindow):
     def name(self, value):
         OtherTaskFileWindow.name.fset(self, value)
         if hasattr(self, 'node'): self.node.setText(0, value)
+
+        if hasattr(self, 'node'):
+            icon = conf.CODEFILE_SMALL_ICON if self.file_extension=='.py' else conf.OTHERFILE_SMALL_ICON
+            self.node.setIcon(0, QIcon(icon))
+
+    @property
+    def filepath(self): return OtherTaskFileWindow.filepath.fget(self)
+
+    @filepath.setter
+    def filepath(self, value): 
+        OtherTaskFileWindow.filepath.fset(self, value)
+        if hasattr(self, 'node'):
+            icon = conf.CODEFILE_SMALL_ICON if self.file_extension=='.py' else conf.OTHERFILE_SMALL_ICON
+            self.node.setIcon(0, QIcon(icon))
         
