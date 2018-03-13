@@ -10,7 +10,8 @@ from pyforms.controls import ControlButton
 from pyforms.controls import ControlCheckBox
 from pybpodgui_api.models.task import Task
 
-from pybpodgui_api.models.task.other_taskfile import OtherTaskFile
+from pybpodgui_plugin.models.task.other_taskfile.windows.code_editor import CodeEditor
+from pybpodgui_api.models.task.other_taskfile                        import OtherTaskFile
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +84,28 @@ class OtherTaskFileWindow(OtherTaskFile, BaseWidget):
         #self._update_detached_flag = True
         self._detached = self._detached_field.value
 
+    def edit_btn_evt(self):
+        """
+        Open code editor window on the mdi section for the task source code.
+
+        .. seealso::
+            This event may be fired on:
+                * Double click event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_double_clicked_event`.
+                * Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
+        """
+        if self.project.path is None:
+            self.warning("The project was not saved yet.\nPlease save it first.", "Cannot edit the file yet.")
+        else:
+            try:
+                if not hasattr(self, '_code_editor'):
+                    self._code_editor = CodeEditor(self)
+                self.mainwindow.mdi_area += self._code_editor
+            except FileNotFoundError as err:
+                logger.warning(str(err))
+                self.warning(
+                    "Task file does not exist yet.\nPlease save the project to create the task file.",
+                    "Cannot edit the file yet.")
+
     @property
     def name(self): return OtherTaskFile.name.fget(self)
 
@@ -109,6 +132,7 @@ class OtherTaskFileWindow(OtherTaskFile, BaseWidget):
         OtherTaskFile.detached.fset(self, value)
         self._detached_field.value = value
         
+
 
 
         

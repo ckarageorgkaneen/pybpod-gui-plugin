@@ -155,10 +155,6 @@ class ProjectTreeNode(ProjectWindow):
                 filename, file_extension = os.path.splitext(os.path.basename(filepath))
                 task.name = filename
                 task.filepath = os.path.join(task.path, task.name+'.py')
-                with open(filepath, 'r') as infile:
-                    task.code = infile.read()
-                
-                
 
     @property
     def name(self):

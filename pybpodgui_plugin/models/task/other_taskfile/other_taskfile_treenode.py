@@ -60,18 +60,18 @@ class OtherTaskFileTreeNode(OtherTaskFileWindow):
         icon = conf.CODEFILE_SMALL_ICON if self.file_extension=='py' else conf.OTHERFILE_SMALL_ICON
         self.node = tree.create_child(self.name, self.task.node, icon=QIcon(icon))
         #self.node.key_pressed_event = self.node_key_pressed_event
-        #self.node.double_clicked_event = self.node_double_clicked_event
+        self.node.double_clicked_event = self.node_double_clicked_event
         self.node.window = self
         self.node.setExpanded(True)
 
-        #tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
+        tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
         return self.node
 
     def node_double_clicked_event(self):
         """
         Fires event :py:meth:`pybpodgui_plugin.models.task.task_dockwindow.TaskDockWindow.edit_btn_evt` when tree node is double clicked.
         """
-        pass
+        self.edit_btn_evt()
 
     def remove(self):
         """
