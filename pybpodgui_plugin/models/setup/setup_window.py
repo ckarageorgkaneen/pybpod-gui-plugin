@@ -78,7 +78,7 @@ class SetupWindow(Setup, BaseWidget):
         self.layout().setContentsMargins(5, 10, 5, 5)
 
         self._name          = ControlText('Setup name')
-        self._board         = ControlCombo('Box')
+        self._board         = ControlCombo('Board')
         self._run_task_btn  = ControlButton('Run')
         
         self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)

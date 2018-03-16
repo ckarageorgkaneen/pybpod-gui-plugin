@@ -87,21 +87,7 @@ class ExperimentWindow(Experiment, BaseWidget):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
-	def reload_tasks(self, current_selected_task=None):
-		# type: (Task) -> None
-		"""
-		Reload tasks now
-
-		:param current_selected_task: current selected task
-		:type current_selected_task: pybpodgui_plugin.models.task.Task
-		"""
-		self._task.clear()
-		self._task.add_item('', 0)
-		for task in self.project.tasks:
-			self._task.add_item(task.name, task)
-		self._task.current_index = 0
-		if current_selected_task:
-			self.task = current_selected_task
+	
 
 	@property
 	def name(self):
