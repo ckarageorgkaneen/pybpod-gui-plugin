@@ -11,6 +11,7 @@ from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlCheckBoxList
+from pyforms.controls import ControlNumber
 
 from pybpodgui_api.models.board import Board
 
@@ -81,12 +82,15 @@ class BoardWindow(Board, BaseWidget):
 		self._active_wired 		= ControlCheckBoxList('Wired')
 		self._active_behavior 	= ControlCheckBoxList('Behavior')
 		self._loadports_btn 	= ControlButton('Load ports')
+		self._netport    		= ControlNumber('Net port', default=36000+len(project.boards), minimum=36000, maximum=36100)
+        
 
 		Board.__init__(self, project)
 
 		self._formset = [
 			'_name',
 			('_serial_port','_log_btn'),
+			'_netport',
 			' ',
 			('Enabled or disable ports',' ','_loadports_btn'),			
 			'_active_bnc',
@@ -187,9 +191,7 @@ class BoardWindow(Board, BaseWidget):
 			self._active_behavior.value = []
 		else:
 			self._active_behavior.value = [ ('Port{0}'.format(j+1), v) for j, v in enumerate(value)]
-		
 
-	
 
 
 # Execute the application

@@ -34,7 +34,7 @@ class ExperimentDockWindow(ExperimentTreeNode):
 		Also reload tasks list on combo box.
 		"""
 		self.mainwindow.details.value = self
-		self.reload_tasks(current_selected_task=self.task)
+		#self.reload_tasks(current_selected_task=self.task)
 
 	def focus_name(self):
 		"""

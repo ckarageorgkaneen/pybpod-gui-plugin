@@ -38,12 +38,7 @@ class SessionTreeNode(SessionWindow):
             self.remove()
 
     def node_double_clicked_event(self):
-        try:
-            if len(self.messages_history) == 0 and not self.is_running:
-                self.load_contents()
-        except FileNotFoundError as err:
-            logger.warning("Error when trying to load the session content.")
-            self.error("Error when trying to load the session content.")
+        self.load_contents()
 
     @property
     def name(self):

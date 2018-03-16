@@ -7,6 +7,8 @@ import pyforms as app
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlNumber
+from pyforms.controls import ControlCheckBox
 from pybpodgui_api.models.task import Task
 
 from .other_taskfile import OtherTaskFile
@@ -48,22 +50,33 @@ class TaskWindow(Task, BaseWidget):
 
     """
 
-    def __init__(self, experiment=None):
+    def __init__(self, project=None):
         BaseWidget.__init__(self, 'Task')
         self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name = ControlText('Task name')
-        self._edit_btn = ControlButton('Edit')
-
+        self._name       = ControlText('Task name')
+        self._edit_btn   = ControlButton('Edit')
+        self._use_server = ControlCheckBox('Trigger soft codes using a UDP port')
+        
         self._formset = [
             '_name',
             (' ', '_edit_btn'),
+            '_use_server',
             ' '
         ]
 
         self._name.changed_event = self.__name_edited_evt
 
-        Task.__init__(self, experiment)
+        Task.__init__(self, project)
+
+
+
+    def __use_server_changed_evt(self):
+        if self._use_server.value:
+            self._netport.enabled = True
+        else:
+            self._netport.enabled = False
+
 
     def __name_edited_evt(self):
         """
@@ -90,6 +103,15 @@ class TaskWindow(Task, BaseWidget):
         self._update_name = True  # Flag to avoid recurse calls when editing the name text field
         self._name.value = value
         self._update_name = False
+
+    @property
+    def trigger_softcodes(self):
+        return self._use_server.value
+
+    @trigger_softcodes.setter
+    def trigger_softcodes(self, value):
+        self._use_server.value = value==True
+
 
 
 # Execute the application

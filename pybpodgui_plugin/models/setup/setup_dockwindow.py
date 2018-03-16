@@ -34,6 +34,7 @@ class SetupDockWindow(SetupTreeNode):
 		"""
 		self.mainwindow.details.value = self
 		self.reload_boards(current_selected_board=self.board)
+		self.reload_tasks(current_selected_task=self.task)
 
 	def focus_name(self):
 		"""
