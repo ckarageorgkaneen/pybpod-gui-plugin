@@ -9,6 +9,7 @@ from pybpodgui_plugin.models.subject.subject_treenode import SubjectTreeNode
 
 
 class SubjectDockWindow(SubjectTreeNode):
+	
 	def show(self):
 		self.mainwindow.details.value = self
 

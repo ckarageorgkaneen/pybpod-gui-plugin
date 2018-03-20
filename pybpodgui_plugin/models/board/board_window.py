@@ -89,8 +89,9 @@ class BoardWindow(Board, BaseWidget):
 
 		self._formset = [
 			'_name',
-			('_serial_port','_log_btn'),
+			'_serial_port',
 			'_netport',
+			'_log_btn',
 			' ',
 			('Enabled or disable ports',' ','_loadports_btn'),			
 			'_active_bnc',

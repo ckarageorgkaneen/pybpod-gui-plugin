@@ -9,7 +9,13 @@ from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlNumber
 from pyforms.controls import ControlCheckBox
+from pyforms.controls import ControlList
+
 from pybpodgui_api.models.task import Task
+from pybpodgui_plugin.models.task.windows.command_editor import CommandEditor
+
+
+from pybpodgui_api.models.task.taskcommand import TaskCommand
 
 from .other_taskfile import OtherTaskFile
 
@@ -54,20 +60,87 @@ class TaskWindow(Task, BaseWidget):
         BaseWidget.__init__(self, 'Task')
         self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name       = ControlText('Task name')
-        self._edit_btn   = ControlButton('Edit')
+        self.precmdwin = None
+        self.postcmdwin = None
+
+        self._name       = ControlText('Task name', changed_event=self.__name_edited_evt)
         self._use_server = ControlCheckBox('Trigger soft codes using a UDP port')
+        self._precmds    = ControlList(
+            'Pre commands', 
+            add_function=self.__add_pre_command,
+            remove_function=self.__remove_pre_command,
+            readonly=True
+        )
+        self._postcmds   = ControlList(
+            'Post commands', 
+            add_function=self.__add_post_command,
+            remove_function=self.__remove_post_command,
+            readonly=True
+        )
         
         self._formset = [
             '_name',
-            (' ', '_edit_btn'),
             '_use_server',
+            '_precmds',
+            '_postcmds',
             ' '
         ]
 
-        self._name.changed_event = self.__name_edited_evt
-
         Task.__init__(self, project)
+
+        self.update_commands()
+
+    def update_commands(self):
+        self._precmds.clear()
+        self._postcmds.clear()
+
+        self._precommands_list  = []
+        self._postcommands_list = []
+
+        for cmd in self.commands:
+            if cmd.when == TaskCommand.WHEN_PRE:
+                self._precmds +=  [str(cmd)]
+                self._precommands_list.append(cmd)
+            elif cmd.when == TaskCommand.WHEN_POST:
+                self._postcmds += [str(cmd)]
+                self._postcommands_list.append(cmd)
+            
+        
+
+    def __add_pre_command(self):
+        if self.precmdwin is not None:
+            self.precmdwin.show()
+            self.precmdwin.activateWindow();
+            self.precmdwin.raise_()
+        else:
+            self.precmdwin = CommandEditor(self, when=TaskCommand.WHEN_PRE)
+            self.precmdwin.show()
+
+    def __remove_pre_command(self):
+        row = self._precmds.selected_row_index
+        if row is not None:
+            obj = self._precommands_list.pop(row)
+            self._commands.remove(obj)
+            self._precmds -= -1
+
+    def __add_post_command(self):
+        if self.postcmdwin is not None:
+            self.postcmdwin.show()
+            self.postcmdwin.activateWindow();
+            self.postcmdwin.raise_()
+        else:
+            self.postcmdwin = CommandEditor(self, when=TaskCommand.WHEN_POST)
+            self.postcmdwin.show()
+
+    def __remove_post_command(self):
+        row = self._postcmds.selected_row_index
+        if row is not None:
+            obj = self._postcommands_list.pop(row)
+            self._commands.remove(obj)
+            self._postcmds -= -1
+
+
+
 
 
 
@@ -112,6 +185,10 @@ class TaskWindow(Task, BaseWidget):
     def trigger_softcodes(self, value):
         self._use_server.value = value==True
 
+
+    def load(self, repository):
+        super(TaskWindow, self).load(repository)
+        self.update_commands()
 
 
 # Execute the application

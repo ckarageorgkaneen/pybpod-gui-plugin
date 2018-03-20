@@ -3,6 +3,7 @@
 
 import os
 import logging
+import shutil
 
 from pyforms import conf
 
@@ -150,11 +151,15 @@ class ProjectTreeNode(ProjectWindow):
         else:
             if not filepath:
                 filepath, _ = QFileDialog.getOpenFileName(self, 'OpenFile')
+
             if filepath:
                 task = self.create_task()
                 filename, file_extension = os.path.splitext(os.path.basename(filepath))
                 task.name = filename
+                if not os.path.exists(task.path): os.makedirs(task.path)
                 task.filepath = os.path.join(task.path, task.name+'.py')
+
+                shutil.copy(filepath, os.path.join(task.path, task.name+'.py'))
 
     @property
     def name(self):

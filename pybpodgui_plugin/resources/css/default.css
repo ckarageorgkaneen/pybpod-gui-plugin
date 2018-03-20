@@ -1,0 +1,17 @@
+QLabel{
+	min-width: 80px;
+	qproperty-alignment: 'AlignVCenter | AlignRight';
+	qproperty-wordWrap: true;
+}
+
+ControlList QLabel{
+	qproperty-alignment: 'AlignVCenter | AlignLeft';
+}
+
+QLineEdit{
+	margin: 0px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-right: 5px;
+	padding-left: 5px;
+}

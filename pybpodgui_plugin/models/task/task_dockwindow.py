@@ -25,10 +25,6 @@ class TaskDockWindow(TaskTreeNode):
 
 	"""
 
-	def __init__(self, project):
-		super(TaskDockWindow, self).__init__(project)
-		self._edit_btn.value = self.edit_btn_evt
-
 	def show(self):
 		"""
 		Select this window as the main window on the details section.

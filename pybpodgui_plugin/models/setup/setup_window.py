@@ -104,7 +104,6 @@ class SetupWindow(Setup, BaseWidget):
             '_name',
             '_board',
             '_task',
-            '_btn',
             ('_detached', '_run_task_btn'),
             ' ',
             {   
@@ -126,7 +125,6 @@ class SetupWindow(Setup, BaseWidget):
         self._board.changed_event = self.__board_changed_evt
         self._run_task_btn.value  = self._run_task
         
-        self._btn.value = self.__open_tst
 
     def reload_tasks(self, current_selected_task=None):
         # type: (Task) -> None
@@ -147,8 +145,6 @@ class SetupWindow(Setup, BaseWidget):
     def __task_changed_evt(self):
         self.task = self._task.value
 
-    def __open_tst(self):
-        self.board_task.show()
 
     def __add_subject(self):
         self += self._allsubjects.value

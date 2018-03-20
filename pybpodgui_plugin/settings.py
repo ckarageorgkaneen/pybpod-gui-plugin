@@ -1,7 +1,7 @@
 # # !/usr/bin/python3
 # # -*- coding: utf-8 -*-
 
-import logging
+import logging, os
 
 SETTINGS_PRIORITY = 100
 
@@ -19,6 +19,9 @@ PYFORMS_MAINWINDOW_MARGIN 		= 0
 PYFORMS_STYLESHEET 				= ''
 PYFORMS_STYLESHEET_DARWIN 		= ''
 PYFORMS_SILENT_PLUGINS_FINDER 	= True
+
+
+PYFORMS_STYLESHEET = os.path.join(os.path.dirname(__file__), 'resources', 'css', 'default.css')
 
 PYFORMS_MATPLOTLIB_ENABLED 	= True
 PYFORMS_WEB_ENABLED 		= True
