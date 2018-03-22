@@ -17,8 +17,7 @@ class SessionDockWindow(SessionTreeNode):
                 self.load_info()
         except FileNotFoundError as err:
             logger.warning("Error when trying to load the session info.")
-            self.error("Error when trying to load the session info.")
-
+            
         self.mainwindow.details.value = self
         
     @property

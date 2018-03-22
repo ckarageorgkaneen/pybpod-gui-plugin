@@ -13,7 +13,7 @@ from pybpodgui_api.models.session import Session
 from pybpodgui_api.exceptions.invalid_session import InvalidSessionError
 
 logger = logging.getLogger(__name__)
-
+from AnyQt.QtWidgets import QApplication
 
 class SessionWindow(Session, BaseWidget):
     """ ProjectWindow represents the project entity as a GUI window"""
@@ -50,6 +50,10 @@ class SessionWindow(Session, BaseWidget):
         self._board_serial_port.enabled = self._started.enabled = self._ended.enabled = False
         self._name.changed_event = self.__name_edited_evt
 
+    def __add__(self,value):
+        QApplication.processEvents()
+        return super(SessionWindow,self).__add__(value)
+        
     def __name_edited_evt(self):
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._name.value
@@ -85,8 +89,7 @@ class SessionWindow(Session, BaseWidget):
                 )
         except FileNotFoundError as err:
             logger.warning("Error when trying to load the session content.")
-            self.error("Error when trying to load the session content.")
-
+            
 
     ##########################################################################
     ####### PROPERTIES #######################################################
