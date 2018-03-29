@@ -79,7 +79,10 @@ class SetupWindow(Setup, BaseWidget):
 
         self._name          = ControlText('Setup name')
         self._board         = ControlCombo('Board')
-        self._run_task_btn  = ControlButton('Run')
+        
+        self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
+        self._pause_btn     = ControlButton('Pause', checkable=True, default=self._pause_evt)
+        self._run_task_btn  = ControlButton('Run', checkable=True, default=self._run_task)
         
         self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
         self._add_subject   = ControlButton('Add subject')
@@ -90,7 +93,7 @@ class SetupWindow(Setup, BaseWidget):
 
         self._varspanel = ControlEmptyWidget()
 
-        self._btn = ControlButton('Open')
+        self._btn       = ControlButton('Open')
 
         
 
@@ -105,6 +108,7 @@ class SetupWindow(Setup, BaseWidget):
             '_board',
             '_task',
             ('_detached', '_run_task_btn'),
+            ('_stoptrial_btn','_pause_btn'),
             ' ',
             {   
                 'Subjects':[
@@ -123,7 +127,6 @@ class SetupWindow(Setup, BaseWidget):
         self._add_subject.value   = self.__add_subject
         self._name.changed_event  = self.__name_changed_evt
         self._board.changed_event = self.__board_changed_evt
-        self._run_task_btn.value  = self._run_task
         
 
     def reload_tasks(self, current_selected_task=None):
@@ -156,6 +159,15 @@ class SetupWindow(Setup, BaseWidget):
             subject = self.project.find_subject(name)
             self    -= subject
             self._subjects_list -= -1
+
+    def _stop_trial_evt(self):
+        self.stop_trial()
+
+    def _pause_evt(self):
+        if self._pause_btn.checked:
+            self.pause_trial()
+        else:
+            self.resume_trial()
 
     def _run_task(self):
         """

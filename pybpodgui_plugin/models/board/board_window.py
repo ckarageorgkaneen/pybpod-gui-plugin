@@ -107,7 +107,7 @@ class BoardWindow(Board, BaseWidget):
 
 		try:
 			bpod = Bpod(self._serial_port.value)
-			bpod.start()
+			bpod.open()
 			hw = bpod.hardware
 
 			### load the ports to the GUI ###############################
@@ -116,7 +116,7 @@ class BoardWindow(Board, BaseWidget):
 			self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
 			#############################################################
 			
-			bpod.stop()
+			bpod.close()
 		except Exception as e:
 			self.critical(str(e), 'Error loading ports')
 
