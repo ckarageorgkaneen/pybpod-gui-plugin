@@ -136,9 +136,10 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 
 	def __remove_variable(self):
-		var = self.variables[self._vars.selected_index ]
-		self.variables.remove(var) 
-		self._vars -= -1
+		if self._vars.selected_row_index is not None:
+			var = self.variables[self._vars.selected_row_index ]
+			self.variables.remove(var) 
+			self._vars -= -1
 
 	def before_close(self): return False
 
