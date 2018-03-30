@@ -103,16 +103,15 @@ class TaskTreeNode(TaskWindow):
 
 	@property
 	def name(self):
-		if hasattr(self, 'node'):
-			return str(self.node.text(0))
-		else:
-			return TaskWindow.name.fget(self)
+		return TaskWindow.name.fget(self)
 
 	@name.setter
 	def name(self, value):
 		TaskWindow.name.fset(self, value)
 		if hasattr(self, 'node'): self.node.setText(0, value)
-		if hasattr(self, '_code_editor'): self._code_editor.title = value
+		if hasattr(self, '_code_editor'): 
+			self._code_editor.title = value
+			self._code_editor.refresh_directory()
 
 	@property
 	def tree(self):

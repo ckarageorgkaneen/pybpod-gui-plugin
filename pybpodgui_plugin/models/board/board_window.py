@@ -159,6 +159,14 @@ class BoardWindow(Board, BaseWidget):
 		self._serial_port.value = value
 		self._update__serial = False
 
+	@property
+	def net_port(self):
+		return int(self._netport.value)
+
+	@net_port.setter
+	def net_port(self, value):
+		self._netport.value = value
+		
 
 	@property
 	def enabled_bncports(self):				return [b for v,b in self._active_bnc.items] if self._active_bnc.count>0 else None

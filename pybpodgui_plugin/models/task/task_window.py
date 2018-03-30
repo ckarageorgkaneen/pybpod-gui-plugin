@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, os
 
 import pyforms as app
 from pyforms import BaseWidget
@@ -16,8 +16,6 @@ from pybpodgui_plugin.models.task.windows.command_editor import CommandEditor
 
 
 from pybpodgui_api.models.task.taskcommand import TaskCommand
-
-from .other_taskfile import OtherTaskFile
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +61,7 @@ class TaskWindow(Task, BaseWidget):
         self.precmdwin = None
         self.postcmdwin = None
 
-        self._name       = ControlText('Task name', changed_event=self.__name_edited_evt)
+        self._namefield  = ControlText('Task name', changed_event=self.__name_edited_evt)
         self._use_server = ControlCheckBox('Trigger soft codes using a UDP port')
         self._precmds    = ControlList(
             'Pre commands', 
@@ -79,7 +77,7 @@ class TaskWindow(Task, BaseWidget):
         )
         
         self._formset = [
-            '_name',
+            '_namefield',
             '_use_server',
             '_precmds',
             '_postcmds',
@@ -139,17 +137,11 @@ class TaskWindow(Task, BaseWidget):
             self._commands.remove(obj)
             self._postcmds -= -1
 
-
-
-
-
-
     def __use_server_changed_evt(self):
         if self._use_server.value:
             self._netport.enabled = True
         else:
             self._netport.enabled = False
-
 
     def __name_edited_evt(self):
         """
@@ -158,23 +150,19 @@ class TaskWindow(Task, BaseWidget):
         This methods is called every time the user changes the field.
         """
         if not hasattr(self, '_update_name') or not self._update_name:
-            self.name = self._name.value
+            self.name = self._namefield.value
 
-    def create_otherfile(self):
-        """
-        Add a other file to a task and return it.
-        
-        :rtype: Experiment
-        """
-        return OtherTaskFile(self)
-
+    
     @property
-    def name(self): return self._name.value
+    def name(self): return Task.name.fget(self)
 
     @name.setter
     def name(self, value):
-        self._update_name = True  # Flag to avoid recurse calls when editing the name text field
-        self._name.value = value
+        Task.name.fset(self, value)
+
+        # Flag to avoid recurse calls when editing the name text field
+        self._update_name = True
+        self._namefield.value  = value
         self._update_name = False
 
     @property

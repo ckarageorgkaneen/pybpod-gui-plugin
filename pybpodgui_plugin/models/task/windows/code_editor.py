@@ -8,7 +8,8 @@ from pyforms import BaseWidget, hsplitter, vsplitter
 from pyforms.controls import ControlTreeView
 from pyforms.controls import ControlCodeEditor
 
-from AnyQt.QtCore import QItemSelectionModel
+
+from AnyQt.QtCore import QItemSelectionModel, Qt
 from AnyQt.QtWidgets import QFileSystemModel
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,9 @@ class CodeEditor(BaseWidget):
         BaseWidget.__init__(self, task.name if task else '')
         self.set_margin(5)
         self.task = task
+
+        self._taskselected = False
+        self._fileselected = None
 
         root_path     = os.path.abspath(task.path)
         syspath_model = QFileSystemModel(self)
@@ -31,18 +35,16 @@ class CodeEditor(BaseWidget):
             changed_event=self.__code_changed_evt,
             discart_event=self.__code_discart_evt
         )
+        self._browser.setSortingEnabled(True)
 
         self.formset  = [vsplitter('_browser','||','_code')]
 
-        root_index = syspath_model.index(root_path)
-        self._browser.setRootIndex(root_index)        
         for i in range(1, 4): self._browser.hideColumn(i)
-
         self._browser.item_selection_changed_event = self.__item_selection_changed_evt
 
-        task_filepath = syspath_model.index(task.filepath)
-        self._browser.setCurrentIndex(task_filepath)
-
+       
+        self.refresh_directory()  
+        self.select_file(task.filepath)
         
         self._browser.add_popup_menu_option('New module', self.__create_module_evt)
         self._browser.add_popup_menu_option('New module folder', self.__create_submodule_evt)
@@ -52,16 +54,40 @@ class CodeEditor(BaseWidget):
 
 
     def __load_file_content(self, filepath):
-        
         try:
             with open(filepath, "r") as file: 
                 self._code.value   = file.read()
                 self._code.enabled = True
+                self._taskselected = (filepath==os.path.abspath(self.task.filepath))
+                self._fileselected = os.path.relpath(filepath, self.task.path)
         except:
-            self._code.value = ''
+            self._code.value   = ''
             self._code.enabled = False
+            self._taskselected = False
+            self._fileselected = None
 
 
+
+    def select_file(self, filepath):
+        f = self._browser.value.index(os.path.abspath(filepath))
+        self._browser.setCurrentIndex(f)
+        self._browser.value.sort(0, Qt.AscendingOrder)
+        self._browser.sortByColumn(0, Qt.AscendingOrder)
+
+
+    def __dummy(self, x, y): return
+
+    def refresh_directory(self):
+        root_index = self._browser.value.index(self.task.path)
+        self._browser.setRootIndex(root_index)
+
+        if self.selected_file:
+            self._browser.item_selection_changed_event = self.__dummy
+            self.select_file(self.selected_file)
+            self._browser.item_selection_changed_event = self.__item_selection_changed_evt
+
+        self._browser.value.sort(0, Qt.AscendingOrder)
+        self._browser.sortByColumn(0, Qt.AscendingOrder)
 
     def __create_module_evt(self):
         name = self.input_text('Enter the module name', 'Module name')
@@ -140,6 +166,10 @@ class CodeEditor(BaseWidget):
                 'Please save or discart your modifications first.', 
                 'There are still uncommitted modifications'
             )
+            if self.selected_file:
+                self._browser.item_selection_changed_event = self.__dummy
+                self.select_file(self.selected_file)
+                self._browser.item_selection_changed_event = self.__item_selection_changed_evt
         else:
             item = self._browser.selected_item
             if item is not None:
@@ -148,9 +178,7 @@ class CodeEditor(BaseWidget):
 
         
     def __code_changed_evt(self):
-        items = self._browser.selected_item
-        if not items: return
-        filepath = os.path.join(*items)
+        filepath = self.selected_file
 
         if filepath is None:
             self.warning('It is not possible to save the file', 'The project does not exists yet. Please save it before to be able save this file.')
@@ -184,6 +212,14 @@ class CodeEditor(BaseWidget):
 
         return True
 
+    @property
+    def selected_file(self):
+        if self._taskselected:
+            return self.task.filepath
+        elif self._fileselected:
+            return os.path.join(self.task.path, self._fileselected)
+        else:
+            return None
 
     def beforeClose(self):
         """ 

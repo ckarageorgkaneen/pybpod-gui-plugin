@@ -35,7 +35,7 @@ class TaskDockWindow(TaskTreeNode):
 		"""
 		Sets interface focus on the task name text field
 		"""
-		self._name.form.lineEdit.setFocus()
+		self._namefield.form.lineEdit.setFocus()
 
 	def remove(self):
 		"""
@@ -61,8 +61,8 @@ class TaskDockWindow(TaskTreeNode):
 				* Double click event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_double_clicked_event`.
 				* Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
 		"""
-		if self.project.path is None:
-			self.warning("The project was not saved yet.\nPlease save it first.", "Cannot edit the file yet.")
+		if self.project.path is None or self.filepath is None:
+			self.warning("The task was not commited yet,<br/>please save the project first to create the task file.", "Cannot edit the file yet.")
 		else:
 			try:
 				if not hasattr(self, '_code_editor'):

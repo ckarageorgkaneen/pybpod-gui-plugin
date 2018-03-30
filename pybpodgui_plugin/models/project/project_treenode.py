@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectTreeNode(ProjectWindow):
+
     def __init__(self, projects):
         ProjectWindow.__init__(self)
 
@@ -131,11 +132,11 @@ class ProjectTreeNode(ProjectWindow):
         if self.path is None or len(self.path) == 0 or not self.is_saved():
             reply = self.warning('To create a new protocol you need to save the project first.','Project not saved yet')
         else:
-            entity = self.create_task()
-            entity.focus_name()
-
-
-
+            task          = self.create_task()
+            task.filepath = task.make_emptyfile()
+            task.focus_name()
+            
+            
     def import_task(self, filepath=None):
         """
         Import task file to project
@@ -147,19 +148,17 @@ class ProjectTreeNode(ProjectWindow):
         :return: 
         """
         if self.path is None or len(self.path) == 0 or not self.is_saved():
-            reply = self.warning('To import a protocol you need to save the project first.','Project not saved yet')
+            self.warning('To import a protocol you need to save the project first.','Project not saved yet')
         else:
-            if not filepath:
+            if not filepath: 
                 filepath, _ = QFileDialog.getOpenFileName(self, 'OpenFile')
 
             if filepath:
-                task = self.create_task()
-                filename, file_extension = os.path.splitext(os.path.basename(filepath))
-                task.name = filename
-                if not os.path.exists(task.path): os.makedirs(task.path)
-                task.filepath = os.path.join(task.path, task.name+'.py')
-
-                shutil.copy(filepath, os.path.join(task.path, task.name+'.py'))
+                try:
+                    super(ProjectTreeNode, self).import_task(filepath)
+                except Exception as e:
+                    self.warning( str(e), 'Import aborted' )
+        
 
     @property
     def name(self):

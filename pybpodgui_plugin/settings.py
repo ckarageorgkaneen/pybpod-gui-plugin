@@ -21,7 +21,7 @@ PYFORMS_STYLESHEET_DARWIN 		= ''
 PYFORMS_SILENT_PLUGINS_FINDER 	= True
 
 
-PYFORMS_STYLESHEET = os.path.join(os.path.dirname(__file__), 'resources', 'css', 'default.css')
+#PYFORMS_STYLESHEET = os.path.join(os.path.dirname(__file__), 'resources', 'css', 'default.css')
 
 PYFORMS_MATPLOTLIB_ENABLED 	= True
 PYFORMS_WEB_ENABLED 		= True

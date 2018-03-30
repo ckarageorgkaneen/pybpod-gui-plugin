@@ -41,6 +41,7 @@ try:
 	# pyforms.controls is imported here first time
 	from pyforms_generic_editor.editor.base_editor import BaseEditor as Editor
 
+
 except Exception as err:
 	exc_type, exc_value, exc_traceback = sys.exc_info()
 	logging.getLogger("pyforms_generic_editor").critical(str(err), exc_info=True)
@@ -52,7 +53,10 @@ except Exception as err:
 
 def start():
 	import pyforms
-	pyforms.start_app(Editor, conf.GENERIC_EDITOR_WINDOW_GEOMETRY)
+
+	pyforms.start_app(Editor, 
+		conf.GENERIC_EDITOR_WINDOW_GEOMETRY
+	)
 
 
 if __name__ == '__main__':
