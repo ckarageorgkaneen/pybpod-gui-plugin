@@ -20,13 +20,6 @@ class BpodRunner(PybranchRunHandler):
 	"""
 
 	"""
-	INFO_CREATOR_NAME 		= 'CREATOR-NAME'
-	INFO_PROJECT_NAME 		= 'PROJECT-NAME'
-	INFO_EXPERIMENT_NAME 	= 'EXPERIMENT-NAME'
-	INFO_BOARD_NAME 		= 'BOARD-NAME'
-	INFO_SETUP_NAME 		= 'SETUP-NAME'
-	INFO_SUBJECT_NAME 		= 'SUBJECT-NAME'
-	INFO_BPODGUI_VERSION	= 'BPOD-GUI-VERSION'
 	
 
 	def __init__(self, in_queue=None, out_queue=None, refresh_time=None):

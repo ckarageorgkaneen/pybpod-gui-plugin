@@ -79,7 +79,7 @@ class SessionWindow(Session, BaseWidget):
 
     def load_contents(self):
         try:
-            if len(self.messages_history) == 0 and not self.is_running:
+            if self.data is None and not self.is_running:
                 self._progress.min   = 0
                 self._progress.value = 0
                 super(SessionWindow, self).load_contents(
