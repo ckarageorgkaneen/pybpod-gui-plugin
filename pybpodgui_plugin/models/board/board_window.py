@@ -165,7 +165,8 @@ class BoardWindow(Board, BaseWidget):
 
 	@net_port.setter
 	def net_port(self, value):
-		self._netport.value = value
+		if value is not None:
+			self._netport.value = value
 		
 
 	@property

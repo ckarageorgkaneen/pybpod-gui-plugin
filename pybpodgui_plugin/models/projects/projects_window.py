@@ -31,19 +31,19 @@ class ProjectsWindow(object):
 				'New',
 				icon=conf.NEW_SMALL_ICON,
 				default=self.create_project,
-				maxwidth=54, maxheight=30
+				maxheight=30
 			),
 			ControlToolButton(
 				'Open',
 				icon=conf.OPEN_SMALL_ICON,
 				default=self._option_open_project,
-				maxwidth=54, maxheight=30
+				maxheight=30
 			),
 			ControlToolButton(
 				'Save',
 				icon=conf.SAVE_SMALL_ICON,
 				default=self.save_current_project,
-				maxwidth=54, maxheight=30
+				 maxheight=30
 			), '|'
 		]
 
