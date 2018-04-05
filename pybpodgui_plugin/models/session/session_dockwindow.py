@@ -19,6 +19,7 @@ class SessionDockWindow(SessionTreeNode):
             logger.warning("Error when trying to load the session info.")
             
         self.mainwindow.details.value = self
+        super(SessionDockWindow,self).show()
         
     @property
     def mainwindow(self):

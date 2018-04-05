@@ -36,6 +36,7 @@ class BoardDockWindow(BoardTreeNode):
         Select this window as the main window on the details section.
         """
         self.mainwindow.details.value = self
+        super(BoardDockWindow,self).show()
 
     def focus_name(self):
         """
