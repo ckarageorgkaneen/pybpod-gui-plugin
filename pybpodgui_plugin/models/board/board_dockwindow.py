@@ -69,7 +69,10 @@ class BoardDockWindow(BoardTreeNode):
         if not hasattr(self, '_log'):
             self._log = LogWindow(self)
         self.mainwindow.mdi_area += self._log
-        self._log.read_message_queue()
+
+    def log2board(self, data):
+        if hasattr(self, '_log'):
+            self._log += data
 
     def __edit_framework_evt(self):
         """
