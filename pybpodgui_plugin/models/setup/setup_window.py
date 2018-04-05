@@ -285,8 +285,6 @@ class SetupWindow(Setup, BaseWidget):
         if isinstance(value, str): value = self.project.find_task(value)
          
         self._update_name = True  # Flag to avoid recurse calls when editing the name text field
-  
-        if value not in self._task.values: self.reload_tasks()
         self._task.value = value
         self._update_name = False
         Setup.task.fset(self, value)
