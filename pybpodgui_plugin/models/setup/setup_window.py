@@ -146,7 +146,8 @@ class SetupWindow(Setup, BaseWidget):
             self.task = current_selected_task
     
     def __task_changed_evt(self):
-        self.task = self._task.value
+        if not hasattr(self, '_update_name') or not self._update_name:
+            self.task = self._task.value
 
 
     def __add_subject(self):
@@ -282,7 +283,10 @@ class SetupWindow(Setup, BaseWidget):
     @task.setter
     def task(self, value):
         if isinstance(value, str): value = self.project.find_task(value)
+         
         self._update_name = True  # Flag to avoid recurse calls when editing the name text field
+  
+        if value not in self._task.values: self.reload_tasks()
         self._task.value = value
         self._update_name = False
         Setup.task.fset(self, value)
