@@ -39,6 +39,10 @@ class BoardCom(QtAsyncBpod, BoardWindow):
     ####### FUNCTIONS ########################################################
     ##########################################################################
 
+    def log2board(self, data):
+        if hasattr(self, '_log') and self._log.visible:
+            self._log += data
+
     def run_task(self, session, board_task, workspace_path, detached=False):
         """
         Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task`

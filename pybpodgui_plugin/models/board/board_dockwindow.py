@@ -66,10 +66,8 @@ class BoardDockWindow(BoardTreeNode):
         """
         Open board console window on the mdi section.
         """
-        if not hasattr(self, '_log'):
-            self._log = LogWindow(self)
+        if not hasattr(self, '_log'): self._log = LogWindow(self)
         self.mainwindow.mdi_area += self._log
-        self._log.read_message_queue()
 
     def __edit_framework_evt(self):
         """

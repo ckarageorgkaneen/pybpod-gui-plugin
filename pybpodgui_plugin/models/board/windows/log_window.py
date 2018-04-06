@@ -26,26 +26,17 @@ class LogWindow(BaseWidget):
         self.board = board
         self.layout().setContentsMargins(5, 5, 5, 5)
 
-        self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', default=True)
-        self._autoscroll_checkbox.changed_event = self.__auto_scroll_evt
+        self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', default=True, changed_event=self.__auto_scroll_evt)
+        self._clear_btn = ControlButton('Clear', default=self.__clear_log_evt)
+        self._log       = ControlTextArea(readonly=True, autoscroll=False)
 
-        self._refresh_button = ControlButton('Clear', default=self.__clear_log_evt)
-        self._log            = ControlTextArea(readonly=True, autoscroll=False)
+        self.formset = [(' ', '_autoscroll_checkbox', '_clear_btn'), '_log']
 
-        self._session_history_index = 0
-        self._read_active = True
-
-        self._timer = QTimer()
-        self._timer.timeout.connect(self.read_message_queue)
-
-        self.formset = [(' ', '_autoscroll_checkbox', '_refresh_button'), '_log']
+    def __add__(self, data):
+        self._log += data
+        return self
 
     def show(self):
-        # show only the last 20 messages
-        if self._session_history_index<(len(self.board.log_messages)-20):
-            self._log += "\n\n...\n\n"
-        self._session_history_index = len(self.board.log_messages)-20
-
         # Prevent the call to be recursive because of the mdi_area
         if hasattr(self, '_show_called'):
             BaseWidget.show(self)
@@ -54,18 +45,9 @@ class LogWindow(BaseWidget):
         self.mainwindow.mdi_area += self
         del self._show_called
 
-        self._stop  = False
-        self._timer.start(conf.BOARD_LOG_WINDOW_REFRESH_RATE)
 
-
-
-    def hide(self):
-        self._timer.stop()
-        self._stop = True
 
     def beforeClose(self):
-        self._timer.stop()
-        self._stop = True
         return False
 
     def __auto_scroll_evt(self):
@@ -74,36 +56,7 @@ class LogWindow(BaseWidget):
     def __clear_log_evt(self):
         self._log.value = ''
 
-    def read_message_queue(self):
-        """ Update board queue and retrieve most recent messages """
-        recent_history = self.board.log_messages[self._session_history_index:]
-
-        try:
-
-            self._log.form.setUpdatesEnabled(False)
-
-            for message in recent_history:
-                if self._stop: return
-                self._session_history_index += 1
-
-                if isinstance(message, DebugMessage) and message.DEBUG_LEVEL == 2 and not self._debug_checkbox.value:
-                    pass
-                else:
-
-                    self._log += "{idx} | {pc_timestamp} | {message_type} | {message}".format(
-                        idx=self._session_history_index,
-                        pc_timestamp=message.pc_timestamp.strftime(
-                            '%Y%m%d_%H%M%S'),
-                        message_type=message.MESSAGE_TYPE_ALIAS,
-                        message=str(message) )
-
-                    QApplication.processEvents()
-
-
-            self._log.form.setUpdatesEnabled(True)
-
-        except RunSetupError as err:
-            self._timer.stop()
+    
 
     @property
     def title(self):
