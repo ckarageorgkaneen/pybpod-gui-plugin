@@ -16,7 +16,7 @@ from pyforms.controls import ControlNumber
 from pybpodgui_api.models.board import Board
 
 
-from pybpodapi.bpod.bpod_com_protocol_modules import BpodCOMProtocolModules as Bpod
+from pybpodapi.bpod import Bpod
 
 logger = logging.getLogger(__name__)
 
@@ -106,10 +106,9 @@ class BoardWindow(Board, BaseWidget):
     def __load_bpod_ports(self):
 
         try:
-            bpod = Bpod(self._serial_port.value)
-            bpod.open()
+            bpod = Bpod( self._serial_port.value )
+            #bpod.open()
             hw = bpod.hardware
-
             ### load the ports to the GUI ###############################
             self._active_bnc.value      = [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes)  ]
             self._active_wired.value    = [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)    ]
