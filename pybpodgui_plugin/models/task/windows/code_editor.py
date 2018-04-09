@@ -29,6 +29,7 @@ class CodeEditor(BaseWidget):
         syspath_model.setRootPath(root_path)
         syspath_model.setNameFilters(['*.py'])
         syspath_model.setNameFilterDisables(False)
+        self.syspath_model = syspath_model
         
         self._browser = ControlTreeView('Files browser', default=syspath_model )
         self._code    = ControlCodeEditor(
@@ -92,13 +93,12 @@ class CodeEditor(BaseWidget):
     def __create_module_evt(self):
         name = self.input_text('Enter the module name', 'Module name')
         if name:
-            items = self._browser.selected_item
-            if items is not None:
-                folder_path = os.path.join(*items)
-                if os.path.isfile(folder_path):
-                    path = os.path.join(*items[:-1])
-                else:
-                    path = folder_path
+            folder_path = None
+            for index in self._browser.selectedIndexes():
+                folder_path = self.syspath_model.filePath(index)
+                break
+            if folder_path is not None:
+                path = os.path.dirname(folder_path) if os.path.isfile(folder_path) else folder_path
             else:
                 path = self.task.path
 
@@ -110,13 +110,13 @@ class CodeEditor(BaseWidget):
     def __create_submodule_evt(self):
         name = self.input_text('Enter the module folder name', 'Module folder name')
         if name:
-            items = self._browser.selected_item
-            if items is not None:
-                folder_path = os.path.join(*items)
-                if os.path.isfile(folder_path):
-                    path = os.path.join(*items[:-1])
-                else:
-                    path = folder_path
+            
+            folder_path = None
+            for index in self._browser.selectedIndexes():
+                folder_path = self.syspath_model.filePath(index)
+                break
+            if folder_path is not None:
+                path = os.path.dirname(folder_path) if os.path.isfile(folder_path) else folder_path
             else:
                 path = self.task.path
 
@@ -130,28 +130,32 @@ class CodeEditor(BaseWidget):
                 pass
 
     def __rename_evt(self):
-        items    = self._browser.selected_item
-        fullpath = os.path.join(*items)
+        fullpath = None
+        for index in self._browser.selectedIndexes():
+            fullpath = self.syspath_model.filePath(index)
+            break
         
         if os.path.isfile(fullpath):
-            name, extension = os.path.splitext(items[-1])
+            name, extension = os.path.splitext(os.path.basename(fullpath))
         else:
-            name = items[-1]
+            name = os.path.basename(fullpath)
 
         name = self.input_text('Enter the new name', 'New name', name)
         if name:
             if os.path.isfile(fullpath):
-                new_path = items[:-1] + [name+extension]
+                new_path = os.path.join(os.path.dirname(fullpath), name+extension)
             else:
-                new_path = items[:-1] + [name]
+                new_path = os.path.join(os.path.dirname(fullpath), name)
             os.rename(fullpath, os.path.join(*new_path) )
 
 
 
     def __delete_evt(self):
-        items    = self._browser.selected_item
-        fullpath = os.path.join(*items)
-        ok = self.question('Please confirm the module [{0}] is to be deleted?'.format(items[-1]))
+        fullpath = None
+        for index in self._browser.selectedIndexes():
+            fullpath = self.syspath_model.filePath(index)
+            break
+        ok = self.question('Please confirm the module [{0}] is to be deleted?'.format(os.path.basename(fullpath) ))
         if ok:
             if os.path.isfile(fullpath):
                 os.remove(fullpath)
@@ -159,7 +163,7 @@ class CodeEditor(BaseWidget):
                 shutil.rmtree(fullpath)
 
     def __item_selection_changed_evt(self, selected, deselected):
-
+        
         if self._code.is_modified:
             self._browser.selectionModel().reset()
             self.info(
@@ -171,9 +175,11 @@ class CodeEditor(BaseWidget):
                 self.select_file(self.selected_file)
                 self._browser.item_selection_changed_event = self.__item_selection_changed_evt
         else:
-            item = self._browser.selected_item
-            if item is not None:
-                filepath = os.path.join(*item)        
+            filepath = None
+            for index in self._browser.selectedIndexes():
+                filepath = self.syspath_model.filePath(index)
+                break
+            if filepath is not None:
                 self.__load_file_content(filepath)
 
         
@@ -205,9 +211,11 @@ class CodeEditor(BaseWidget):
         return True
 
     def __code_discart_evt(self):
-        item = self._browser.selected_item
-        if item is not None:
-            filepath = os.path.join(*item)        
+        filepath = None
+        for index in self._browser.selectedIndexes():
+            filepath = self.syspath_model.filePath(index)
+            break
+        if filepath is not None:
             self.__load_file_content(filepath)
 
         return True
