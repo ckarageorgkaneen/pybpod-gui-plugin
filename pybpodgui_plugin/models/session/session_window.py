@@ -3,7 +3,7 @@
 
 import logging
 import datetime
-
+import traceback
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlList
@@ -63,6 +63,11 @@ class SessionWindow(Session, BaseWidget):
             Session.load(self, repository)
         except InvalidSessionError as err:
             logger.warning(str(err))
+        except:
+            self.critical(
+                'An error occurred when trying to load the info for session [{0}].\n\n{1}'.format(self.name, traceback.format_exc()), 
+                'Error loading the session')
+
 
     def remove(self):
         self.setup -= self
