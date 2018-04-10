@@ -4,6 +4,8 @@
 import os
 import logging
 
+
+from AnyQt.QtWidgets import QApplication
 from serial.tools import list_ports
 
 from pyforms import conf
@@ -104,6 +106,9 @@ class BoardWindow(Board, BaseWidget):
         self._name.changed_event        = self.__name_changed_evt
         self._serial_port.changed_event = self.__serial_changed_evt
         self._loadports_btn.value       = self.__load_bpod_ports
+
+    def freegui(self):
+        QApplication.processEvents()
 
     def __load_bpod_ports(self):
 
