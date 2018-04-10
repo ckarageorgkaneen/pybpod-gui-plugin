@@ -147,8 +147,8 @@ class SetupWindow(Setup, BaseWidget):
             self.task = current_selected_task
     
     def __task_changed_evt(self):
-        if not hasattr(self, '_update_name') or not self._update_name:
-            self.task = self._task.value
+        if hasattr(self, '_update_task'): return 
+        self.task = self._task.value
 
     def __add__(self, obj):
        res = super(SetupWindow, self).__add__(obj)
@@ -203,6 +203,7 @@ class SetupWindow(Setup, BaseWidget):
 
         This method is called every time the user changes the field and forces a UI refresh.
         """
+        if hasattr(self, '_update_board'): return 
         self.board = self._board.value
         self.update_ui()
 
@@ -281,9 +282,11 @@ class SetupWindow(Setup, BaseWidget):
     @board.setter
     def board(self, value):
         if isinstance(value, str): value = self.project.find_board(value)
-        self._update_name = True  # Flag to avoid recurse calls when editing the name text field
+        self._update_board = True  # Flag to avoid recurse calls when editing the name text field
+        
+        if value not in self._board.values: self.reload_boards()
         self._board.value = value
-        self._update_name = False
+        del self._update_board
         Setup.board.fset(self, value)
 
     @property
@@ -294,10 +297,12 @@ class SetupWindow(Setup, BaseWidget):
     @task.setter
     def task(self, value):
         if isinstance(value, str): value = self.project.find_task(value)
-         
-        self._update_name = True  # Flag to avoid recurse calls when editing the name text field
+        
+        self._update_task = True  # Flag to avoid recurse calls when editing the name text field
+        
+        if value not in self._task.values: self.reload_tasks()
         self._task.value = value
-        self._update_name = False
+        del self._update_task
         Setup.task.fset(self, value)
 
     @property
