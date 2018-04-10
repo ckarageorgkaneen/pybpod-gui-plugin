@@ -105,12 +105,8 @@ class ProjectTreeNode(ProjectWindow):
 
         if not silent:
             reply = self.question('Are sure you want to close the project?','Close project')
-
-            if reply:
-                confirmation = True
-            else:
-                confirmation = False
-
+            confirmation = reply=='yes'
+            
         if confirmation:
             super(ProjectTreeNode, self).close(silent)
             tree = self.tree

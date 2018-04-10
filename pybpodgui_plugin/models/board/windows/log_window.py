@@ -11,8 +11,6 @@ from pyforms import BaseWidget
 from pyforms.controls import ControlTextArea
 from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlButton
-
-from pybranch.com.messaging.debug import DebugMessage
 from pybpodgui_api.exceptions.run_setup import RunSetupError
 
 from AnyQt.QtWidgets import QApplication

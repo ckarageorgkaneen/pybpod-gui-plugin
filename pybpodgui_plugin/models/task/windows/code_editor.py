@@ -155,8 +155,8 @@ class CodeEditor(BaseWidget):
         for index in self._browser.selectedIndexes():
             fullpath = self.syspath_model.filePath(index)
             break
-        ok = self.question('Please confirm the module [{0}] is to be deleted?'.format(os.path.basename(fullpath) ))
-        if ok:
+        reply = self.question('Please confirm the module [{0}] is to be deleted?'.format(os.path.basename(fullpath) ))
+        if reply=='yes':
             if os.path.isfile(fullpath):
                 os.remove(fullpath)
             else:
@@ -240,7 +240,7 @@ class CodeEditor(BaseWidget):
         if self._code.is_modified:
             reply = self.question('Save the changes', 'Save the file')
 
-            if reply:
+            if reply=='yes':
                 self.__code_changed_evt()
 
 

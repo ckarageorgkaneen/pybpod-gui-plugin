@@ -57,7 +57,7 @@ class SetupDockWindow(SetupTreeNode):
         else:
             reply = True
 
-        if reply:
+        if reply=='yes':
             self.mainwindow.details.value = None
             super(SetupDockWindow, self).remove()
 

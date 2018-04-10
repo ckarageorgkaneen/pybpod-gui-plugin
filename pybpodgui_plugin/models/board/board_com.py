@@ -8,14 +8,13 @@ from pyforms import conf
 
 from pybpodgui_api.models.setup import Setup
 
-from pybpodgui_plugin.com.async.qt_async_bpod import QtAsyncBpod
 from pybpodgui_plugin.models.board.board_window import BoardWindow
 from AnyQt.QtCore import QTimer
 
 logger = logging.getLogger(__name__)
 
 
-class BoardCom(QtAsyncBpod, BoardWindow):
+class BoardCom(BoardWindow):
     """
     Board communication logic. Define here actions that can be triggered on board.
 

@@ -48,7 +48,7 @@ class TaskDockWindow(TaskTreeNode):
 
         """
         reply = self.question('Task {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
-        if reply:
+        if reply=='yes':
             if hasattr(self, '_code_editor'):
                 self.mainwindow.mdi_area -= self._code_editor
             super(TaskDockWindow, self).remove()

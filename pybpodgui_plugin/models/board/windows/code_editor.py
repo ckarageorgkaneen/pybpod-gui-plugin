@@ -47,10 +47,9 @@ class CodeEditor(BaseWidget):
 		Before closing window, ask user if she wants to save (if there are changes)
 		"""
 		if self._code.is_modified:
-			reply = QMessageBox.question(self, 'Save the changes', 'Save the file',
-			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+			reply = question('Save the changes', 'Save the file')
 
-			if reply == QMessageBox.Yes:
+			if reply == 'yes':
 				self.__code_changed_evt()
 
 		return False

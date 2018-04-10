@@ -62,6 +62,6 @@ class SessionTreeNode(SessionWindow):
 
     def remove(self):
         reply = self.question('Delete this session?', 'Delete')
-        if reply == True:
+        if reply == 'yes':
             super(SessionTreeNode, self).remove()
             self.setup.node.removeChild(self.node)

@@ -53,9 +53,9 @@ class BoardDockWindow(BoardTreeNode):
             This method extends board tree node :py:meth:`pybpodgui_plugin.models.board.board_treenode.BoardTreeNode.remove`.
 
         """
-        reply = self.question(self, 'Board {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
+        reply = self.question('Board {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
         
-        if reply:
+        if reply=='yes':
             self.mainwindow.details.value = None
             if hasattr(self, '_code_editor'):    self.mainwindow.mdi_area -= self._code_editor
             if hasattr(self, '_log'):            self.mainwindow.mdi_area -= self._log
