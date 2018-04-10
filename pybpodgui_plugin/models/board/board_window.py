@@ -4,6 +4,8 @@
 import os
 import logging
 
+from serial.tools import list_ports
+
 from pyforms import conf
 
 import pyforms as app

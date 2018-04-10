@@ -9,6 +9,7 @@ from pyforms import conf
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlCombo
 from pyforms.controls import ControlCheckBoxList
 from pybpodgui_api.models.subject import Subject
 
@@ -69,16 +70,44 @@ class SubjectWindow(Subject, BaseWidget):
 		BaseWidget.__init__(self, 'Subject')
 		self.layout().setContentsMargins(5,10,5,5)
 
+		self._selected_setup = None
+
 		self._name 	= ControlText('Name')
+		self._setups = ControlCombo('Setup')
+		self._run = ControlButton('Run',checkable = True, default=self._run_task)
 
 		Subject.__init__(self, project)
 
 		self._formset = [
 			'_name',
+			' ',
+			'_setups',
 			' ',			
+			'_run',
+			' ',
 		]
 
 		self._name.changed_event 		= self.__name_changed_evt
+		self._setups.changed_event = self._setup_changed_evt
+		self.reload_setups()
+
+	def _run_task(self):
+		print('run task',self._selected_setup.name)
+		self._selected_setup.clear_subjects()
+		self._selected_setup += self
+		self._selected_setup._run_task()
+
+	def _setup_changed_evt(self):
+		self._selected_setup = self._setups.value
+
+	def reload_setups(self):		
+		self._setups.clear()
+		self._setups.add_item('',0)
+		#return
+		for experiment in self.project.experiments:
+			for setup in experiment.setups:
+				self._setups.add_item(setup.name, setup)
+		self._setups.current_index = 0
 
 	def __name_changed_evt(self):
 		"""

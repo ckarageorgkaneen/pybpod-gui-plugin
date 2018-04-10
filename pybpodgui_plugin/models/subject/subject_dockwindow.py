@@ -13,6 +13,7 @@ class SubjectDockWindow(SubjectTreeNode):
 	def show(self):
 		self.mainwindow.details.value = self
 		super(SubjectDockWindow, self).show()
+		self.reload_setups()
 
 	def focus_name(self):
 		"""

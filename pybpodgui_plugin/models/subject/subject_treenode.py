@@ -7,6 +7,7 @@ from AnyQt.QtGui import QIcon
 from AnyQt import QtCore
 
 from pybpodgui_plugin.models.subject.subject_window import SubjectWindow
+from pybpodgui_plugin.models.session import Session
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +83,20 @@ class SubjectTreeNode(SubjectWindow):
 		if event.key() == QtCore.Qt.Key_Delete:
 			self.remove()
 
+	def __add__(self, value):
+		if isinstance(value, Session):
+			# add another node to the UI
+			node = self.tree.create_child(value.name, self.node)
+			node.key_pressed_event     = value.node_key_pressed_event
+			node.double_clicked_event  = value.node_double_clicked_event
+			self.tree.add_popup_menu_option('Remove', value.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
+			value.node_in_subject = node
+		return super(SubjectTreeNode, self).__add__(value)
+
+	def __sub__(self,value):
+		if isinstance(value,Session):
+			self.node.removeChild(value.node_in_subject)
+		return super(SubjectTreeNode, self).__sub__(value)
 
 	@property
 	def name(self):

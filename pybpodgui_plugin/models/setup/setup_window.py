@@ -16,6 +16,7 @@ from pyforms.controls import ControlNumber
 from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlEmptyWidget
 
+from pybpodgui_plugin.models.subject import Subject
 from pybpodgui_api.models.setup import Setup
 from pybpodgui_api.exceptions.run_setup import RunSetupError
 
@@ -149,10 +150,20 @@ class SetupWindow(Setup, BaseWidget):
         if not hasattr(self, '_update_name') or not self._update_name:
             self.task = self._task.value
 
+    def __add__(self, obj):
+       res = super(SetupWindow, self).__add__(obj)
+       if isinstance(obj, Subject):
+           self._subjects_list.value = [[s.name] for s in self.subjects]
+       return res
+
+    def __sub__(self, obj):
+       res = super(SetupWindow, self).__sub__(obj)
+       if isinstance(obj, Subject):
+           self._subjects_list.value = [[s.name] for s in self.subjects]
+       return res
 
     def __add_subject(self):
         self += self._allsubjects.value
-        self._subjects_list.value = [[s.name] for s in self.subjects]
 
     def __remove_subject(self):
         if self._subjects_list.selected_row_index is not None:

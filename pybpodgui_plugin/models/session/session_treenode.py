@@ -60,7 +60,8 @@ class SessionTreeNode(SessionWindow):
     ####### FUNCTIONS ########################################################
     ##########################################################################
 
-
     def remove(self):
-        super(SessionTreeNode, self).remove()
-        self.setup.node.removeChild(self.node)
+        reply = self.question('Delete this session?', 'Delete')
+        if reply == True:
+            super(SessionTreeNode, self).remove()
+            self.setup.node.removeChild(self.node)

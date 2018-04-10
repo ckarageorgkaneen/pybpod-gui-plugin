@@ -66,6 +66,10 @@ class SessionWindow(Session, BaseWidget):
 
     def remove(self):
         self.setup -= self
+        for s in self.subjects:
+            _, uuid = eval(s)
+            sub = self.project.find_subject_by_id(uuid)
+            if sub is not None: sub -= self
 
     def __init_loading_progress(self, max_nbytes):
         self._progress.show()
@@ -78,7 +82,8 @@ class SessionWindow(Session, BaseWidget):
         self._progress.hide()
 
     def load_contents(self):
-        try:
+        if True:
+        #try:
             if self.data is None and not self.is_running:
                 self._progress.min   = 0
                 self._progress.value = 0
@@ -87,8 +92,9 @@ class SessionWindow(Session, BaseWidget):
                     self.__update_loading_progress, 
                     self.__end_loading_progress
                 )
-        except FileNotFoundError as err:
-            logger.warning("Error when trying to load the session content.")
+        #except FileNotFoundError as err:
+            #logger.warning("Error when trying to load the session content.")
+            
             
 
     ##########################################################################
