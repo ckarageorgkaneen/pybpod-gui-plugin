@@ -140,13 +140,17 @@ class CodeEditor(BaseWidget):
         else:
             name = os.path.basename(fullpath)
 
+        if name==self.task.name:
+            self.warning('Please use the name field in the task details window to rename the task')
+            return
+
         name = self.input_text('Enter the new name', 'New name', name)
         if name:
             if os.path.isfile(fullpath):
                 new_path = os.path.join(os.path.dirname(fullpath), name+extension)
             else:
                 new_path = os.path.join(os.path.dirname(fullpath), name)
-            os.rename(fullpath, os.path.join(*new_path) )
+            os.rename(fullpath, new_path)
 
 
 
