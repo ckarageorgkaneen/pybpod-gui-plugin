@@ -74,6 +74,7 @@ class SetupTreeNode(SetupWindow):
 			* Setup removal (dock window): :py:meth:`pybpodgui_plugin.models.setup.setup_dockwindow.SetupDockWindow.remove`.
 			* Setup removal (API): :meth:`pybpodgui_api.models.board.setup_base.SetupBase.remove`.
 		"""
+		
 		for index in range(len(self.sessions) - 1, -1, -1):
 			self.sessions[index].remove()
 		self.experiment -= self

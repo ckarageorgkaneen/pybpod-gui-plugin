@@ -83,15 +83,15 @@ class SubjectTreeNode(SubjectWindow):
 		if event.key() == QtCore.Qt.Key_Delete:
 			self.remove()
 
-	def __add__(self, value):
-		if isinstance(value, Session):
+	def __add__(self, session):
+		if isinstance(session, Session):
 			# add another node to the UI
-			node = self.tree.create_child(value.name, self.node)
-			node.key_pressed_event     = value.node_key_pressed_event
-			node.double_clicked_event  = value.node_double_clicked_event
-			self.tree.add_popup_menu_option('Remove', value.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
-			value.node_in_subject = node
-		return super(SubjectTreeNode, self).__add__(value)
+			node = self.tree.create_child(session.name, self.node)
+			node.key_pressed_event     = session.node_key_pressed_event
+			node.double_clicked_event  = session.node_double_clicked_event
+			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
+			session.node_in_subject = node
+		return super(SubjectTreeNode, self).__add__(session)
 
 	def __sub__(self,value):
 		if isinstance(value,Session):

@@ -19,7 +19,8 @@ class SessionTreeNode(SessionWindow):
         SessionWindow.__init__(self, setup)
 
         self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
-
+        # this helps on cascade elimination of treenodes
+        self.node_in_subject = None
         self.create_treenode(self.tree)
 
     def create_treenode(self, tree):
@@ -61,7 +62,11 @@ class SessionTreeNode(SessionWindow):
     ##########################################################################
 
     def remove(self):
-        reply = self.question('Delete this session?', 'Delete')
+        if not self.setup.MARKED_FOR_REMOVAL:
+            reply = self.question('Delete session: '+ self.name + '?', 'Delete')
+        else:
+            reply = 'yes'
+
         if reply == 'yes':
             super(SessionTreeNode, self).remove()
             self.setup.node.removeChild(self.node)
