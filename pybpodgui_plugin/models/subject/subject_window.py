@@ -74,16 +74,17 @@ class SubjectWindow(Subject, BaseWidget):
 
 		self._name 	= ControlText('Name')
 		self._setups = ControlCombo('Setup')
-		self._run = ControlButton('Run',checkable = True, default=self._run_task)
+		self._run = ControlButton('Run',checkable = True, default=self.__run_task)
+		self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
+		self._pause_btn     = ControlButton('Pause', checkable=True, default=self._pause_evt)
 
 		Subject.__init__(self, project)
 
 		self._formset = [
 			'_name',
-			' ',
 			'_setups',
-			' ',			
 			'_run',
+			('_stoptrial_btn','_pause_btn'),
 			' ',
 		]
 
@@ -91,7 +92,16 @@ class SubjectWindow(Subject, BaseWidget):
 		self._setups.changed_event = self._setup_changed_evt
 		self.reload_setups()
 
+	def _stop_trial_evt(self):
+		print('stop trial')
+
+	def _pause_evt(self):
+		print('pause trial')
+
 	def _run_task(self):
+		pass
+
+	def __run_task(self):
 		print('run task',self._selected_setup.name)
 		self._selected_setup.clear_subjects()
 		self._selected_setup += self

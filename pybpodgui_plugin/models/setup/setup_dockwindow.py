@@ -23,6 +23,7 @@ class SetupDockWindow(SetupTreeNode):
     **Methods**
 
     """
+    MARKED_FOR_REMOVAL = False
 
     def __init__(self, experiment):
         super(SetupDockWindow, self).__init__(experiment)
@@ -53,11 +54,12 @@ class SetupDockWindow(SetupTreeNode):
 
         """
         if not self.experiment.MARKED_FOR_REMOVAL:
-            reply = self.question('The setup {0} will be deleted. Are you sure?'.format(self.name) )
+            reply = self.question('The setup {0} and all the sessions will be deleted. Are you sure?'.format(self.name) )
         else:
-            reply = True
+            reply = 'yes'
 
         if reply=='yes':
+            self.MARKED_FOR_REMOVAL = True
             self.mainwindow.details.value = None
             super(SetupDockWindow, self).remove()
 
