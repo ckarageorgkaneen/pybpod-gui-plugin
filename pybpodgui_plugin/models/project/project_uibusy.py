@@ -33,15 +33,20 @@ class ProjectUIBusy(ProjectDockWindow):
             self.node.setIcon(0, QIcon(conf.PROJECT_SMALL_ICON))
             self.experiments_node.setIcon(0, QIcon(conf.EXPERIMENTS_SMALL_ICON))
             self.boards_node.setIcon(0, QIcon(conf.BOARDS_SMALL_ICON))
+            self.subjects_node.setIcon(0, QIcon(conf.SUBJECTS_SMALL_ICON))
 
         elif busy_status in [Board.STATUS_RUNNING_TASK]:
 
             self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
             self.experiments_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
             self.boards_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
+            self.subjects_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 
         for exp in self.experiments:
             exp.update_ui()
 
         for board in self.boards:
             board.update_ui()
+
+        for subj in self.subjects:
+            subj.update_ui()

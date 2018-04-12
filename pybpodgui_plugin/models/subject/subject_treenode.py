@@ -31,6 +31,7 @@ class SubjectTreeNode(SubjectWindow):
 
 	def __init__(self, project):
 		SubjectWindow.__init__(self, project)
+		self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
 		self.create_treenode(self.tree)
 
 	def create_treenode(self, tree):
@@ -90,7 +91,7 @@ class SubjectTreeNode(SubjectWindow):
 			node.key_pressed_event     = session.node_key_pressed_event
 			node.double_clicked_event  = session.node_double_clicked_event
 			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
-			session.node_in_subject.append(node)
+			session.node_in_subject.append(node)			
 		return super(SubjectTreeNode, self).__add__(session)
 
 	def __sub__(self,value):
