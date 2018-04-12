@@ -90,12 +90,13 @@ class SubjectTreeNode(SubjectWindow):
 			node.key_pressed_event     = session.node_key_pressed_event
 			node.double_clicked_event  = session.node_double_clicked_event
 			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
-			session.node_in_subject = node
+			session.node_in_subject.append(node)
 		return super(SubjectTreeNode, self).__add__(session)
 
 	def __sub__(self,value):
 		if isinstance(value,Session):
-			self.node.removeChild(value.node_in_subject)
+			for obj in value.node_in_subject:
+				self.node.removeChild(obj)
 		return super(SubjectTreeNode, self).__sub__(value)
 
 	@property
