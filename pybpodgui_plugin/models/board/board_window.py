@@ -14,6 +14,7 @@ import pyforms as app
 from pyforms import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlList
 from pyforms.controls import ControlCheckBoxList
 from pyforms.controls import ControlNumber
 
@@ -85,9 +86,11 @@ class BoardWindow(Board, BaseWidget):
         self._active_bnc        = ControlCheckBoxList('BNC')
         self._active_wired      = ControlCheckBoxList('Wired')
         self._active_behavior   = ControlCheckBoxList('Behavior')
-        self._loadports_btn     = ControlButton('Load ports')
+        self._loadports_btn     = ControlButton('Load board info')
         self._netport           = ControlNumber('Net port', default=36000+len(project.boards), minimum=36000, maximum=36100)
-        
+        self._events            = ControlList('Events', readonly=True)
+        self._inputchannels     = ControlList('Input channels', readonly=True)
+        self._outputchannels    = ControlList('Output channels', readonly=True)
 
         Board.__init__(self, project)
 
@@ -96,13 +99,27 @@ class BoardWindow(Board, BaseWidget):
             '_serial_port',
             '_netport',
             '_log_btn',
-            ' ',
-            ('Enabled or disable ports',' ','_loadports_btn'),          
-            '_active_bnc',
-            '_active_wired',
-            '_active_behavior'
+            '=',
+            '_loadports_btn',
+            {
+                'Ports':[
+                    'Enabled or disable ports',
+                    '_active_bnc',
+                    '_active_wired',
+                    '_active_behavior', 
+                ],
+                'Events':[
+                    '_events'
+                ],
+                'Input ch.':[
+                    '_inputchannels'
+                ],
+                'Output ch.':[
+                    '_outputchannels'
+                ]
+            }        
+            
         ]
-
         self._name.changed_event        = self.__name_changed_evt
         self._serial_port.changed_event = self.__serial_changed_evt
         self._loadports_btn.value       = self.__load_bpod_ports
@@ -121,7 +138,11 @@ class BoardWindow(Board, BaseWidget):
             self._active_wired.value    = [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)    ]
             self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
             #############################################################
-            
+            self._events.value = [ [x] for x in hw.channels.event_names]
+            self._inputchannels.value = [ [x] for x in hw.channels.input_channel_names]
+            self._outputchannels.value = [ [x] for x in hw.channels.output_channel_names]
+
+
             bpod.close()
         except Exception as e:
             self.critical(str(e), 'Error loading ports')
