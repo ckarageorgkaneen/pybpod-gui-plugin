@@ -89,25 +89,36 @@ class SubjectWindow(Subject, BaseWidget):
 		]
 
 		self._name.changed_event 		= self.__name_changed_evt
-		self._setups.changed_event = self._setup_changed_evt
 		self.reload_setups()
 
 	def _stop_trial_evt(self):
-		print('stop trial')
+		setup = self._setups.value
+		if setup is not None:
+			setup._stop_trial_evt()
 
 	def _pause_evt(self):
-		print('pause trial')
-
+		setup = self._setups.value
+		if setup:
+			setup._pause_evt()
+			
 	def _run_task(self):
-		pass
+		setup = self._setups.value
+		if setup:
+			setup.clear_subjects()
+			setup += self
+			setup._run_task()
 
 	def __run_task(self):
-		self._selected_setup.clear_subjects()
-		self._selected_setup += self
-		self._selected_setup._run_task()
+		setup = self._setups.value
+		if setup:
+			setup.clear_subjects()
+			setup += self
+			setup._run_task()
+		else:
+			self._run.checked = False
 
-	def _setup_changed_evt(self):
-		self._selected_setup = self._setups.value
+	#def _setup_changed_evt(self):
+	#	self._selected_setup = self._setups.value
 
 	def reload_setups(self):		
 		self._setups.clear()
