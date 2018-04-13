@@ -24,11 +24,11 @@ class SessionUIBusy(SessionSignals):
 			Setup.STATUS_RUNNING_TASK
 		]:
 			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			for s in self.node_in_subject:
+			for s in self.subjects_nodes.values():
 				s.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 		else:
 			self.node.setIcon(0, QIcon())
-			for s in self.node_in_subject:
+			for s in self.subjects_nodes.values():
 				s.setIcon(0, QIcon())
 
 

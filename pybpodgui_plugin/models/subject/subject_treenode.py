@@ -52,7 +52,7 @@ class SubjectTreeNode(SubjectWindow):
 		:return: new created node
 		:return type: QTreeWidgetItem
 		"""
-		self.node = tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
+		self.node 						= tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
 		self.node.key_pressed_event 	= self.node_key_pressed_event
 		self.node.window 				= self
 		self.node.setExpanded(True)
@@ -87,17 +87,18 @@ class SubjectTreeNode(SubjectWindow):
 	def __add__(self, session):
 		if isinstance(session, Session):
 			# add another node to the UI
-			node = self.tree.create_child(session.name, self.node)
+			node 					   = self.tree.create_child(session.name, self.node)
 			node.key_pressed_event     = session.node_key_pressed_event
 			node.double_clicked_event  = session.node_double_clicked_event
+			session.subjects_nodes[id(self.node)] = node	
+			
 			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
-			session.node_in_subject.append(node)			
+			
 		return super(SubjectTreeNode, self).__add__(session)
 
 	def __sub__(self,value):
 		if isinstance(value,Session):
-			for obj in value.node_in_subject:
-				self.node.removeChild(obj)
+			self.node.removeChild(value.subjects_nodes[id(self.node)])
 		return super(SubjectTreeNode, self).__sub__(value)
 
 	@property

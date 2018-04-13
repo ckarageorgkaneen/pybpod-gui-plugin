@@ -23,7 +23,6 @@ class SubjectUIBusy(SubjectDockWindow):
     def __init__(self, project):
         super(SubjectUIBusy, self).__init__(project)
         self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
-        print('SUBJECT UI BUSY INIT')
 
     def update_ui(self):
-        print('SUBJECT UI BUSY UPDATE UI')
+    	pass
