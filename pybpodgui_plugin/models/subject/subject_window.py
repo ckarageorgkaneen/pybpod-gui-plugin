@@ -102,7 +102,6 @@ class SubjectWindow(Subject, BaseWidget):
 		pass
 
 	def __run_task(self):
-		print('run task',self._selected_setup.name)
 		self._selected_setup.clear_subjects()
 		self._selected_setup += self
 		self._selected_setup._run_task()
