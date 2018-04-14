@@ -11,6 +11,7 @@ import pyforms as app
 from pyforms import BaseWidget
 from pyforms.controls import ControlList
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlCombo
 
 from pybpodgui_plugin.models.setup.task_variable import TaskVariableWindow
@@ -80,7 +81,8 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 	def __init__(self, setup):
 		BaseWidget.__init__(self, "Variables config for {0}".format(setup.name))
 		
-		self._vars = ControlList('Variables', 
+		self._updvars = ControlCheckBox('Update variables')
+		self._vars 	  = ControlList('Variables', 
 			add_function	= self.__add_variable, 
 			remove_function	= self.__remove_variable
 		)
@@ -90,10 +92,17 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 		self._vars.horizontal_headers = ['NAME', 'TYPE', 'VALUE']
 		self._vars.data_changed_event = self.__varslist_data_changed_evt
 
-		self._formset = ['_vars']
+		self._formset = ['_updvars','_vars']
 
 		self._variable_rule = re.compile('^[A-Z0-9\_]+$')
 
+	@property
+	def update_variables(self):
+		return self._updvars.value
+
+	@update_variables.setter
+	def update_variables(self, value):
+		self._updvars.value = value
 
 	def create_variable(self, name=None, value=None, datatype='string'):
 		return TaskVariableWindow(self, name, value, datatype)

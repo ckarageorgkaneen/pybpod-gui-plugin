@@ -92,9 +92,8 @@ class SetupWindow(Setup, BaseWidget):
         
         self._detached      = ControlCheckBox('Detach from GUI')
 
-        self._varspanel = ControlEmptyWidget()
-
-        self._btn       = ControlButton('Open')
+        self._varspanel     = ControlEmptyWidget()
+        self._btn           = ControlButton('Open')
 
         
 
@@ -110,7 +109,7 @@ class SetupWindow(Setup, BaseWidget):
             '_task',
             ('_detached', '_run_task_btn'),
             ('_stoptrial_btn','_pause_btn'),
-            ' ',
+            '=',
             {   
                 'Subjects':[
                     '_allsubjects',
