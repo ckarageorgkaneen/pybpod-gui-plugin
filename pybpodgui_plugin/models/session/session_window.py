@@ -87,8 +87,7 @@ class SessionWindow(Session, BaseWidget):
         self._progress.hide()
 
     def load_contents(self):
-        if True:
-        #try:
+        try:
             if self.data is None and not self.is_running:
                 self._progress.min   = 0
                 self._progress.value = 0
@@ -97,8 +96,8 @@ class SessionWindow(Session, BaseWidget):
                     self.__update_loading_progress, 
                     self.__end_loading_progress
                 )
-        #except FileNotFoundError as err:
-            #logger.warning("Error when trying to load the session content.")
+        except FileNotFoundError as err:
+            logger.warning("Error when trying to load the session content.")
             
             
 
