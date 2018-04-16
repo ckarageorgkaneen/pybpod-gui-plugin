@@ -70,6 +70,5 @@ class BoardCom(BoardWindow):
         
 
     def end_run_task_handler(self):
-        self._timer.stop()
         super(BoardCom,self).end_run_task_handler()
         self.run_task_handler(False)

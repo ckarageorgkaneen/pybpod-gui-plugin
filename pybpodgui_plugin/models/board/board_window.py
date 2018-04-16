@@ -127,6 +127,10 @@ class BoardWindow(Board, BaseWidget):
     def freegui(self):
         QApplication.processEvents()
 
+    def stop_thread(self):
+        self._timer.stop()
+        
+
     def __load_bpod_ports(self):
 
         try:

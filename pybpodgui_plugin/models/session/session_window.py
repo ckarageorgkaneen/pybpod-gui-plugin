@@ -30,7 +30,7 @@ class SessionWindow(Session, BaseWidget):
         self._ended         = ControlText('Ended on')
         self._subjects      = ControlList('Subjects')
         self._board_serial_port = ControlText('Serial port')
-        self._progress      = ControlProgress('Loading', visible=False)
+        self._variables     = ControlList('Variables')
         
         Session.__init__(self, setup)
 
@@ -41,7 +41,7 @@ class SessionWindow(Session, BaseWidget):
             '_board_name',
             '_board_serial_port',
             '_subjects',
-            '_progress'
+            '_variables',
         ]
 
         self._subjects.readonly = True
@@ -76,26 +76,11 @@ class SessionWindow(Session, BaseWidget):
             sub = self.project.find_subject_by_id(uuid)
             if sub is not None: sub -= self
 
-    def __init_loading_progress(self, max_nbytes):
-        self._progress.show()
-        self._progress.max = max_nbytes
-
-    def __update_loading_progress(self, nbytes_loaded):
-        self._progress.value = nbytes_loaded
-
-    def __end_loading_progress(self):
-        self._progress.hide()
-
+   
     def load_contents(self):
         try:
             if self.data is None and not self.is_running:
-                self._progress.min   = 0
-                self._progress.value = 0
-                super(SessionWindow, self).load_contents(
-                    self.__init_loading_progress, 
-                    self.__update_loading_progress, 
-                    self.__end_loading_progress
-                )
+                super(SessionWindow, self).load_contents()
         except FileNotFoundError as err:
             logger.warning("Error when trying to load the session content.")
             
@@ -141,6 +126,14 @@ class SessionWindow(Session, BaseWidget):
     @task_name.setter
     def task_name(self, value):
         self._task_name.value = value
+
+    @property
+    def variables(self):
+        return self._variables.value
+
+    @variables.setter
+    def variables(self, value):
+        self._variables.value = value
 
     @property
     def board_serial_port(self):
