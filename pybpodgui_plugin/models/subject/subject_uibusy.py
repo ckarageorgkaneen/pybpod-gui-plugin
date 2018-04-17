@@ -23,6 +23,16 @@ class SubjectUIBusy(SubjectDockWindow):
     def __init__(self, project):
         super(SubjectUIBusy, self).__init__(project)
         self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
-
-    def update_ui(self):
-    	pass
+    
+    # This must switch between start and stop
+    def update_ui(self, sessionrunning = False):
+        if sessionrunning == True:
+            self._run.enabled = False
+            self._run.checked = False
+            self._run.label = 'Running...'
+            self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
+        else:
+            self._run.enabled = True
+            self._run.checked = False
+            self._run.label = 'Run'
+            self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))

@@ -21,6 +21,9 @@ class ProjectUIBusy(ProjectDockWindow):
         """
         busy_status = Board.STATUS_READY
 
+        # This boolean makes it easy to disable run buttons on subjects
+        sessionrunning = False
+
         logger.debug('Project [{0}] status:{1}'.format(self.name, busy_status))
         
         for board in self.boards:
@@ -41,6 +44,8 @@ class ProjectUIBusy(ProjectDockWindow):
             self.experiments_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
             self.boards_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
             self.subjects_node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
+            # Flag this true so we can disable 'Run' buttons
+            sessionrunning = True
 
         for exp in self.experiments:
             exp.update_ui()
@@ -49,4 +54,4 @@ class ProjectUIBusy(ProjectDockWindow):
             board.update_ui()
 
         for subj in self.subjects:
-            subj.update_ui()
+            subj.update_ui(sessionrunning)
