@@ -1,6 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 import logging
+import inspect
 from pyforms import conf
 
 from AnyQt.QtGui import QIcon
@@ -84,24 +85,21 @@ class SubjectTreeNode(SubjectWindow):
 		if event.key() == QtCore.Qt.Key_Delete:
 			self.remove()
 
+	def create_sessiontreenode(self, session):
+		node 					   = self.tree.create_child(session.name, self.node)
+		node.key_pressed_event     = session.node_key_pressed_event
+		node.double_clicked_event  = session.node_double_clicked_event
+		session.subjects_nodes[id(self.node)] = node
+
+		return node
+
 	def __add__(self, session):
 		if isinstance(session, Session):
 			# add another node to the UI
-			node 					   = self.tree.create_child(session.name, self.node)
-			node.key_pressed_event     = session.node_key_pressed_event
-			node.double_clicked_event  = session.node_double_clicked_event
+			node = self.create_sessiontreenode(session)
 			session.subjects_nodes[id(self.node)] = node
 			
 			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
-			if hasattr(session,'sessionhistory_action'):
-				self.tree.add_popup_menu_option('History',session.open_sessionhistory_win,item=node,icon=QIcon(conf.SESSIONLOG_PLUGIN_ICON))
-			if hasattr(session,'sessionhistory_detached_action'):
-				self.tree.add_popup_menu_option('History (detached)',session.open_sessionhistory_win_detached,item=node,icon=QIcon(conf.SESSIONLOG_PLUGIN_ICON))
-			if hasattr(session,'trialtimeline_action'):
-				self.tree.add_popup_menu_option('Trial Timeline',session.open_trialtimeline_window,item=node)
-			if hasattr(session,'trialtimeline_detached_action'):
-				self.tree.add_popup_menu_option('Trial Timeline (Detached)',session.open_trialtimeline_window_detached,item=node)
-			
 		return super(SubjectTreeNode, self).__add__(session)
 
 	def __sub__(self,value):
