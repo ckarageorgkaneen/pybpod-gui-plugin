@@ -158,8 +158,10 @@ class TaskWindow(Task, BaseWidget):
 
     @name.setter
     def name(self, value):
-        Task.name.fset(self, value)
-
+        try:
+            Task.name.fset(self, value)
+        except FileNotFoundError as e:
+            self.critical(str(e), 'File not found')
         # Flag to avoid recurse calls when editing the name text field
         self._update_name = True
         self._namefield.value  = value
@@ -174,8 +176,8 @@ class TaskWindow(Task, BaseWidget):
         self._use_server.value = value==True
 
 
-    def load(self, repository):
-        super(TaskWindow, self).load(repository)
+    def load(self, path):
+        super(TaskWindow, self).load(path)
         self.update_commands()
 
 

@@ -151,8 +151,7 @@ class ProjectTreeNode(ProjectWindow):
 
             if filepath:
                 try:
-                    task = super(ProjectTreeNode, self).import_task(filepath)
-                    return task
+                    return super(ProjectTreeNode, self).import_task(filepath)
                 except Exception as e:
                     self.warning( str(e), 'Import aborted' )
         
