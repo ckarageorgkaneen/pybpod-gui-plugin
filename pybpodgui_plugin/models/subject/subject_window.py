@@ -111,8 +111,9 @@ class SubjectWindow(Subject, BaseWidget):
 	def __run_task(self):
 		setup = self._setups.value
 		if setup:
-			setup.clear_subjects()
-			setup += self
+			if setup.status == setup.STATUS_READY:
+				setup.clear_subjects()
+				setup += self
 			setup._run_task()
 		else:
 			self._run.checked = False

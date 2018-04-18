@@ -27,12 +27,12 @@ class SubjectUIBusy(SubjectDockWindow):
     # This must switch between start and stop
     def update_ui(self, sessionrunning = False):
         if sessionrunning == True:
-            self._run.enabled = False
+            #self._run.enabled = False
             self._run.checked = False
-            self._run.label = 'Running...'
+            self._run.label = 'Stop'
             self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
         else:
-            self._run.enabled = True
+            #self._run.enabled = True
             self._run.checked = False
             self._run.label = 'Run'
             self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))
