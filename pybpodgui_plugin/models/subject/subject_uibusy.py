@@ -28,7 +28,7 @@ class SubjectUIBusy(SubjectDockWindow):
     def update_ui(self, sessionrunning = False):
         if sessionrunning == True:
             #self._run.enabled = False
-            self._run.checked = False
+            self._run.checked = True
             self._run.label = 'Stop'
             self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
         else:
