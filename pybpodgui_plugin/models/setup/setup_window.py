@@ -14,6 +14,7 @@ from pyforms.controls import ControlButton
 from pyforms.controls import ControlCombo
 from pyforms.controls import ControlNumber
 from pyforms.controls import ControlCheckBox
+from pyforms.controls import ControlCheckBoxList
 from pyforms.controls import ControlEmptyWidget
 
 from pybpodgui_plugin.models.subject import Subject
@@ -25,6 +26,49 @@ from pybpodgui_plugin.models.session import Session
 
 logger = logging.getLogger(__name__)
 
+class SubjectSelectPopup(BaseWidget):
+    
+    def __init__(self,subjectlist, selectedsubjects):
+
+        super(SubjectSelectPopup,self).__init__('Add Subjects')
+
+        self._ok_btn = ControlButton('OK')
+        self._cancel_btn = ControlButton('Cancel',default = self.cancel_evt)
+        self._subjectslist = ControlCheckBoxList('Subject List')
+
+        self._formset = [
+            '',
+            ('','_subjectslist',''),
+            ('','_ok_btn', '_cancel_btn',''),     
+            ''
+        ]
+
+        for subject in sorted([s for s in subjectlist], key=lambda x: x.name.lower()):
+            b = False
+            for a in selectedsubjects.value:
+                if subject.name == a[0]:
+                    self._subjectslist += (subject,True)
+                    b = True
+            if b == False:    
+                self._subjectslist += (subject,False)
+
+    def ok_evt(self):
+        self.close()
+        #self.ok_event(self._subjectslist.value)
+
+    def closewidnow(self):
+        self.close()
+    
+    def subjectlist(self):
+        return self._subjectslist.items
+
+    # THIS IS THE WAY WE CREATE A SIGNAL INSIDE PYBPOD (SCROLL DOWN...)
+    def ok_event(self,subjects):
+        pass
+
+    def cancel_evt(self):
+        print('cancel')
+        self.close()
 
 class SetupWindow(Setup, BaseWidget):
     """
@@ -95,9 +139,9 @@ class SetupWindow(Setup, BaseWidget):
         self._varspanel     = ControlEmptyWidget()
         self._btn           = ControlButton('Open')
 
-        
-
         Setup.__init__(self, experiment)
+
+        
 
         self.reload_boards()
         self.reload_tasks()
@@ -112,7 +156,8 @@ class SetupWindow(Setup, BaseWidget):
             '=',
             {   
                 'Subjects':[
-                    '_allsubjects',
+                    #'_allsubjects',
+                    '',
                     '_add_subject',
                     '_subjects_list',
                 ],
@@ -127,7 +172,14 @@ class SetupWindow(Setup, BaseWidget):
         self._add_subject.value   = self.__add_subject
         self._name.changed_event  = self.__name_changed_evt
         self._board.changed_event = self.__board_changed_evt
-        
+    
+    def slot(self):
+        self.clear_subjects()
+        listedsubjects = self.sswindow.subjectlist()
+        for subj in listedsubjects:
+            if subj[1] == True:
+                self += subj[0]
+        self.sswindow.closewidnow()
 
     def reload_tasks(self, current_selected_task=None):
         # type: (Task) -> None
@@ -161,8 +213,14 @@ class SetupWindow(Setup, BaseWidget):
            self._subjects_list.value = [[s.name] for s in self.subjects]
        return res
 
+    def __open_subject_select(self):
+        self.sswindow = SubjectSelectPopup(self.project.subjects,self._subjects_list)
+        self.sswindow._ok_btn.value = self.slot
+        self.sswindow.show()
+
     def __add_subject(self):
-        self += self._allsubjects.value
+        self.__open_subject_select()
+        #self += self._allsubjects.value
 
     def __remove_subject(self):
         if self._subjects_list.selected_row_index is not None:
