@@ -21,6 +21,7 @@ class SessionTreeNode(SessionWindow):
         self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
         # this helps on cascade elimination of treenodes
         self.subjects_nodes = {}
+        self.running = False
         self.create_treenode(self.tree)
 
     def create_treenode(self, tree):

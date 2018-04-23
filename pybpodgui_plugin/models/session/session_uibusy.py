@@ -14,6 +14,7 @@ class SessionUIBusy(SessionSignals):
 	
 	"""
 
+	
 	def update_ui(self):
 		"""
 		
@@ -26,10 +27,12 @@ class SessionUIBusy(SessionSignals):
 			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			for s in self.subjects_nodes.values():
 				s.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
+			self.running = True
 		else:
 			self.node.setIcon(0, QIcon())
 			for s in self.subjects_nodes.values():
 				s.setIcon(0, QIcon())
+			self.running = False
 
 
 

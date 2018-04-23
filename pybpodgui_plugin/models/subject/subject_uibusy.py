@@ -30,7 +30,9 @@ class SubjectUIBusy(SubjectDockWindow):
             #self._run.enabled = False
             self._run.checked = True
             self._run.label = 'Stop'
-            self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
+            for sess in self._sessions:
+                if sess.running == True:
+                    self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
         else:
             #self._run.enabled = True
             self._run.checked = False
