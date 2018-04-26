@@ -22,7 +22,7 @@ py2app
 
 
 # swp dependencies
-pysettings
+pyforms
 logging-bootstrap
 pybranch
 pyforms

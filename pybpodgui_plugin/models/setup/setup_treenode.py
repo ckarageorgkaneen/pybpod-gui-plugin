@@ -3,16 +3,14 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-	from PyQt5 import QtCore
-else:
-	from PyQt4.QtGui import QIcon
-	from PyQt4 import QtCore
+from AnyQt.QtGui import QIcon
+from AnyQt import QtCore
+
 
 from pybpodgui_plugin.models.setup.setup_window import SetupWindow
+
 
 logger = logging.getLogger(__name__)
 
@@ -76,6 +74,7 @@ class SetupTreeNode(SetupWindow):
 			* Setup removal (dock window): :py:meth:`pybpodgui_plugin.models.setup.setup_dockwindow.SetupDockWindow.remove`.
 			* Setup removal (API): :meth:`pybpodgui_api.models.board.setup_base.SetupBase.remove`.
 		"""
+		
 		for index in range(len(self.sessions) - 1, -1, -1):
 			self.sessions[index].remove()
 		self.experiment -= self

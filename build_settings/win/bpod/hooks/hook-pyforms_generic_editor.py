@@ -1,7 +1,6 @@
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-from pysettings import conf
-conf.PYFORMS_USE_QT5 = True
+from pyforms import conf
 
 hiddenimports = [
  'pyforms_generic_editor.settings',

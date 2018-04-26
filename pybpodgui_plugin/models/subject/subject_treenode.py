@@ -1,16 +1,14 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 import logging
-from pysettings import conf
+import inspect
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-	from PyQt5 import QtCore
-else:
-	from PyQt4.QtGui import QIcon
-	from PyQt4 import QtCore
+from AnyQt.QtGui import QIcon
+from AnyQt import QtCore
 
 from pybpodgui_plugin.models.subject.subject_window import SubjectWindow
+from pybpodgui_plugin.models.session import Session
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +32,7 @@ class SubjectTreeNode(SubjectWindow):
 
 	def __init__(self, project):
 		SubjectWindow.__init__(self, project)
+		self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
 		self.create_treenode(self.tree)
 
 	def create_treenode(self, tree):
@@ -54,7 +53,7 @@ class SubjectTreeNode(SubjectWindow):
 		:return: new created node
 		:return type: QTreeWidgetItem
 		"""
-		self.node = tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
+		self.node 						= tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
 		self.node.key_pressed_event 	= self.node_key_pressed_event
 		self.node.window 				= self
 		self.node.setExpanded(True)
@@ -86,6 +85,26 @@ class SubjectTreeNode(SubjectWindow):
 		if event.key() == QtCore.Qt.Key_Delete:
 			self.remove()
 
+	def create_sessiontreenode(self, session):
+		node 					   = self.tree.create_child(session.name, self.node)
+		node.key_pressed_event     = session.node_key_pressed_event
+		node.double_clicked_event  = session.node_double_clicked_event
+		session.subjects_nodes[id(self.node)] = node
+
+		return node
+
+	def __add__(self, session):
+		if isinstance(session, Session):
+			# add another node to the UI
+			node = self.create_sessiontreenode(session)
+			session.subjects_nodes[id(self.node)] = node
+			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
+		return super(SubjectTreeNode, self).__add__(session)
+
+	def __sub__(self,value):
+		if isinstance(value,Session):
+			self.node.removeChild(value.subjects_nodes[id(self.node)])
+		return super(SubjectTreeNode, self).__sub__(value)
 
 	@property
 	def name(self):

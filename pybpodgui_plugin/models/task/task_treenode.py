@@ -3,15 +3,12 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QApplication
-	from PyQt5.QtGui import QIcon
-	from PyQt5 import QtCore
-else:
-	from PyQt4.QtGui import QIcon, QApplication
-	from PyQt4 import QtCore
+
+from AnyQt.QtWidgets import QApplication
+from AnyQt.QtGui import QIcon
+from AnyQt import QtCore
 
 from pybpodgui_plugin.models.task.task_window import TaskWindow
 
@@ -106,16 +103,15 @@ class TaskTreeNode(TaskWindow):
 
 	@property
 	def name(self):
-		if hasattr(self, 'node'):
-			return str(self.node.text(0))
-		else:
-			return TaskWindow.name.fget(self)
+		return TaskWindow.name.fget(self)
 
 	@name.setter
 	def name(self, value):
 		TaskWindow.name.fset(self, value)
 		if hasattr(self, 'node'): self.node.setText(0, value)
-		if hasattr(self, '_code_editor'): self._code_editor.title = value
+		if hasattr(self, '_code_editor'): 
+			self._code_editor.title = value
+			self._code_editor.refresh_directory()
 
 	@property
 	def tree(self):

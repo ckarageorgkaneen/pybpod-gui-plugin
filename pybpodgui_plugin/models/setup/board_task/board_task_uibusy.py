@@ -2,12 +2,9 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-else:
-	from PyQt4.QtGui import QIcon
+from AnyQt.QtGui import QIcon
 
 from pybpodgui_api.models.setup import Setup
 from pybpodgui_plugin.models.setup.board_task.board_task_window import BoardTaskWindow

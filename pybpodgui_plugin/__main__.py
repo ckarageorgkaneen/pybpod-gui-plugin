@@ -8,15 +8,15 @@ import sys
 from importlib.util import find_spec
 
 try:
-	from pysettings import conf
+	from pyforms import conf
 
-	# Initiating logging for pysettings. It has to be initiated manually here because we don't know yet
+	# Initiating logging for pyforms. It has to be initiated manually here because we don't know yet
 	# the logger filename as specified on settings
-	loggingbootstrap.create_double_logger("pysettings", logging.INFO, 'app.log', logging.INFO)
+	loggingbootstrap.create_double_logger("pyforms", logging.INFO, 'app.log', logging.INFO)
 
 except ImportError as err:
 	logging.getLogger().critical(str(err), exc_info=True)
-	exit("Could not load pysettings! Is it installed?")
+	exit("Could not load pyforms! Is it installed?")
 
 # CHECK IF PYFORMS IS AVAILABLE WITHOUT ACTUALLY IMPORTING IT
 pyforms_spec = find_spec("pyforms")
@@ -24,7 +24,7 @@ if not pyforms_spec:
 	exit("Could not load pyforms! Is it installed?")
 
 try:
-	# pyforms is imported here first time through pysettings
+	# pyforms is imported here first time through pyforms
 	from pyforms_generic_editor import settings
 
 	import user_settings
@@ -41,6 +41,7 @@ try:
 	# pyforms.controls is imported here first time
 	from pyforms_generic_editor.editor.base_editor import BaseEditor as Editor
 
+
 except Exception as err:
 	exc_type, exc_value, exc_traceback = sys.exc_info()
 	logging.getLogger("pyforms_generic_editor").critical(str(err), exc_info=True)
@@ -52,7 +53,10 @@ except Exception as err:
 
 def start():
 	import pyforms
-	pyforms.start_app(Editor, conf.GENERIC_EDITOR_WINDOW_GEOMETRY)
+
+	pyforms.start_app(Editor, 
+		conf.GENERIC_EDITOR_WINDOW_GEOMETRY
+	)
 
 
 if __name__ == '__main__':

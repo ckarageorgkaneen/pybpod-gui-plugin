@@ -29,7 +29,7 @@ import pybpodgui_plugin as app_package
 
 MAIN_SCRIPT_PATH = ['../../../pybpodgui_plugin/__main__.py']
 DATA_FILES = []
-PACKAGES = ['PyQt5', 'pyforms_generic_editor', 'pyforms', 'pybranch', 'pysettings', 'loggingbootstrap', 'pybpodapi',
+PACKAGES = ['PyQt5', 'pyforms_generic_editor', 'pyforms', 'pybranch', 'pyforms', 'loggingbootstrap', 'pybpodapi',
             'pybpodgui_plugin', 'pge_welcome_plugin', 'pybpodgui_plugin_timeline', 'pybpodgui_plugin_session_history']
 INCLUDES = []
 EXCLUDES = ['pyforms_generic_editor_user_settings']

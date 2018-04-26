@@ -2,10 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-import os
-import logging
-
-logger = logging.getLogger(__name__)
+import os, logging
 
 import pyforms
 from pyforms import BaseWidget
@@ -15,15 +12,13 @@ try:
 except:
 	logger.error("Could not import ControlCodeEditor. Is QScintilla installed?")
 
-from pysettings import conf
+from AnyQt.QtWidgets import QMessageBox
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+logger = logging.getLogger(__name__)
 
 
 class CodeEditor(BaseWidget):
+	
 	def __init__(self, board):
 		BaseWidget.__init__(self, board.name)
 		self.board = board
@@ -52,10 +47,9 @@ class CodeEditor(BaseWidget):
 		Before closing window, ask user if she wants to save (if there are changes)
 		"""
 		if self._code.is_modified:
-			reply = QMessageBox.question(self, 'Save the changes', 'Save the file',
-			                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+			reply = question('Save the changes', 'Save the file')
 
-			if reply == QMessageBox.Yes:
+			if reply == 'yes':
 				self.__code_changed_evt()
 
 		return False

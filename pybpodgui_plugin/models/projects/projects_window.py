@@ -1,23 +1,16 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging
-
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QFileDialog
-	from PyQt5.QtCore import pyqtSignal
-else:
-	from PyQt4.QtGui import QFileDialog
-	from PyQt4.QtCore import pyqtSignal
-
 import pyforms
+from pyforms import conf
+
+from AnyQt.QtWidgets import QFileDialog
+from AnyQt.QtCore 	 import pyqtSignal
 
 from pybpodgui_plugin.models.project import Project
 from pybpodgui_plugin.models.session import Session
 
-logger = logging.getLogger(__name__)
+from pyforms.controls import ControlToolButton
 
 
 class ProjectsWindow(object):
@@ -31,6 +24,30 @@ class ProjectsWindow(object):
 
 	def __init__(self, mainwindow=None):
 		super(ProjectsWindow, self).__init__(mainwindow)
+
+	def register_on_toolbar(self, toolbar):
+		toolbar += [
+			ControlToolButton(
+				'New',
+				icon=conf.NEW_SMALL_ICON,
+				default=self.create_project,
+				maxheight=30
+			),
+			ControlToolButton(
+				'Open',
+				icon=conf.OPEN_SMALL_ICON,
+				default=self._option_open_project,
+				maxheight=30
+			),
+			ControlToolButton(
+				'Save',
+				icon=conf.SAVE_SMALL_ICON,
+				default=self.save_current_project,
+				 maxheight=30
+			), '|'
+		]
+
+
 
 	def create_project(self):
 		"""

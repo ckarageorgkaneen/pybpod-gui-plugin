@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pysettings import conf
+from pyforms import conf
 from pybpodgui_plugin.models.experiment.experiment_uibusy import ExperimentUIBusy
 
 Experiment = type(

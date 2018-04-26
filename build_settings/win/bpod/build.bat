@@ -59,7 +59,7 @@ IF "%BUILD_DEPENDENCIES%"=="true" (
    pip install python-dateutil --upgrade
    pip install matplotlib --upgrade
 
-   pip install https://github.com/UmSenhorQualquer/pysettings/archive/"%PYSETTINGS_GIT_BRANCH%".zip --upgrade
+   pip install https://github.com/UmSenhorQualquer/pyforms/archive/"%PYSETTINGS_GIT_BRANCH%".zip --upgrade
    pip install https://github.com/UmSenhorQualquer/pyforms/archive/"%PYFORMS_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/logging-bootstrap/get/"%LOGGING_BOOTSTRAP_GIT_BRANCH%".zip --upgrade
    pip install https://bitbucket.org/fchampalimaud/pybranch/get/"%PYBRANCH_GIT_BRANCH%".zip --upgrade

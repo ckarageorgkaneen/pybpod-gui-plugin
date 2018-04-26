@@ -3,14 +3,15 @@
 
 import logging, re
 
-from pysettings import conf
+from pyforms import conf
 
-from AnyQt.QtWidgets import QCheckBox, QMessageBox
+from AnyQt.QtWidgets import QCheckBox
 
 import pyforms as app
 from pyforms import BaseWidget
 from pyforms.controls import ControlList
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlCombo
 
 from pybpodgui_plugin.models.setup.task_variable import TaskVariableWindow
@@ -80,7 +81,8 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 	def __init__(self, setup):
 		BaseWidget.__init__(self, "Variables config for {0}".format(setup.name))
 		
-		self._vars = ControlList('Variables', 
+		self._updvars = ControlCheckBox('Update variables')
+		self._vars 	  = ControlList('Variables', 
 			add_function	= self.__add_variable, 
 			remove_function	= self.__remove_variable
 		)
@@ -90,10 +92,17 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 		self._vars.horizontal_headers = ['NAME', 'TYPE', 'VALUE']
 		self._vars.data_changed_event = self.__varslist_data_changed_evt
 
-		self._formset = ['_vars']
+		self._formset = ['_updvars','_vars']
 
 		self._variable_rule = re.compile('^[A-Z0-9\_]+$')
 
+	@property
+	def update_variables(self):
+		return self._updvars.value
+
+	@update_variables.setter
+	def update_variables(self, value):
+		self._updvars.value = value
 
 	def create_variable(self, name=None, value=None, datatype='string'):
 		return TaskVariableWindow(self, name, value, datatype)
@@ -106,7 +115,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 		if col==0 and item is not None:
 			if not (self._variable_rule.match(item) and item.startswith('VAR_') ):
-				QMessageBox.about(self, 
+				self.message(self, 
 					"Error", 
 					"The name of the variable should start with VAR_, should be alphanumeric and upper case."
 				)
@@ -119,10 +128,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 			datatype_combo = self._vars.get_value(1, row)
 			datatype = datatype_combo.value if datatype_combo else None
 			if datatype=='number' and isinstance(item, str) and not item.isnumeric():
-				QMessageBox.about(self, 
-					"Error", 
-					"The value should be numeric."
-				)
+				self.message("The value should be numeric.", "Error")
 				self._vars.set_value(
 					col, row, 
 					'0'
@@ -139,9 +145,10 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 
 	def __remove_variable(self):
-		var = self.variables[self._vars.selected_index ]
-		self.variables.remove(var) 
-		self._vars -= -1
+		if self._vars.selected_row_index is not None:
+			var = self.variables[self._vars.selected_row_index ]
+			self.variables.remove(var) 
+			self._vars -= -1
 
 	def before_close(self): return False
 
