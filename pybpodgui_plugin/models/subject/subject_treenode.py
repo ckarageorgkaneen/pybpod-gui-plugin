@@ -86,9 +86,11 @@ class SubjectTreeNode(SubjectWindow):
 			self.remove()
 
 	def create_sessiontreenode(self, session):
-		node 					   = self.tree.create_child(session.name, self.node)
-		node.key_pressed_event     = session.node_key_pressed_event
-		node.double_clicked_event  = session.node_double_clicked_event
+		node 					    = self.tree.create_child(session.name, self.node)
+		node.key_pressed_event      = session.node_key_pressed_event
+		node.double_clicked_event   = session.node_double_clicked_event
+		# This makes the sesison window appear correctly
+		node.window = session.node.window
 		session.subjects_nodes[id(self.node)] = node
 
 		return node
