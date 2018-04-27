@@ -1,13 +1,13 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-__version__ = "1.4.0"
-__author__ = "Carlos Mao de Ferro"
-__credits__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro"]
-__license__ = "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
-__maintainer__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro"]
-__email__ = ["cajomferro@gmail.com", "ricardojvr@gmail.com"]
-__status__ = "Development"
+__version__ 	= "1.5.0"
+__author__ 		= "Carlos Mao de Ferro"
+__credits__ 	= ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto"]
+__license__ 	= "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
+__maintainer__ 	= ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto"]
+__email__ 		= ["cajomferro@gmail.com", "ricardojvr@gmail.com", "sergio.copeto@research.fchampalimaud.org"]
+__status__ 		= "Development"
 
 import logging
 import loggingbootstrap
