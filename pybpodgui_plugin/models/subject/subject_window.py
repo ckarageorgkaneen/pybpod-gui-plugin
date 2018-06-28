@@ -149,8 +149,6 @@ class SubjectWindow(Subject, BaseWidget):
 		self._name.value = value
 		self._update_name = False
 
-
-
 # Execute the application
 if __name__ == "__main__":
 	app.start_app(SubjectWindow)

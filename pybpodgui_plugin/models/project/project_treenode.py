@@ -15,6 +15,7 @@ from pybpodgui_plugin.models.experiment import Experiment
 from pybpodgui_plugin.models.board import Board
 from pybpodgui_plugin.models.task import Task
 from pybpodgui_plugin.models.subject import Subject
+from pybpodgui_plugin.models.user import User
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,7 @@ class ProjectTreeNode(ProjectWindow):
 
         self.projects = projects
         self.projects += self
+        self._loggeduser = None
 
         self.create_treenode(self.tree)
 
@@ -70,7 +72,15 @@ class ProjectTreeNode(ProjectWindow):
         tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
                                    icon=QIcon(conf.OPEN_SMALL_ICON))
 
+        self.users_node = tree.create_child('Users', parent = self.node)
+        self.users_node.window = self
+        tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node)
+
         return self.node
+
+    def _add_user(self):
+        entity = self.create_user()
+        #entity.focus_name()
 
     def _add_experiment(self):
         entity = self.create_experiment()
@@ -79,6 +89,11 @@ class ProjectTreeNode(ProjectWindow):
     def _add_board(self):
         entity = self.create_board()
         entity.focus_name()
+
+    def create_user(self):
+        user = User(self)
+        self.tree.setCurrentItem(user.node)
+        return user
 
     def create_experiment(self):
         experiment = Experiment(self)
@@ -121,7 +136,6 @@ class ProjectTreeNode(ProjectWindow):
 
     def load(self, project_path):
         super(ProjectTreeNode, self).load(project_path)
-
         self.tree.setCurrentItem(self.node)
 
     def _add_task(self):
@@ -156,25 +170,48 @@ class ProjectTreeNode(ProjectWindow):
                     self.warning( str(e), 'Import aborted' )
         
         return None
+    
+    def user_removed(self, value):
+        if self._loggeduser is not None:
+            if value.name == self._loggeduser.name:
+                self._loggeduser = None
+                self.name = self.name # let's see if it auto updates
+
 
     @property
     def name(self):
-        if hasattr(self, 'node'):
-            return str(self.node.text(0))
+        #if hasattr(self, 'node'):
+            #return str(self.node.text(0))
+        #else:
+        name = ProjectWindow.name.fget(self)
+        if len(name) == 0:
+            name = "Untitled project {0}".format(len(self.projects.projects))
+            ProjectWindow.name.fset(self, name)
+            return name
         else:
-            name = ProjectWindow.name.fget(self)
-            if len(name) == 0:
-                name = "Untitled project {0}".format(len(self.projects.projects))
-                ProjectWindow.name.fset(self, name)
-                return name
-            else:
-                return ProjectWindow.name.fget(self)
+            return ProjectWindow.name.fget(self)
 
     @name.setter
     def name(self, value):
         ProjectWindow.name.fset(self, value)
-        if hasattr(self, 'node'): self.node.setText(0, value)
+        if hasattr(self, 'node'): 
+            if self.loggeduser is not None:
+                aux = self.name + ' (' + self._loggeduser.name + '@' + self._loggeduser.connection + ')'
+                self.node.setText(0, aux)
+            else:
+                self.node.setText(0, value)
 
     @property
     def tree(self):
         return self.projects.tree
+
+    @property
+    def loggeduser(self):
+        return self._loggeduser
+        
+
+    @loggeduser.setter
+    def loggeduser(self, value):
+        self._loggeduser = value
+        aux = self.name + ' (' + self._loggeduser.name + '@' + self._loggeduser.connection + ')'
+        self.node.setText(0, aux)

@@ -260,7 +260,7 @@ class SetupWindow(Setup, BaseWidget):
 
         This method is called every time the user changes the field and forces a UI refresh.
         """
-        if hasattr(self, '_update_board'): return 
+        if hasattr(self, '_update_board'): return
         self.board = self._board.value
         self.update_ui()
 
