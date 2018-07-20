@@ -142,7 +142,7 @@ class BoardWindow(Board, BaseWidget):
             self._active_wired.value    = [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)    ]
             self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
             #############################################################
-            self._events.value = [ [x] for x in hw.channels.event_names]
+            self._events.value = [ ["{0} ({1})".format(x,i)] for i, x in enumerate(hw.channels.event_names)]
             self._inputchannels.value = [ [x] for x in hw.channels.input_channel_names]
             self._outputchannels.value = [ [x] for x in hw.channels.output_channel_names]
 
