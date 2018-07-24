@@ -53,11 +53,20 @@ except Exception as err:
 
 def start():
 	import pyforms
+	from .auto_update import start_update_center, CodeUpdatedException
+	
+	try:
+		start_update_center()
 
-	pyforms.start_app(Editor, 
-		conf.GENERIC_EDITOR_WINDOW_GEOMETRY
-	)
+		pyforms.start_app(Editor, 
+			conf.GENERIC_EDITOR_WINDOW_GEOMETRY
+		)
 
+	except CodeUpdatedException:
+		pass
+
+	
+	
 
 if __name__ == '__main__':
 	start()
