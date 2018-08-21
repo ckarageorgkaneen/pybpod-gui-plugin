@@ -5,6 +5,8 @@ import logging, os
 
 SETTINGS_PRIORITY = 100
 
+
+
 # THESE SETTINGS ARE NEEDED FOR PYSETTINGS
 APP_LOG_FILENAME = 'app.log'
 APP_LOG_HANDLER_CONSOLE_LEVEL = logging.WARNING
@@ -52,3 +54,8 @@ TIMELINE_PLUGIN_REFRESH_RATE   = 1000
 PYBOARD_COMMUNICATION_THREAD_REFRESH_TIME  = 2 # timer for thread look for events (seconds)
 PYBOARD_COMMUNICATION_PROCESS_REFRESH_TIME = 2 # timer for process look for events (seconds)
 PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE  = 0 # wait before killing process (seconds)
+
+GENERIC_EDITOR_TITLE = 'PyBpod'
+
+
+PYBPOD_REPOSITORIES_TXT_LIST = 'repositories.txt'
