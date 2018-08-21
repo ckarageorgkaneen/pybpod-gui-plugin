@@ -5,7 +5,7 @@ import os
 import logging
 import shutil
 
-from pyforms import conf
+from confapp import conf
 
 from AnyQt.QtWidgets import QFileDialog
 from AnyQt.QtGui import QIcon

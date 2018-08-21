@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pyforms
-from pyforms import conf
+from confapp import conf
 
 from AnyQt.QtWidgets import QFileDialog
 from AnyQt.QtCore 	 import pyqtSignal

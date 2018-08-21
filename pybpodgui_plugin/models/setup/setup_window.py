@@ -3,7 +3,7 @@
 
 import logging, re
 
-from pyforms import conf
+from confapp import conf
 
 import pyforms as app
 

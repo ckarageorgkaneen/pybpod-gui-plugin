@@ -3,7 +3,7 @@
 
 import logging
 
-from pyforms import conf
+from confapp import conf
 from AnyQt.QtGui import QIcon
 from pybpodgui_plugin.models.board import Board
 from pybpodgui_plugin.models.project.project_dockwindow import ProjectDockWindow

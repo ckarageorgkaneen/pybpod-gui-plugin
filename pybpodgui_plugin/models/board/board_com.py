@@ -4,7 +4,7 @@
 import logging
 import traceback, sys
 
-from pyforms import conf
+from confapp import conf
 
 from pybpodgui_api.models.setup import Setup
 

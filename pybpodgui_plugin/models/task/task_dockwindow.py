@@ -3,7 +3,7 @@
 
 import logging
 
-from pyforms import conf
+from confapp import conf
 
 from pybpodgui_plugin.models.task.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.task.task_treenode import TaskTreeNode

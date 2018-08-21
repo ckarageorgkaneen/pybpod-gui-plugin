@@ -3,7 +3,7 @@
 
 import logging
 
-from pyforms import conf
+from confapp import conf
 
 from pybpodgui_plugin.models.setup.setup_treenode import SetupTreeNode
 

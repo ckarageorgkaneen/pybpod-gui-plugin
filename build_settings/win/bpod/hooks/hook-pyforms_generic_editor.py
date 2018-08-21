@@ -1,6 +1,6 @@
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-from pyforms import conf
+from confapp import conf
 
 hiddenimports = [
  'pyforms_generic_editor.settings',

@@ -1,6 +1,6 @@
 import logging
 import inspect
-from pyforms import conf
+from confapp import conf
 
 from AnyQt.QtGui import QIcon
 from AnyQt import QtCore

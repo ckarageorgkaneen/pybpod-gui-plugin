@@ -3,7 +3,7 @@
 
 import logging
 
-from pyforms import conf
+from confapp import conf
 
 import pyforms as app
 from pyforms import BaseWidget

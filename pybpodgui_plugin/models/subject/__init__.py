@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from pyforms import conf
+from confapp import conf
 from pybpodgui_plugin.models.subject.subject_uibusy import SubjectUIBusy
 
 Subject = type(

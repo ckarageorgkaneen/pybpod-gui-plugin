@@ -3,7 +3,7 @@
 
 import logging, shutil
 import pyforms, os
-from pyforms import conf
+from confapp import conf
 from pyforms import BaseWidget, hsplitter, vsplitter
 from pyforms.controls import ControlTreeView
 from pyforms.controls import ControlCodeEditor

@@ -3,7 +3,7 @@
 
 import logging, re
 
-from pyforms import conf
+from confapp import conf
 
 from AnyQt.QtWidgets import QCheckBox
 

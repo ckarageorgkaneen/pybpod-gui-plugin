@@ -12,7 +12,7 @@ __status__ 		= "Development"
 import logging
 import loggingbootstrap
 
-from pyforms import conf
+from confapp import conf
 
 conf += 'pybpodgui_plugin.settings'
 conf += 'pybpodgui_plugin.resources'
