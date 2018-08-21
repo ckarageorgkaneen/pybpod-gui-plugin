@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pyforms, os
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlTreeView
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlText

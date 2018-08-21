@@ -3,7 +3,7 @@
 
 from pybpodgui_api.models.setup.task_variable import TaskVariable
 from pyforms.controls import ControlCombo
-from pyforms.utils.make_lambda import make_lambda_func
+from pyforms_gui.utils.make_lambda import make_lambda_func
 
 class TaskVariableWindow(TaskVariable):
 

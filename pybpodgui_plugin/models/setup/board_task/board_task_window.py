@@ -8,7 +8,7 @@ from confapp import conf
 from AnyQt.QtWidgets import QCheckBox
 
 import pyforms as app
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlList
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlCheckBox

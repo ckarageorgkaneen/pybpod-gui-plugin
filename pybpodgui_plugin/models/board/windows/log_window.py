@@ -7,7 +7,7 @@ from confapp import conf
 
 from AnyQt.QtCore import QTimer
 
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlTextArea
 from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlButton

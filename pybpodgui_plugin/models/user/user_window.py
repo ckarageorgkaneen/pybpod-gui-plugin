@@ -1,4 +1,4 @@
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
 from pybpodgui_api.models.user import User
 

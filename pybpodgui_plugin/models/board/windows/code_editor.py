@@ -5,7 +5,7 @@
 import os, logging
 
 import pyforms
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 
 try:
 	from pyforms.controls import ControlCodeEditor

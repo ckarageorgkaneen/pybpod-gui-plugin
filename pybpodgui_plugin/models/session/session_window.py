@@ -4,7 +4,7 @@
 import logging
 import datetime
 import traceback
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlList
 from pyforms.controls import ControlProgress
