@@ -58,4 +58,4 @@ PYBOARD_COMMUNICATION_PROCESS_TIME_2_LIVE  = 0 # wait before killing process (se
 GENERIC_EDITOR_TITLE = 'PyBpod'
 
 
-PYBPOD_REPOSITORIES_TXT_LIST = 'repositories.txt'
+PYBPOD_REPOSITORIES_TXT_LIST = 'repositories.yml'
