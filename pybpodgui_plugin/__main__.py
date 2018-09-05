@@ -4,8 +4,11 @@
 import loggingbootstrap
 import logging
 import traceback
-import sys
+import sys, os
 from importlib.util import find_spec
+
+# IMPORTANT: used to import the user_settings.py file
+sys.path.insert(0,os.getcwd())
 
 try:
     from confapp import conf
@@ -22,6 +25,7 @@ except ImportError as err:
 pyforms_spec = find_spec("pyforms")
 if not pyforms_spec:
     exit("Could not load pyforms! Is it installed?")
+
 
 try:
     # pyforms is imported here first time through pyforms
@@ -52,8 +56,8 @@ except Exception as err:
 
 
 def start():
-    import pyforms
-        
+    import pyforms, os
+
     pyforms.start_app(Editor, 
         conf.GENERIC_EDITOR_WINDOW_GEOMETRY
     )

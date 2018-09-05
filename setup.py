@@ -31,9 +31,9 @@ setup(
 
 	# install_requires=requirements,
 
-#	entry_points={
-#		'gui_scripts': [
-#			'pycontrol-gui=pycontrolgui.__main__:start',
-#		],
-#	}
+	entry_points={
+		'gui_scripts': [
+			'start-pybpod=pybpodgui_plugin.__main__:start',
+		],
+	}
 )
