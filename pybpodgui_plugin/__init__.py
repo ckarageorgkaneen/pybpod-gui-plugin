@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-__version__ 	= "1.5.0"
+__version__ 	= "1.5.1"
 __author__ 		= "Carlos Mao de Ferro"
 __credits__ 	= ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto"]
 __license__ 	= "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
