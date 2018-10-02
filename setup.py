@@ -36,11 +36,5 @@ setup(
 	include_package_data=True,
 	packages=find_packages(exclude=['contrib', 'docs', 'tests', 'examples', 'deploy', 'reports']),
 
-	# install_requires=requirements,
-
-	entry_points={
-		'gui_scripts': [
-			'start-pybpod=pybpodgui_plugin.__main__:start',
-		],
-	}
+	install_requires=requirements,
 )
