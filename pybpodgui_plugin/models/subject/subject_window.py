@@ -139,6 +139,13 @@ class SubjectWindow(Subject, BaseWidget):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
+	def load(self, path):
+		try:
+			super(Subject, self).load(path)
+		except Exception as ex:
+			self.warning(f'{ex.args[0]}', 'Unable to load a subject')
+
+
 	@property
 	def name(self):
 		return self._name.value
