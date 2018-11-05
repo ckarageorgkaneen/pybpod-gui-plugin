@@ -115,10 +115,9 @@ class BoardTaskWindow(BoardTask, BaseWidget):
 
 		if col==0 and item is not None:
 			if not (self._variable_rule.match(item) and item.startswith('VAR_') ):
-				self.message(self, 
-					"Error", 
-					"The name of the variable should start with VAR_, should be alphanumeric and upper case."
-				)
+				self.critical("The name of the variable should start with VAR_, should be alphanumeric and upper case.",
+							 "Error"
+							 )
 				self._vars.set_value(
 					col, row, 
 					'VAR_{0}'.format( self._vars.rows_count )
