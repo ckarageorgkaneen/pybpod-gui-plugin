@@ -30,6 +30,8 @@ class SubjectUIBusy(SubjectDockWindow):
             #self._run.enabled = False
             self._run.checked = True
             self._run.label = 'Stop'
+            self._stoptrial_btn.enabled = True
+            self._pause_btn.enabled = True
             for sess in self._sessions:
                 if sess.running == True:
                     self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
@@ -37,4 +39,6 @@ class SubjectUIBusy(SubjectDockWindow):
             #self._run.enabled = True
             self._run.checked = False
             self._run.label = 'Run'
+            self._stoptrial_btn.enabled = False
+            self._pause_btn.enabled = False
             self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))
