@@ -22,7 +22,7 @@ class UserTreeNode(UserWindow):
         self.node.window = self
         self.node.double_clicked_event  = self.node_double_clicked_event
 
-        tree.add_popup_menu_option('Remove',self.remove, item = self.node)
+        tree.add_popup_menu_option('Remove', self.remove, item = self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
         return self.node
 
     def node_double_clicked_event(self):

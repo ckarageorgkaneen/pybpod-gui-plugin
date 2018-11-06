@@ -74,7 +74,7 @@ class ProjectTreeNode(ProjectWindow):
 
         self.users_node = tree.create_child('Users', parent = self.node)
         self.users_node.window = self
-        tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node)
+        tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node, icon=QIcon(conf.ADD_SMALL_ICON))
 
         return self.node
 
