@@ -25,3 +25,6 @@ TASKS_SMALL_ICON = path('tasks.png')
 
 CODEFILE_SMALL_ICON = path('codefile.png')
 OTHERFILE_SMALL_ICON = path('otherfile.png')
+
+PERSON_SMALL_ICON = path('person.png')
+PERSONS_SMALL_ICON = path('persons.png')

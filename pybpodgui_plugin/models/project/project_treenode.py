@@ -72,7 +72,7 @@ class ProjectTreeNode(ProjectWindow):
         tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
                                    icon=QIcon(conf.OPEN_SMALL_ICON))
 
-        self.users_node = tree.create_child('Users', parent = self.node)
+        self.users_node = tree.create_child('Users', parent = self.node, icon=QIcon(conf.PERSONS_SMALL_ICON))
         self.users_node.window = self
         tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node, icon=QIcon(conf.ADD_SMALL_ICON))
 
