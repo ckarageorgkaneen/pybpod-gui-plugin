@@ -93,8 +93,10 @@ class SubjectWindow(Subject, BaseWidget):
 
 	def _stop_trial_evt(self):
 		setup = self._setups.value
-		if setup is not None:
+		if setup:
 			setup._stop_trial_evt()
+		else:
+			self.critical("There isn't any setup selected. Please select one before continuing.", "No setup selected")
 
 	def _pause_evt(self):
 		setup = self._setups.value
