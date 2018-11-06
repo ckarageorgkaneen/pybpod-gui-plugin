@@ -51,7 +51,7 @@ class ExperimentDockWindow(ExperimentTreeNode):
             This method extends experiment tree node :py:meth:`pybpodgui_plugin.models.experiment.experiment_treenode.ExperimentTreeNode.remove`.
 
         """
-        reply = self.question('Experiment {0} and all setups will be deleted. Are you sure?'.format(self.name))
+        reply = self.question('Experiment {0} and all setups will be deleted. Are you sure?'.format(self.name), "Warning")
 
         if reply == 'yes':
             self.MARKED_FOR_REMOVAL = True
