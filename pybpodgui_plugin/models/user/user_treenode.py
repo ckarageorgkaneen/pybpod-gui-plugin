@@ -18,6 +18,7 @@ class UserTreeNode(UserWindow):
 
     def create_treenode(self, tree):
         self.node = tree.create_child(self._name, self.project.users_node)
+        self.node.key_pressed_event = self.node_key_pressed_event
         print(self.node)
         self.node.window = self
         self.node.double_clicked_event  = self.node_double_clicked_event
@@ -33,6 +34,16 @@ class UserTreeNode(UserWindow):
         self.project.user_removed(self)
         self.project -= self
         self.project.users_node.removeChild(self.node)
+
+    def node_key_pressed_event(self, event):
+        """
+        Sets key events for:
+            * Remove board: :meth:`BoardTreeNode.remove`
+
+        :param event: key event
+        """
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.remove()
 
     @property
     def name(self):
