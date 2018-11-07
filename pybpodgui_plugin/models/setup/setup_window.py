@@ -141,7 +141,10 @@ class SetupWindow(Setup, BaseWidget):
 
         Setup.__init__(self, experiment)
 
-        
+
+        for subject in self.project.subjects:
+            subject.reload_setups()
+
 
         self.reload_boards()
         self.reload_tasks()
@@ -237,6 +240,13 @@ class SetupWindow(Setup, BaseWidget):
             self.pause_trial()
         else:
             self.resume_trial()
+
+    def can_run_task(self):
+        try:
+            return super().can_run_task()
+        except Exception as err:
+            self.alert(str(err), "Unexpected Error")
+            return False
 
     def _run_task(self):
         """

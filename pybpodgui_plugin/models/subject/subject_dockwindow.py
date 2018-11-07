@@ -9,11 +9,14 @@ from pybpodgui_plugin.models.subject.subject_treenode import SubjectTreeNode
 
 
 class SubjectDockWindow(SubjectTreeNode):
-	
+
+	def post_load(self):
+		self.reload_setups()
+		super().post_load()
+
 	def show(self):
 		self.mainwindow.details.value = self
 		super(SubjectDockWindow, self).show()
-		self.reload_setups()
 
 	def focus_name(self):
 		"""

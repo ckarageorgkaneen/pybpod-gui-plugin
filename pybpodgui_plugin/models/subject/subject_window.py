@@ -1,17 +1,15 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import os
 import logging
 
 import pyforms as app
-from confapp import conf
+from pybpodgui_api.models.subject import Subject
+from pybpodgui_api.models.subject.subject_com import WrongSubjectConfigured
 from pyforms.basewidget import BaseWidget
-from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlCombo
-from pyforms.controls import ControlCheckBoxList
-from pybpodgui_api.models.subject import Subject
+from pyforms.controls import ControlText
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +72,7 @@ class SubjectWindow(Subject, BaseWidget):
 
 		self._name 	= ControlText('Name')
 		self._setups = ControlCombo('Setup')
-		self._run = ControlButton('Run',checkable = True, default=self.__run_task)
+		self._run = ControlButton('Run',checkable = True, default=self.run_task)
 		self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
 		self._pause_btn     = ControlButton('Pause', checkable=True, default=self._pause_evt)
 		self._stoptrial_btn.enabled = False
@@ -90,7 +88,7 @@ class SubjectWindow(Subject, BaseWidget):
 			' ',
 		]
 
-		self._name.changed_event 		= self.__name_changed_evt
+		self._name.changed_event = self.__name_changed_evt
 		self.reload_setups()
 
 	def _stop_trial_evt(self):
@@ -104,35 +102,55 @@ class SubjectWindow(Subject, BaseWidget):
 		setup = self._setups.value
 		if setup:
 			setup._pause_evt()
-			
-	def _run_task(self):
-		setup = self._setups.value
-		if setup:
-			setup.clear_subjects()
-			setup += self
-			setup._run_task()
 
-	def __run_task(self):
-		setup = self._setups.value
-		if setup:
-			if setup.status == setup.STATUS_READY:
-				setup.clear_subjects()
-				setup += self
-			setup._run_task()
-		else:
+	def can_run_task(self):
+		try:
+			res = super().can_run_task()
+		except WrongSubjectConfigured:
+			if self.setup.status == self.setup.STATUS_READY:
+				# warn here the user that if he/she pretends to continue, all the other subjects will be removed
+				# (only if there aren't any subjects)
+				result = self.question("Attention: There are subjects in the selected setup.\nDo you wish to continue?\n\n"
+									   "(note: if you continue all the existing subjects will be replaced)",
+									   "Existing subjects")
+				if result == 'yes':
+					self.setup.clear_subjects()
+					res = True
+				elif result == 'no':
+					res = False
+				else:
+					res = True
+				self.setup += self
+			else:
+				res = False
+
+		except Exception as e:
+			self.warning(str(e), "Error occurred")
+			res = False
+
+		if res:
+			res = self.setup.can_run_task()
+		if not res:
 			self._run.checked = False
+		return res
+
 
 	#def _setup_changed_evt(self):
 	#	self._selected_setup = self._setups.value
 
-	def reload_setups(self):		
+	def reload_setups(self):
+		tmp = self._setups.value
 		self._setups.clear()
-		self._setups.add_item('',0)
+		self._setups.add_item('', None)
 		#return
 		for experiment in self.project.experiments:
 			for setup in experiment.setups:
-				self._setups.add_item(setup.name, setup)
-		self._setups.current_index = 0
+				self._setups.add_item(
+					"{experiment} > {setup}".format(experiment=setup.experiment.name, setup=setup.name),
+					setup
+				)
+
+		self._setups.value = tmp
 
 	def __name_changed_evt(self):
 		"""
@@ -159,6 +177,15 @@ class SubjectWindow(Subject, BaseWidget):
 		self._update_name = True  # Flag to avoid recursive calls when editing the name text field
 		self._name.value = value
 		self._update_name = False
+
+	@property
+	def setup(self):
+		return self._setups.value
+
+	@setup.setter
+	def setup(self, value):
+		self._setups.value = value
+
 
 # Execute the application
 if __name__ == "__main__":
