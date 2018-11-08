@@ -17,7 +17,7 @@ class ProjectsTreeNode(ProjectsWindow):
 
 		:rtype: Project
 		"""
-		project = ProjectsWindow.create_project(self)
+		project = super().create_project()
 		self.tree.setCurrentItem(project.node)
 		project.focus_name()
 		return project
@@ -35,7 +35,7 @@ class ProjectsTreeNode(ProjectsWindow):
 		"""
 		try:
 			self.tree.item_selection_changed_event = utils.do_nothing
-			project = ProjectsWindow.open_project(self, project_path)
+			project = super().open_project(project_path)
 			if project:
 				self.tree.item_selection_changed_event = self.__item_sel_changed_evt
 				self.tree.setCurrentItem(project.node)
