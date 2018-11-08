@@ -246,6 +246,7 @@ class SetupWindow(Setup, BaseWidget):
             return super().can_run_task()
         except Exception as err:
             self.alert(str(err), "Unexpected Error")
+            self._run_task_btn.checked = False
             return False
 
     def _run_task(self):
