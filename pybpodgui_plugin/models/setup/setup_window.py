@@ -141,11 +141,7 @@ class SetupWindow(Setup, BaseWidget):
 
         Setup.__init__(self, experiment)
 
-
-        for subject in self.project.subjects:
-            subject.reload_setups()
-
-
+        self.reload_setups()
         self.reload_boards()
         self.reload_tasks()
 
@@ -283,6 +279,11 @@ class SetupWindow(Setup, BaseWidget):
         """
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._name.value
+            self.reload_setups()
+
+    def reload_setups(self):
+        for subject in self.project.subjects:
+            subject.reload_setups()
 
     def reload_boards(self, current_selected_board=None):
         """
