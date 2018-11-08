@@ -33,7 +33,7 @@ class SubjectDockWindow(SubjectTreeNode):
             This method extends subject tree node :py:meth:`pybpodgui_plugin.models.subject.subject_treenode.SubjectTreeNode.remove`.
 
         """
-		reply = self.question('Subject {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
+		reply = self.question('Subject "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
 		if reply == 'yes':
 			if hasattr(self, '_code_editor'):
 				self.mainwindow.mdi_area -= self._code_editor

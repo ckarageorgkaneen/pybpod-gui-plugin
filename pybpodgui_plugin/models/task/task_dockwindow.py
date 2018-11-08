@@ -47,7 +47,7 @@ class TaskDockWindow(TaskTreeNode):
             This method extends task tree node :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.remove`.
 
         """
-        reply = self.question('Task {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
+        reply = self.question('Task "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
         if reply=='yes':
             if hasattr(self, '_code_editor'):
                 self.mainwindow.mdi_area -= self._code_editor

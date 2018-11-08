@@ -22,7 +22,7 @@ class UserDockWindow(UserTreeNode):
             This method extends user tree node :py:meth:`pybpodgui_plugin.models.user.user_treenode.UserTreeNode.remove`.
 
         """
-        reply = self.question('User {0} will be deleted. Are you sure?'.format(self.name), 'Warning')
+        reply = self.question('User "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
         if reply == 'yes':
             if hasattr(self, '_code_editor'):
                 self.mainwindow.mdi_area -= self._code_editor
