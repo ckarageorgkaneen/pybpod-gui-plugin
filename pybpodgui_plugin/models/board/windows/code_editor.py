@@ -2,20 +2,18 @@
 # -*- coding: utf-8 -*-
 
 
-import os, logging
+import logging
+import os
 
 import pyforms
 from pyforms.basewidget import BaseWidget
+
+logger = logging.getLogger(__name__)
 
 try:
 	from pyforms.controls import ControlCodeEditor
 except:
 	logger.error("Could not import ControlCodeEditor. Is QScintilla installed?")
-
-from AnyQt.QtWidgets import QMessageBox
-
-logger = logging.getLogger(__name__)
-
 
 class CodeEditor(BaseWidget):
 	
