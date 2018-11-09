@@ -3,17 +3,12 @@
 
 import logging
 
+from AnyQt.QtGui import QIcon
 from confapp import conf
-
-from AnyQt.QtCore import QTimer
-
 from pyforms.basewidget import BaseWidget
-from pyforms.controls import ControlTextArea
-from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlButton
-from pybpodgui_api.exceptions.run_setup import RunSetupError
-
-from AnyQt.QtWidgets import QApplication
+from pyforms.controls import ControlCheckBox
+from pyforms.controls import ControlTextArea
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +18,7 @@ class LogWindow(BaseWidget):
         BaseWidget.__init__(self, board.name)
         self.board = board
         self.layout().setContentsMargins(5, 5, 5, 5)
-
+        self.setWindowIcon(QIcon(conf.BOARD_SMALL_ICON))
         self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', default=True, changed_event=self.__auto_scroll_evt)
         self._clear_btn = ControlButton('Clear', default=self.__clear_log_evt)
         self._log       = ControlTextArea(readonly=True, autoscroll=False)
