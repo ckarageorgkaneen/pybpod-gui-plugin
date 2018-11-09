@@ -98,6 +98,7 @@ class SubjectTreeNode(SubjectWindow):
 	def __add__(self, session):
 		if isinstance(session, Session):
 			# add another node to the UI
+			self.node.setIcon(0, self.__running_icon)
 			node = self.create_sessiontreenode(session)
 			session.subjects_nodes[id(self.node)] = node
 			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
@@ -106,6 +107,7 @@ class SubjectTreeNode(SubjectWindow):
 	def __sub__(self,value):
 		if isinstance(value,Session):
 			self.node.removeChild(value.subjects_nodes[id(self.node)])
+			self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))
 		return super(SubjectTreeNode, self).__sub__(value)
 
 	@property
