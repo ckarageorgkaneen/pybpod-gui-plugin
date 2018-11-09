@@ -46,6 +46,8 @@ class SessionWindow(Session, BaseWidget):
 
         self._subjects.readonly = True
         self._subjects.enabled = False
+        self._variables.readonly = True
+        self._variables.enabled = False
         self._setup_name.enabled = self._board_name.enabled = self._task_name.enabled = False
         self._board_serial_port.enabled = self._started.enabled = self._ended.enabled = False
         self._name.changed_event = self.__name_edited_evt
