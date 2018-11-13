@@ -19,7 +19,7 @@ class UserTreeNode(UserWindow):
     def create_treenode(self, tree):
         self.node = tree.create_child(self._name, self.project.users_node, icon=QIcon(conf.PERSON_SMALL_ICON))
         self.node.key_pressed_event = self.node_key_pressed_event
-        print(self.node)
+        # print(self.node)
         self.node.window = self
         self.node.double_clicked_event  = self.node_double_clicked_event
 

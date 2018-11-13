@@ -10,7 +10,7 @@ class UserWindow(User, BaseWidget):
         self._namebox = ControlText('Name')
         User.__init__(self, project)
         
-        print(self._name)
+        # print(self._name)
 
         self.layout().setContentsMargins(5,10,5,5)
         
