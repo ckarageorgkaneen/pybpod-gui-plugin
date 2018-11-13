@@ -98,7 +98,6 @@ class SubjectTreeNode(SubjectWindow):
 	def __add__(self, session):
 		if isinstance(session, Session):
 			# add another node to the UI
-			self.node.setIcon(0, self.__running_icon)
 			node = self.create_sessiontreenode(session)
 			session.subjects_nodes[id(self.node)] = node
 			self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
