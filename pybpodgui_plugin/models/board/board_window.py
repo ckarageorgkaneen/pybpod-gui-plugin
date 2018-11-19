@@ -81,7 +81,7 @@ class BoardWindow(Board, BaseWidget):
         self.layout().setContentsMargins(5,10,5,5)
 
         self._name              = ControlText('Box name')
-        self._serial_port      = ControlCombo('Serial port')
+        self._serial_port       = ControlCombo('Serial port')
         self._log_btn           = ControlButton('Console')
         self._active_bnc        = ControlCheckBoxList('BNC')
         self._active_wired      = ControlCheckBoxList('Wired')
@@ -184,6 +184,9 @@ class BoardWindow(Board, BaseWidget):
 
     @serial_port.setter
     def serial_port(self, value):
+        # if the option isn't available in the self._serial_port we probably should add it (and remove it later when the device is connected)
+        if value is not None and (value, value) not in self._serial_port.items:
+            self._serial_port.add_item(f"{value} (not connected)", value)
         self._serial_port.value = value
 
     @property
