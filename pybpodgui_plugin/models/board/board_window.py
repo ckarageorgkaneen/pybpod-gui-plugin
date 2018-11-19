@@ -4,7 +4,7 @@
 import os
 import logging
 
-
+import serial
 from AnyQt.QtWidgets import QApplication
 from serial.tools import list_ports
 
@@ -12,7 +12,7 @@ from confapp import conf
 
 import pyforms as app
 from pyforms.basewidget import BaseWidget
-from pyforms.controls import ControlText
+from pyforms.controls import ControlText, ControlCombo
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlList
 from pyforms.controls import ControlCheckBoxList
@@ -81,7 +81,7 @@ class BoardWindow(Board, BaseWidget):
         self.layout().setContentsMargins(5,10,5,5)
 
         self._name              = ControlText('Box name')
-        self._serial_port       = ControlText('Serial port')
+        self._serial_port      = ControlCombo('Serial port')
         self._log_btn           = ControlButton('Console')
         self._active_bnc        = ControlCheckBoxList('BNC')
         self._active_wired      = ControlCheckBoxList('Wired')
@@ -121,8 +121,12 @@ class BoardWindow(Board, BaseWidget):
             
         ]
         self._name.changed_event        = self.__name_changed_evt
-        self._serial_port.changed_event = self.__serial_changed_evt
         self._loadports_btn.value       = self.__load_bpod_ports
+
+        # get the available serial ports and fill the ControlCombo with them (no autodetection as of yet)
+        self._serial_port.add_item('', '')
+        for n, port in enumerate(sorted(serial.tools.list_ports.comports()), 1):
+            self._serial_port.add_item(f"{port.device}", str(port.device))
 
     def freegui(self):
         QApplication.processEvents()
@@ -132,9 +136,13 @@ class BoardWindow(Board, BaseWidget):
         
 
     def __load_bpod_ports(self):
+        # present error if no serial port is selected
+        if not self._serial_port.value:
+            self.warning("Please select a serial port before proceeding.", "No serial port selected")
+            return
 
         try:
-            bpod = Bpod( self._serial_port.value )
+            bpod = Bpod(self._serial_port.value)
             #bpod.open()
             hw = bpod.hardware
             ### load the ports to the GUI ###############################
@@ -160,16 +168,6 @@ class BoardWindow(Board, BaseWidget):
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._name.value
 
-    def __serial_changed_evt(self):
-        """
-        React to changes on text field :py:attr:`_serial_port`.
-
-        This methods is called every time the user changes the field.
-        """
-
-        if not hasattr(self, '_update_serial') or not self._update_serial:
-            self.serial_port = self._update_serial.value
-
     @property
     def name(self):
         return self._name.value
@@ -186,9 +184,7 @@ class BoardWindow(Board, BaseWidget):
 
     @serial_port.setter
     def serial_port(self, value):
-        self._update_serial = True  # Flag to avoid recursive calls when editing the name text field
         self._serial_port.value = value
-        self._update__serial = False
 
     @property
     def net_port(self):
@@ -232,7 +228,6 @@ class BoardWindow(Board, BaseWidget):
             self._active_behavior.value = []
         else:
             self._active_behavior.value = [ ('Port{0}'.format(j+1), v) for j, v in enumerate(value)]
-
 
 
 # Execute the application
