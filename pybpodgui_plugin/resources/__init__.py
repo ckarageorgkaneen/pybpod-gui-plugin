@@ -28,3 +28,5 @@ OTHERFILE_SMALL_ICON = path('otherfile.png')
 
 PERSON_SMALL_ICON = path('person.png')
 PERSONS_SMALL_ICON = path('persons.png')
+
+REFRESH_SMALL_ICON = path('refresh.png')

@@ -5,6 +5,7 @@ import os
 import logging
 
 import serial
+from AnyQt import QtGui
 from AnyQt.QtWidgets import QApplication
 from serial.tools import list_ports
 
@@ -82,6 +83,7 @@ class BoardWindow(Board, BaseWidget):
 
         self._name              = ControlText('Box name')
         self._serial_port       = ControlCombo('Serial port')
+        self._refresh_serials   = ControlButton('', icon=QtGui.QIcon(conf.REFRESH_SMALL_ICON), default=self.__refresh_serials_pressed, helptext="Press here to refresh the list of available devices.")
         self._log_btn           = ControlButton('Console')
         self._active_bnc        = ControlCheckBoxList('BNC')
         self._active_wired      = ControlCheckBoxList('Wired')
@@ -96,7 +98,7 @@ class BoardWindow(Board, BaseWidget):
 
         self._formset = [
             '_name',
-            '_serial_port',
+            ('_serial_port', '_refresh_serials'),
             '_netport',
             '_log_btn',
             '=',
@@ -123,7 +125,9 @@ class BoardWindow(Board, BaseWidget):
         self._name.changed_event        = self.__name_changed_evt
         self._loadports_btn.value       = self.__load_bpod_ports
 
-        # get the available serial ports and fill the ControlCombo with them (no autodetection as of yet)
+        self._fill_serial_ports()
+
+    def _fill_serial_ports(self):
         self._serial_port.add_item('', '')
         for n, port in enumerate(sorted(serial.tools.list_ports.comports()), 1):
             self._serial_port.add_item(f"{port.device}", str(port.device))
@@ -158,6 +162,14 @@ class BoardWindow(Board, BaseWidget):
             bpod.close()
         except Exception as e:
             self.critical(str(e), 'Error loading ports')
+
+    def __refresh_serials_pressed(self):
+        tmp = self._serial_port.value
+
+        self._serial_port.clear()
+        self._fill_serial_ports()
+
+        self.serial_port = tmp
 
     def __name_changed_evt(self):
         """
