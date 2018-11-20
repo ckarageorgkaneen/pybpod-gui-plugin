@@ -145,6 +145,10 @@ class BoardWindow(Board, BaseWidget):
             self.warning("Please select a serial port before proceeding.", "No serial port selected")
             return
 
+        if "not connected" in self._serial_port.text:
+            self.warning("Please connect the device to the computer before proceeding.", "Device not connected")
+            return
+
         try:
             bpod = Bpod(self._serial_port.value)
             #bpod.open()
