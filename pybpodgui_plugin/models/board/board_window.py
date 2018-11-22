@@ -1,7 +1,6 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import os
 import logging
 
 import serial
@@ -130,7 +129,7 @@ class BoardWindow(Board, BaseWidget):
     def _fill_serial_ports(self):
         self._serial_port.add_item('', '')
         for n, port in enumerate(sorted(serial.tools.list_ports.comports()), 1):
-            self._serial_port.add_item(f"{port.device}", str(port.device))
+            self._serial_port.add_item("{device}".format(device=port.device), str(port.device))
 
     def freegui(self):
         QApplication.processEvents()
@@ -202,7 +201,7 @@ class BoardWindow(Board, BaseWidget):
     def serial_port(self, value):
         # if the option isn't available in the self._serial_port we probably should add it (and remove it later when the device is connected)
         if value is not None and (value, value) not in self._serial_port.items:
-            self._serial_port.add_item(f"{value} (not connected)", value)
+            self._serial_port.add_item("{val} (not connected)".format(val=value), value)
         self._serial_port.value = value
 
     @property

@@ -165,7 +165,7 @@ class SubjectWindow(Subject, BaseWidget):
 		try:
 			super(Subject, self).load(path)
 		except Exception as ex:
-			self.warning(f'{ex.args[0]}', 'Unable to load a subject')
+			self.warning('{first_arg}'.format(first_arg=ex.args[0]), 'Unable to load a subject')
 
 
 	@property
