@@ -106,7 +106,6 @@ class SubjectTreeNode(SubjectWindow):
 	def __sub__(self,value):
 		if isinstance(value,Session):
 			self.node.removeChild(value.subjects_nodes[id(self.node)])
-			self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))
 		return super(SubjectTreeNode, self).__sub__(value)
 
 	@property
