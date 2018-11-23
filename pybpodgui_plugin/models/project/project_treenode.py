@@ -68,8 +68,9 @@ class ProjectTreeNode(ProjectWindow):
         self.tasks_node.window = self
         self.tasks_node.setExpanded(True)
 
-        
         tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
+                                   icon=QIcon(conf.OPEN_SMALL_ICON))
+        tree.add_popup_menu_option('Import protocol (with folder contents)', self.import_task_with_directory, item=self.tasks_node,
                                    icon=QIcon(conf.OPEN_SMALL_ICON))
 
         self.users_node = tree.create_child('Users', parent = self.node, icon=QIcon(conf.PERSONS_SMALL_ICON))
@@ -148,7 +149,7 @@ class ProjectTreeNode(ProjectWindow):
             task.focus_name()
             
             
-    def import_task(self, filepath=None):
+    def import_task(self, filepath=None, with_directory=False):
         """
         Import task file to project
         
@@ -166,11 +167,14 @@ class ProjectTreeNode(ProjectWindow):
 
             if filepath:
                 try:
-                    return super(ProjectTreeNode, self).import_task(filepath)
+                    return super(ProjectTreeNode, self).import_task(filepath, with_directory)
                 except Exception as e:
                     self.warning( str(e), 'Import aborted' )
         
         return None
+
+    def import_task_with_directory(self, filepath=None):
+        return self.import_task(filepath, True)
     
     def user_removed(self, value):
         if self._loggeduser is not None:
