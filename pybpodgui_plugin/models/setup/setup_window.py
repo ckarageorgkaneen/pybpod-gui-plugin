@@ -141,8 +141,7 @@ class SetupWindow(Setup, BaseWidget):
 
         Setup.__init__(self, experiment)
 
-        
-
+        self.reload_setups()
         self.reload_boards()
         self.reload_tasks()
 
@@ -238,6 +237,14 @@ class SetupWindow(Setup, BaseWidget):
         else:
             self.resume_trial()
 
+    def can_run_task(self):
+        try:
+            return super().can_run_task()
+        except Exception as err:
+            self.alert(str(err), "Unexpected Error")
+            self._run_task_btn.checked = False
+            return False
+
     def _run_task(self):
         """
         Defines behavior of the button :attr:`SetupWindow._run_task_btn`.
@@ -272,6 +279,11 @@ class SetupWindow(Setup, BaseWidget):
         """
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._name.value
+            self.reload_setups()
+
+    def reload_setups(self):
+        for subject in self.project.subjects:
+            subject.reload_setups()
 
     def reload_boards(self, current_selected_board=None):
         """

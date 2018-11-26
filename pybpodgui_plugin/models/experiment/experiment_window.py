@@ -3,15 +3,11 @@
 
 import logging
 
-from confapp import conf
-
 import pyforms as app
+from pybpodgui_plugin.models.setup import Setup
 from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
-from pyforms.controls import ControlCombo
-
-from pybpodgui_api.models.task import Task
 from pybpodgui_api.models.experiment import Experiment
 from pybpodgui_api.models.project import Project
 
@@ -87,7 +83,14 @@ class ExperimentWindow(Experiment, BaseWidget):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
 
-	
+	def __sub__(self, obj):
+		res = super().__sub__(obj)
+
+		if isinstance(obj, Setup):
+			for subject in self.project.subjects:
+				subject.reload_setups()
+
+		return res
 
 	@property
 	def name(self):

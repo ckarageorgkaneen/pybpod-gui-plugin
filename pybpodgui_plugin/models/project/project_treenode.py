@@ -52,12 +52,12 @@ class ProjectTreeNode(ProjectWindow):
         tree.add_popup_menu_option('Add subject', self.create_subject, item=self.subjects_node,
                                    icon=QIcon(conf.ADD_SMALL_ICON))
         self.subjects_node.window = self
-        #self.subjects_node.setExpanded(True)
+        self.subjects_node.setExpanded(True)
 
 
         self.boards_node = tree.create_child('Bpod boards', parent=self.node, icon=QIcon(conf.BOARDS_SMALL_ICON))
         self.boards_node.window = self
-        #self.boards_node.setExpanded(True)
+        self.boards_node.setExpanded(True)
 
         tree.add_popup_menu_option('Add Bpod boards', self._add_board, item=self.boards_node,
                                    icon=QIcon(conf.ADD_SMALL_ICON))
@@ -66,15 +66,17 @@ class ProjectTreeNode(ProjectWindow):
         tree.add_popup_menu_option('Add protocol', self._add_task, item=self.tasks_node,
                                    icon=QIcon(conf.ADD_SMALL_ICON))
         self.tasks_node.window = self
-        #self.tasks_node.setExpanded(True)
+        self.tasks_node.setExpanded(True)
 
-        
         tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
                                    icon=QIcon(conf.OPEN_SMALL_ICON))
+        tree.add_popup_menu_option('Import protocol (with folder contents)', self.import_task_with_directory, item=self.tasks_node,
+                                   icon=QIcon(conf.OPEN_SMALL_ICON))
 
-        self.users_node = tree.create_child('Users', parent = self.node)
+        self.users_node = tree.create_child('Users', parent = self.node, icon=QIcon(conf.PERSONS_SMALL_ICON))
         self.users_node.window = self
-        tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node)
+        self.users_node.setExpanded(True)
+        tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node, icon=QIcon(conf.ADD_SMALL_ICON))
 
         return self.node
 
@@ -147,7 +149,7 @@ class ProjectTreeNode(ProjectWindow):
             task.focus_name()
             
             
-    def import_task(self, filepath=None):
+    def import_task(self, filepath=None, with_directory=False):
         """
         Import task file to project
         
@@ -165,11 +167,14 @@ class ProjectTreeNode(ProjectWindow):
 
             if filepath:
                 try:
-                    return super(ProjectTreeNode, self).import_task(filepath)
+                    return super(ProjectTreeNode, self).import_task(filepath, with_directory)
                 except Exception as e:
                     self.warning( str(e), 'Import aborted' )
         
         return None
+
+    def import_task_with_directory(self, filepath=None):
+        return self.import_task(filepath, True)
     
     def user_removed(self, value):
         if self._loggeduser is not None:

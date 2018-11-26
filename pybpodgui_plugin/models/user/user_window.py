@@ -10,7 +10,7 @@ class UserWindow(User, BaseWidget):
         self._namebox = ControlText('Name')
         User.__init__(self, project)
         
-        print(self._name)
+        # print(self._name)
 
         self.layout().setContentsMargins(5,10,5,5)
         
@@ -23,7 +23,6 @@ class UserWindow(User, BaseWidget):
         self._namebox.changed_event = self.__name_changed_evt
 
     def __name_changed_evt(self):
-        print('name changed event')
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._namebox.value
 
@@ -33,7 +32,6 @@ class UserWindow(User, BaseWidget):
 
     @name.setter
     def name(self, value):
-        print('name setter')
         self._update_name = True  # Flag to avoid recursive calls when editing the name text field
         self._name = value
         self._namebox.value = value

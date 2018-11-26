@@ -54,7 +54,8 @@ class SetupDockWindow(SetupTreeNode):
 
         """
         if not self.experiment.MARKED_FOR_REMOVAL:
-            reply = self.question('The setup {0} and all the sessions will be deleted. Are you sure?'.format(self.name) )
+            reply = self.question('Setup "{0}" and all the sessions will be deleted. Are you sure?'.format(self.name),
+                                  "Warning")
         else:
             reply = 'yes'
 
