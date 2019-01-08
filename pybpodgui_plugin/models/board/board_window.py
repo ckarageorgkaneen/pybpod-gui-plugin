@@ -172,7 +172,7 @@ class BoardWindow(Board, BaseWidget):
         self._serial_port.clear()
         self._fill_serial_ports()
 
-        self.serial_port = tmp
+        self._serial_port.value = tmp
 
     def __name_changed_evt(self):
         """
