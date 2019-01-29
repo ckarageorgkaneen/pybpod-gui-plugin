@@ -61,14 +61,14 @@ class SubjectTreeNode(SubjectWindow):
         tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
         return self.node
 
-    def remove(self):
+    def remove(self, silent=False):
         """
 
-        Remove board from project and remove node from tree.
+        Remove subject from project and remove node from tree.
 
         .. seealso::
-            * Board removal (dock window): :py:meth:`pybpodgui_plugin.models.board.board_dockwindow.BoardDockWindow.remove`.
-            * Board removal (API): :meth:`pybpodgui_api.models.board.board_base.BoardBase.remove`.
+            * Subject removal (dock window): :py:meth:`pybpodgui_plugin.models.subject.subject_dockwindow.SubjectDockWindow.remove`.
+            * Subject removal (API): :meth:`pybpodgui_api.models.subject.subject_base.SubjectBase.remove`.
             * Remove board from project: :meth:`pybpodgui_api.models.project.project_base.ProjectBase.__sub__`.
 
         """

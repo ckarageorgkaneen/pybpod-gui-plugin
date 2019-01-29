@@ -24,20 +24,22 @@ class SubjectDockWindow(SubjectTreeNode):
 		"""
 		self._name.form.lineEdit.setFocus()
 
-	def remove(self):
+	def remove(self, silent=False):
 		"""
 
-        Prompts user to confirm subject removal and closes mdi windows associated with this subject.
+		Prompts user to confirm subject removal and closes mdi windows associated with this subject.
 
-        .. seealso::
-            This method extends subject tree node :py:meth:`pybpodgui_plugin.models.subject.subject_treenode.SubjectTreeNode.remove`.
+		.. seealso::
+			This method extends subject tree node :py:meth:`pybpodgui_plugin.models.subject.subject_treenode.SubjectTreeNode.remove`.
 
-        """
-		reply = self.question('Subject "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
-		if reply == 'yes':
+		"""
+		reply = None
+		if not silent:
+			reply = self.question('Subject "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
+		if silent or (reply is not None and reply == 'yes'):
 			if hasattr(self, '_code_editor'):
 				self.mainwindow.mdi_area -= self._code_editor
-			super(SubjectDockWindow, self).remove()
+			super(SubjectDockWindow, self).remove(silent)
 
 
 	def close(self, silent=False):
