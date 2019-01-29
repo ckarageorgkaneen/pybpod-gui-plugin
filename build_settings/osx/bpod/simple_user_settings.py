@@ -8,8 +8,8 @@ import logging
 ############ LOGGERS SETTINGS ############
 
 # GUI logger
-#BPODGUI_LOG_HANDLER_FILE_LEVEL = logging.WARNING
-#BPODGUI_LOG_HANDLER_CONSOLE_LEVEL = logging.WARNING
+#APP_LOG_HANDLER_FILE_LEVEL = logging.WARNING
+#APP_LOG_HANDLER_CONSOLE_LEVEL = logging.WARNING
 
 # Other libraries logger
 #APP_LOG_HANDLER_CONSOLE_LEVEL = logging.WARNING

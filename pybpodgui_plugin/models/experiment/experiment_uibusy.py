@@ -3,12 +3,9 @@
 
 import logging
 
-from pysettings import conf
+from confapp import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-else:
-	from PyQt4.QtGui import QIcon
+from AnyQt.QtGui import QIcon
 
 from pybpodgui_api.models.setup import Setup
 from pybpodgui_plugin.models.experiment.experiment_dockwindow import ExperimentDockWindow
@@ -57,35 +54,23 @@ class ExperimentUIBusy(ExperimentDockWindow):
 		if busy_status == Setup.STATUS_READY:
 
 			self.node.setIcon(0, QIcon(conf.EXPERIMENT_SMALL_ICON))
-			if self.task:
-				self.enable_all_task_buttons()
-			else:
-				self.disable_all_task_buttons()
-			self._task.enabled = True
+			#if self.task:
+			#	self.enable_all_task_buttons()
+			#else:
+			#	self.disable_all_task_buttons()
+			#self._task.enabled = True
 
 		elif busy_status == Setup.STATUS_BOARD_LOCKED:
 
 			self.node.setIcon(0, QIcon(conf.BUSY_SMALL_ICON))
 			self.disable_all_task_buttons()
-			self._task.enabled = False
-
-		elif busy_status == Setup.STATUS_INSTALLING_TASK:
-
-			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			self.disable_all_task_buttons()
-			self._task.enabled = False
-
-		elif busy_status == Setup.STATUS_SYNCING_VARS:
-
-			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
-			self.disable_all_task_buttons()
-			self._task.enabled = False
+			#self._task.enabled = False
 
 		elif busy_status == Setup.STATUS_RUNNING_TASK:
 
 			self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
 			self.disable_all_task_buttons()
-			self._task.enabled = False
+			#self._task.enabled = False
 
 		for setup in self.setups: setup.update_ui()
 

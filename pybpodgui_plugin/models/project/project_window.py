@@ -4,15 +4,12 @@
 import logging
 import os
 
-from pysettings import conf
+from confapp import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QFileDialog, QMessageBox
-else:
-	from PyQt4.QtGui import QFileDialog, QMessageBox
+from AnyQt.QtWidgets import QFileDialog, QMessageBox
 
 import pyforms as app
-from pyforms.Controls import ControlText
+from pyforms.controls import ControlText
 
 from pyforms_generic_editor.models.project import GenericProject
 
@@ -32,27 +29,16 @@ class ProjectWindow(Project, GenericProject):
 		GenericProject.__init__(self)
 
 		self._name = ControlText('Project name')
-		self._path = ControlText('Project path')
 
-		self.formset = ['_name', '_path', ' ']
+		self.formset = ['_name', ' ']
 
 		self._name.changed_event = self._name_changed_evt
-		self._path.value = self.path
-		self._path.enabled = False
-
+		
 		Project.__init__(self)
 
 	def _name_changed_evt(self):
 		if not hasattr(self, '_update_name') or not self._update_name:
 			self.name = self._name.value
-
-	@property
-	def path(self):
-		return self._path.value
-
-	@path.setter
-	def path(self, value):
-		self._path.value = value
 
 	@property
 	def name(self):

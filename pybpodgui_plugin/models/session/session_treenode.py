@@ -3,14 +3,11 @@
 
 import logging
 
-from pysettings import conf
+from confapp import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-	from PyQt5 import QtCore
-else:
-	from PyQt4.QtGui import QIcon
-	from PyQt4 import QtCore
+
+from AnyQt.QtGui import QIcon
+from AnyQt import QtCore
 
 from pybpodgui_plugin.models.session.session_window import SessionWindow
 
@@ -18,52 +15,59 @@ logger = logging.getLogger(__name__)
 
 
 class SessionTreeNode(SessionWindow):
-	def __init__(self, setup):
-		SessionWindow.__init__(self, setup)
+    def __init__(self, setup):
+        SessionWindow.__init__(self, setup)
 
-		self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
+        self.__running_icon = QIcon(conf.PLAY_SMALL_ICON)
+        # this helps on cascade elimination of treenodes
+        self.subjects_nodes = {}
+        self.running = False
+        self.create_treenode(self.tree)
 
-		self.create_treenode(self.tree)
+    def create_treenode(self, tree):
+        self.node                       = tree.create_child(self.name, self.setup.node)
+        self.node.key_pressed_event     = self.node_key_pressed_event
+        self.node.double_clicked_event  = self.node_double_clicked_event
+        self.node.window = self
+        self.node.setExpanded(True)
 
-	def create_treenode(self, tree):
-		self.node = tree.create_child(self.name, self.setup.node)
-		self.node.key_pressed_event = self.node_key_pressed_event
-		self.node.double_clicked_event = self.node_double_clicked_event
-		self.node.window = self
-		self.node.setExpanded(True)
+        tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
 
-		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
+        return self.node
 
-		return self.node
+    def node_key_pressed_event(self, event):
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.remove()
 
-	def node_key_pressed_event(self, event):
-		if event.key() == QtCore.Qt.Key_Delete:
-			self.remove()
+    def node_double_clicked_event(self):
+        self.load_contents()
 
-	def node_double_clicked_event(self):
-		pass
+    @property
+    def name(self):
+        if hasattr(self, 'node'):
+            return str(self.node.text(0))
+        else:
+            return SessionWindow.name.fget(self)
 
-	@property
-	def name(self):
-		if hasattr(self, 'node'):
-			return str(self.node.text(0))
-		else:
-			return SessionWindow.name.fget(self)
+    @name.setter
+    def name(self, value):
+        SessionWindow.name.fset(self, value)
+        if hasattr(self, 'node'): self.node.setText(0, value)
 
-	@name.setter
-	def name(self, value):
-		SessionWindow.name.fset(self, value)
-		if hasattr(self, 'node'): self.node.setText(0, value)
+    @property
+    def tree(self):
+        return self.setup.tree
 
-	@property
-	def tree(self):
-		return self.setup.tree
+    ##########################################################################
+    ####### FUNCTIONS ########################################################
+    ##########################################################################
 
-	##########################################################################
-	####### FUNCTIONS ########################################################
-	##########################################################################
+    def remove(self):
+        if not self.setup.MARKED_FOR_REMOVAL:
+            reply = self.question('Delete session: '+ self.name + '?', 'Delete')
+        else:
+            reply = 'yes'
 
-
-	def remove(self):
-		super(SessionTreeNode, self).remove()
-		self.setup.node.removeChild(self.node)
+        if reply == 'yes':
+            super(SessionTreeNode, self).remove()
+            self.setup.node.removeChild(self.node)

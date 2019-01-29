@@ -10,11 +10,19 @@ with open('pybpodgui_plugin/__init__.py', 'r') as fd: version = re.search(r'^__v
 if not version: raise RuntimeError('Cannot find version information')
 
 requirements = [
-	'pysettings>=1.0.0',
-	'pyforms=1.0.beta',
-	'pyforms_generic_editor>=1.1.0',
-	'pyserial>= 3.1.1',
-	'logging-bootstrap>=1.0.0',
+	'pyforms-gui',
+	'pyforms_generic_editor',
+	'pybpod-gui-api',
+	
+	'pge-plugin-terminal',
+    'pybpod-gui-plugin-alyx',
+    'pybpod-gui-plugin-session-history',
+    'pybpod-gui-plugin-stmdiagram',
+    'pybpod-gui-plugin-timeline',
+    'pybpod-gui-plugin-trial-timeline',
+    'pybpod-gui-plugin-waveplayer',
+    'pybpod-gui-plugin-rotaryencoder',
+	'pybpod-gui-plugin-soundcard',
 ]
 
 setup(
@@ -29,11 +37,5 @@ setup(
 	include_package_data=True,
 	packages=find_packages(exclude=['contrib', 'docs', 'tests', 'examples', 'deploy', 'reports']),
 
-	# install_requires=requirements,
-
-#	entry_points={
-#		'gui_scripts': [
-#			'pycontrol-gui=pycontrolgui.__main__:start',
-#		],
-#	}
+	install_requires=requirements,
 )

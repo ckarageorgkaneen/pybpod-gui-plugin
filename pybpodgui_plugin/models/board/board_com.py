@@ -4,85 +4,71 @@
 import logging
 import traceback, sys
 
-from pysettings import conf
-
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtWidgets import QMessageBox
-else:
-	from PyQt4.QtGui import QMessageBox
+from confapp import conf
 
 from pybpodgui_api.models.setup import Setup
-from pybpodgui_api.models.board.board_operations import BoardOperations
 
-from pybpodgui_plugin.com.async.qt_async_bpod import QtAsyncBpod
 from pybpodgui_plugin.models.board.board_window import BoardWindow
+from AnyQt.QtCore import QTimer
 
 logger = logging.getLogger(__name__)
 
 
-class BoardCom(QtAsyncBpod, BoardWindow):
-	"""
-	Board communication logic. Define here actions that can be triggered on board.
+class BoardCom(BoardWindow):
+    """
+    Board communication logic. Define here actions that can be triggered on board.
 
-	.. seealso::
-		This class heavy relies on the corresponding API module.
+    .. seealso::
+        This class heavy relies on the corresponding API module.
 
-		:py:class:`pybpodgui_api.models.board.board_com.BoardCom`
+        :py:class:`pybpodgui_api.models.board.board_com.BoardCom`
 
-	**Methods**
+    **Methods**
 
-	"""
+    """
 
-	def __init__(self, project=None):
-		BoardWindow.__init__(self, project)
+    def __init__(self, project=None):
+        BoardWindow.__init__(self, project)
 
-	##########################################################################
-	####### FUNCTIONS ########################################################
-	##########################################################################
+        self._timer = QTimer()
+        self._timer.timeout.connect(self.run_task_handler)
 
-	def run_task(self, session, board_task, workspace_path):
-		"""
-		Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task`
 
-		Start running task on board by invoking API
+    ##########################################################################
+    ####### FUNCTIONS ########################################################
+    ##########################################################################
 
-		:param session:
-		:param board_task: board and task object
-		:return: True if no problems occur, False otherwise.
-		"""
-		print(sys.path)
-		
-		flag = None
-		self._enable_btn_flag = True
-		self._tmp_setup = session.setup
-		try:
-			flag = super(BoardCom, self).run_task(session, board_task, workspace_path)
-		except Exception:
-			board_task.setup.status = Setup.STATUS_READY
-			self.status = self.STATUS_READY
-			raise
-		return flag
+    def log2board(self, data):
+        if hasattr(self, '_log') and self._log.visible:
+            self._log += data
 
-	def run_task_handler_evt(self, e, result):
-		"""
-		Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task_handler_evt`
+    def run_task(self, session, board_task, workspace_path, detached=False):
+        """
+        Bases: :meth:`pybpodgui_api.models.board.board_com.BoardCom.run_task`
 
-		Call API corresponding method and handle "run task" action errors on UI.
-		"""
-		try:
-			super(BoardCom, self).run_task_handler_evt(e, result)
+        Start running task on board by invoking API
 
-			called_operation = e.extra_args[0]
+        :param session:
+        :param board_task: board and task object
+        :return: True if no problems occur, False otherwise.
+        """
+        flag = None
+        self._enable_btn_flag = True
+        self._tmp_setup = session.setup
+        try:
+            flag = super(BoardCom, self).run_task(session, board_task, workspace_path, detached)
+        except Exception:
+            board_task.setup.status = Setup.STATUS_READY
+            self.status = self.STATUS_READY
+            raise
 
-			if called_operation == BoardOperations.RUN_PROTOCOL:
-				self.project.update_ui()
+        return flag
 
-		except Exception as err:
-			if self._running_session:
-				self._running_session.setup.stop_task()
+    def start_run_task_handler(self):
+        super(BoardCom,self).start_run_task_handler()
+        self._timer.start(500)
+        
 
-			self._running_session = None
-			self._running_task 	  = None
-
-			logger.error(traceback.format_exc())
-			QMessageBox.critical(self, "Error", str(err))
+    def end_run_task_handler(self):
+        super(BoardCom,self).end_run_task_handler()
+        self.run_task_handler(False)

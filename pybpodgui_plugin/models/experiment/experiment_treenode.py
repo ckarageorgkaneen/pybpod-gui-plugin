@@ -3,14 +3,10 @@
 
 import logging
 
-from pysettings import conf
+from confapp import conf
 
-if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtGui import QIcon
-	from PyQt5 import QtCore
-else:
-	from PyQt4.QtGui import QIcon
-	from PyQt4 import QtCore
+from AnyQt.QtGui import QIcon
+from AnyQt import QtCore
 
 from pybpodgui_plugin.models.setup import Setup
 from pybpodgui_plugin.models.experiment.experiment_window import ExperimentWindow
@@ -63,7 +59,7 @@ class ExperimentTreeNode(ExperimentWindow):
 
 
 		:param tree: the project tree
-		:type tree: pyforms.Controls.ControlTree
+		:type tree: pyforms.controls.ControlTree
 		:return: new created node
 		:return type: QTreeWidgetItem
 		"""
@@ -73,7 +69,7 @@ class ExperimentTreeNode(ExperimentWindow):
 		self.node.window = self
 		self.node.setExpanded(True)
 
-		tree.add_popup_menu_option('Add box', self.__add_setup, item=self.node,
+		tree.add_popup_menu_option('Add setup', self.__add_setup, item=self.node,
 		                           icon=QIcon(conf.ADD_SMALL_ICON))
 		tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
 
