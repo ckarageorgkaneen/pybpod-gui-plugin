@@ -132,7 +132,7 @@ class SetupWindow(Setup, BaseWidget):
         self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
         self._add_subject   = ControlButton('Add subject')
         self._allsubjects   = ControlCombo('Add subject')
-        self._task          = ControlCombo('Protocol', changed_event=self.__task_changed_evt)
+        self._task          = ControlCombo('Protocol', changed_event=self._task_changed_evt)
         
         self._detached      = ControlCheckBox('Detach from GUI')
 
@@ -170,7 +170,7 @@ class SetupWindow(Setup, BaseWidget):
         self._varspanel.value     = self.board_task
         self._add_subject.value   = self.__add_subject
         self._name.changed_event  = self.__name_changed_evt
-        self._board.changed_event = self.__board_changed_evt
+        self._board.changed_event = self._board_changed_evt
     
     def slot(self):
         self.clear_subjects()
@@ -196,7 +196,7 @@ class SetupWindow(Setup, BaseWidget):
         if current_selected_task:
             self.task = current_selected_task
     
-    def __task_changed_evt(self):
+    def _task_changed_evt(self):
         if hasattr(self, '_update_task'): return 
         self.task = self._task.value
 
@@ -261,7 +261,7 @@ class SetupWindow(Setup, BaseWidget):
         except Exception as err:
             self.alert(str(err), "Unexpected Error")
 
-    def __board_changed_evt(self):
+    def _board_changed_evt(self):
         """
         React to changes on text field :py:attr:`_board`.
 
