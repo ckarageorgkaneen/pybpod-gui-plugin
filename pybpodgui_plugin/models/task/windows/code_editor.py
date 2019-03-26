@@ -34,7 +34,7 @@ class CodeEditor(BaseWidget):
         self._browser = ControlTreeView('Files browser', default=syspath_model )
         self._code    = ControlCodeEditor(
             changed_event=self.__code_changed_evt,
-            discart_event=self.__code_discart_evt
+            discard_event=self.__code_discard_evt
         )
         self._browser.setSortingEnabled(True)
 
@@ -171,7 +171,7 @@ class CodeEditor(BaseWidget):
         if self._code.is_modified:
             self._browser.selectionModel().reset()
             self.info(
-                'Please save or discart your modifications first.', 
+                'Please save or discard your modifications first.',
                 'There are still uncommitted modifications'
             )
             if self.selected_file:
@@ -214,7 +214,7 @@ class CodeEditor(BaseWidget):
 
         return True
 
-    def __code_discart_evt(self):
+    def __code_discard_evt(self):
         filepath = None
         for index in self._browser.selectedIndexes():
             filepath = self.syspath_model.filePath(index)
