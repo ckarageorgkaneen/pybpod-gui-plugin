@@ -116,11 +116,11 @@ class SubjectWindow(Subject, BaseWidget):
 				if result == 'yes':
 					self.setup.clear_subjects()
 					res = True
+					self.setup += self
 				elif result == 'no':
 					res = False
 				else:
 					res = True
-				self.setup += self
 			else:
 				res = False
 
