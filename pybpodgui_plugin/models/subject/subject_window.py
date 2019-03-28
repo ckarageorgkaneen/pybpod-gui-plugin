@@ -4,6 +4,7 @@
 import logging
 
 import pyforms as app
+from pybpodgui_api.exceptions.run_setup import RunSetupError
 from pybpodgui_api.models.subject import Subject
 from pybpodgui_api.models.subject.subject_com import WrongSubjectConfigured
 from pyforms.basewidget import BaseWidget
@@ -66,15 +67,15 @@ class SubjectWindow(Subject, BaseWidget):
 		:type project: pycontrolgui.models.project.Project
 		"""
 		BaseWidget.__init__(self, 'Subject')
-		self.layout().setContentsMargins(5,10,5,5)
+		self.layout().setContentsMargins(5, 10, 5, 5)
 
 		self._selected_setup = None
 
 		self._name 	= ControlText('Name')
 		self._setups = ControlCombo('Setup')
-		self._run = ControlButton('Run',checkable = True, default=self.run_task)
+		self._run = ControlButton('Run', checkable=True, default=self._run_task)
 		self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
-		self._pause_btn     = ControlButton('Pause', checkable=True, default=self._pause_evt)
+		self._pause_btn = ControlButton('Pause', checkable=True, default=self._pause_evt)
 		self._stoptrial_btn.enabled = False
 		self._pause_btn.enabled = False
 
@@ -84,24 +85,46 @@ class SubjectWindow(Subject, BaseWidget):
 			'_name',
 			'_setups',
 			'_run',
-			('_stoptrial_btn','_pause_btn'),
+			('_stoptrial_btn', '_pause_btn'),
 			' ',
 		]
 
 		self._name.changed_event = self.__name_changed_evt
 		self.reload_setups()
 
+	def _run_task(self):
+		"""
+		Defines behavior of the button :attr:`SubjectWindow._run_task_btn`.
+
+		This methods is called every time the user presses the button.
+		"""
+		if not self.can_run_task():
+			return
+		try:
+			if self.setup.status == self.setup.STATUS_RUNNING_TASK:
+				self.setup.stop_task()
+			elif self.setup.status == self.setup.STATUS_READY:
+				self.setup.run_task()
+		except RunSetupError as err:
+			self.warning(str(err), "Warning")
+		except Exception as err:
+			self.alert(str(err), "Unexpected Error")
+
 	def _stop_trial_evt(self):
 		setup = self._setups.value
 		if setup:
-			setup._stop_trial_evt()
+			setup.stop_trial()
 		else:
 			self.critical("There isn't any setup selected. Please select one before continuing.", "No setup selected")
 
 	def _pause_evt(self):
-		setup = self._setups.value
-		if setup:
-			setup._pause_evt()
+		self.pause_trial()
+		# setup = self._setups.value
+		# if setup:
+		# 	if self._pause_btn.checked:
+		# 		setup.pause_trial()
+		# 	else:
+		# 		setup.resume_trial()
 
 	def can_run_task(self):
 		try:
@@ -134,15 +157,10 @@ class SubjectWindow(Subject, BaseWidget):
 			self._run.checked = False
 		return res
 
-
-	#def _setup_changed_evt(self):
-	#	self._selected_setup = self._setups.value
-
 	def reload_setups(self):
 		tmp = self._setups.value
 		self._setups.clear()
 		self._setups.add_item('', None)
-		#return
 		for experiment in self.project.experiments:
 			for setup in experiment.setups:
 				self._setups.add_item(

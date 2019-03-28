@@ -145,7 +145,6 @@ class SetupWindow(Setup, BaseWidget):
         self.reload_boards()
         self.reload_tasks()
 
-
         self._formset = [
             '_name',
             '_board',
@@ -201,16 +200,16 @@ class SetupWindow(Setup, BaseWidget):
         self.task = self._task.value
 
     def __add__(self, obj):
-       res = super(SetupWindow, self).__add__(obj)
-       if isinstance(obj, Subject):
-           self._subjects_list.value = [[s.name] for s in self.subjects]
-       return res
+        res = super(SetupWindow, self).__add__(obj)
+        if isinstance(obj, Subject):
+            self._subjects_list.value = [[s.name] for s in self.subjects]
+        return res
 
     def __sub__(self, obj):
-       res = super(SetupWindow, self).__sub__(obj)
-       if isinstance(obj, Subject):
-           self._subjects_list.value = [[s.name] for s in self.subjects]
-       return res
+        res = super(SetupWindow, self).__sub__(obj)
+        if isinstance(obj, Subject):
+            self._subjects_list.value = [[s.name] for s in self.subjects]
+        return res
 
     def __open_subject_select(self):
         self.sswindow = SubjectSelectPopup(self.project.subjects,self._subjects_list)
@@ -219,7 +218,6 @@ class SetupWindow(Setup, BaseWidget):
 
     def __add_subject(self):
         self.__open_subject_select()
-        #self += self._allsubjects.value
 
     def __remove_subject(self):
         if self._subjects_list.selected_row_index is not None:
