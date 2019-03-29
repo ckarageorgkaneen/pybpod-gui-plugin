@@ -103,6 +103,7 @@ class SubjectWindow(Subject, BaseWidget):
 		try:
 			if self.setup.status == self.setup.STATUS_RUNNING_TASK:
 				self.setup.stop_task()
+				self._run.enabled = False
 			elif self.setup.status == self.setup.STATUS_READY:
 				self.setup.run_task()
 		except RunSetupError as err:
@@ -119,12 +120,6 @@ class SubjectWindow(Subject, BaseWidget):
 
 	def _pause_evt(self):
 		self.pause_trial()
-		# setup = self._setups.value
-		# if setup:
-		# 	if self._pause_btn.checked:
-		# 		setup.pause_trial()
-		# 	else:
-		# 		setup.resume_trial()
 
 	def can_run_task(self):
 		try:
