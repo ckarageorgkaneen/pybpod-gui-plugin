@@ -11,6 +11,7 @@ from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlCombo
 from pyforms.controls import ControlText
+from pyforms_gui.controls.control_checkbox import ControlCheckBox
 
 logger = logging.getLogger(__name__)
 
@@ -79,12 +80,14 @@ class SubjectWindow(Subject, BaseWidget):
 		self._stoptrial_btn.enabled = False
 		self._pause_btn.enabled = False
 
+		self._detached = ControlCheckBox('Detach from GUI', changed_event=self.__detached_changed_evt)
+
 		Subject.__init__(self, project)
 
 		self._formset = [
 			'_name',
 			'_setups',
-			'_run',
+			('_detached', '_run'),
 			('_stoptrial_btn', '_pause_btn'),
 			' ',
 		]
@@ -164,6 +167,11 @@ class SubjectWindow(Subject, BaseWidget):
 				)
 
 		self._setups.value = tmp
+
+	def __detached_changed_evt(self):
+		setup = self._setups.value
+		if setup:
+			setup._detached.value = self._detached.value
 
 	def __name_changed_evt(self):
 		"""
