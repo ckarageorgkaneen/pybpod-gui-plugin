@@ -30,7 +30,7 @@ setup(
 	version=version,
 	description="""pybpod-gui-plugin is a behavioral experiments control system written in Python 3.5 for Bpod""",
 	author=['Carlos Mão de Ferro', 'Ricardo Ribeiro', 'Luís Teixeira'],
-	author_email=['cajomferro@gmail.com', 'ricardojvr@gmail.com', 'micboucinha@gmail.com'],
+	author_email='cajomferro@gmail.com, ricardojvr@gmail.com, micboucinha@gmail.com',
 	license='Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>',
 	url='https://bitbucket.org/fchampalimaud/pycontrolgui',
 
