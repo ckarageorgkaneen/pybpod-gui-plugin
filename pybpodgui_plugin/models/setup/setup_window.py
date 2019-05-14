@@ -132,7 +132,7 @@ class SetupWindow(Setup, BaseWidget):
         self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
         self._add_subject   = ControlButton('Add subject')
         self._allsubjects   = ControlCombo('Add subject')
-        self._task          = ControlCombo('Protocol', changed_event=self.__task_changed_evt)
+        self._task          = ControlCombo('Protocol', changed_event=self._task_changed_evt)
         
         self._detached      = ControlCheckBox('Detach from GUI')
 
@@ -144,7 +144,6 @@ class SetupWindow(Setup, BaseWidget):
         self.reload_setups()
         self.reload_boards()
         self.reload_tasks()
-
 
         self._formset = [
             '_name',
@@ -170,7 +169,7 @@ class SetupWindow(Setup, BaseWidget):
         self._varspanel.value     = self.board_task
         self._add_subject.value   = self.__add_subject
         self._name.changed_event  = self.__name_changed_evt
-        self._board.changed_event = self.__board_changed_evt
+        self._board.changed_event = self._board_changed_evt
     
     def slot(self):
         self.clear_subjects()
@@ -196,21 +195,21 @@ class SetupWindow(Setup, BaseWidget):
         if current_selected_task:
             self.task = current_selected_task
     
-    def __task_changed_evt(self):
+    def _task_changed_evt(self):
         if hasattr(self, '_update_task'): return 
         self.task = self._task.value
 
     def __add__(self, obj):
-       res = super(SetupWindow, self).__add__(obj)
-       if isinstance(obj, Subject):
-           self._subjects_list.value = [[s.name] for s in self.subjects]
-       return res
+        res = super(SetupWindow, self).__add__(obj)
+        if isinstance(obj, Subject):
+            self._subjects_list.value = [[s.name] for s in self.subjects]
+        return res
 
     def __sub__(self, obj):
-       res = super(SetupWindow, self).__sub__(obj)
-       if isinstance(obj, Subject):
-           self._subjects_list.value = [[s.name] for s in self.subjects]
-       return res
+        res = super(SetupWindow, self).__sub__(obj)
+        if isinstance(obj, Subject):
+            self._subjects_list.value = [[s.name] for s in self.subjects]
+        return res
 
     def __open_subject_select(self):
         self.sswindow = SubjectSelectPopup(self.project.subjects,self._subjects_list)
@@ -219,7 +218,6 @@ class SetupWindow(Setup, BaseWidget):
 
     def __add_subject(self):
         self.__open_subject_select()
-        #self += self._allsubjects.value
 
     def __remove_subject(self):
         if self._subjects_list.selected_row_index is not None:
@@ -261,7 +259,7 @@ class SetupWindow(Setup, BaseWidget):
         except Exception as err:
             self.alert(str(err), "Unexpected Error")
 
-    def __board_changed_evt(self):
+    def _board_changed_evt(self):
         """
         React to changes on text field :py:attr:`_board`.
 
