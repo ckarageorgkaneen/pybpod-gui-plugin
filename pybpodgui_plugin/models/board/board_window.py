@@ -150,12 +150,12 @@ class BoardWindow(Board, BaseWidget):
 
         try:
             bpod = Bpod(self._serial_port.value)
-            #bpod.open()
             hw = bpod.hardware
             ### load the ports to the GUI ###############################
             self._active_bnc.value      = [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes)  ]
             self._active_wired.value    = [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)    ]
-            self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+            if len(self._active_behavior.value) == 0:
+                self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
             #############################################################
             self._events.value = [ ["{0} ({1})".format(x,i)] for i, x in enumerate(hw.channels.event_names)]
             self._inputchannels.value = [ [x] for x in hw.channels.input_channel_names]
