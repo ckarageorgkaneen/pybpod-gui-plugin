@@ -65,12 +65,14 @@ class SetupUIBusy(SetupCom):
             
             self._board.enabled    = True
             self._detached.enabled = True
+            self._task.enabled     = True
 
         elif self.status == Setup.STATUS_BOARD_LOCKED:
 
             self.node.setIcon(0, QIcon(conf.BUSY_SMALL_ICON))
             #self.disable_all_task_buttons()
             self._board.enabled = False
+            self._task.enabled  = False
 
         elif self.status == Setup.STATUS_RUNNING_TASK:
 
@@ -82,6 +84,7 @@ class SetupUIBusy(SetupCom):
             self.node.setIcon(0, QIcon(conf.PLAY_SMALL_ICON))
             #self.disable_all_task_buttons()
             self._board.enabled    = False
+            self._task.enabled     = False
             self._detached.enabled = False
 
         
