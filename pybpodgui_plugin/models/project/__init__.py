@@ -8,4 +8,3 @@ Project = type(
     tuple(conf.GENERIC_EDITOR_PLUGINS_FINDER.find_class('models.project.Project') + [ProjectUIBusy]),
     {}
 )
-

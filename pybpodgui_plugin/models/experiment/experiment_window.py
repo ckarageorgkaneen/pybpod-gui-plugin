@@ -15,94 +15,94 @@ logger = logging.getLogger(__name__)
 
 
 class ExperimentWindow(Experiment, BaseWidget):
-	"""
-	Define here which fields from the board model should appear on the details section.
+    """
+    Define here which fields from the board model should appear on the details section.
 
-	The model fields shall be defined as UI components like text fields, buttons, combo boxes, etc.
+    The model fields shall be defined as UI components like text fields, buttons, combo boxes, etc.
 
-	You may also assign actions to these components.
+    You may also assign actions to these components.
 
-	**Private attributes**
+    **Private attributes**
 
-	_name
-		Field to edit experiment name
+    _name
+        Field to edit experiment name
 
-		:type: :class:`pyforms.controls.ControlText`
+        :type: :class:`pyforms.controls.ControlText`
 
-	_task
-		Combo box of available tasks. Current selected task is the task associated for this experiment
-		and all its setups. Selecting a different task fires the event :class:`ExperimentWindow._ExperimentWindow__task_changed_evt`.
+    _task
+        Combo box of available tasks. Current selected task is the task associated for this experiment
+        and all its setups. Selecting a different task fires the event :class:`ExperimentWindow._ExperimentWindow__task_changed_evt`.
 
-		:type: :class:`pyforms.controls.ControlCombo`
+        :type: :class:`pyforms.controls.ControlCombo`
 
-	**Methods**
+    **Methods**
 
-	"""
+    """
 
-	def __init__(self, project):
-		# type: (Project) -> None
-		"""
+    def __init__(self, project):
+        # type: (Project) -> None
+        """
 
-		:param project: project where this experiment belongs
-		:type project: pycontrolgui.models.project.Project
-		"""
-		BaseWidget.__init__(self, 'Experiment')
-		self.layout().setContentsMargins(5, 10, 5, 5)
+        :param project: project where this experiment belongs
+        :type project: pycontrolgui.models.project.Project
+        """
+        BaseWidget.__init__(self, 'Experiment')
+        self.layout().setContentsMargins(5, 10, 5, 5)
 
-		self._name     = ControlText('Exp. name')
-		#self._task     = ControlCombo('Protocol', changed_event=self.__task_changed_evt)
-		self._runsetup = ControlButton('Run all')
+        self._name = ControlText('Exp. name')
+        # self._task     = ControlCombo('Protocol', changed_event=self.__task_changed_evt)
+        self._runsetup = ControlButton('Run all')
 
-		self._formset = [
-			'_name',
-			#'_task',
-			'_runsetup',
-			' '
-		]
+        self._formset = [
+            '_name',
+            # '_task',
+            '_runsetup',
+            ' '
+        ]
 
-		Experiment.__init__(self, project)
+        Experiment.__init__(self, project)
 
-		#self.reload_tasks()
+        # self.reload_tasks()
 
-		self._name.changed_event = self.__name_changed_evt
-		self._runsetup.value = self.__run_all
+        self._name.changed_event = self.__name_changed_evt
+        self._runsetup.value = self.__run_all
 
-	def __run_all(self):
-		for setup in self.setups:
-			setup._run_task()
+    def __run_all(self):
+        for setup in self.setups:
+            setup._run_task()
 
-	def __task_changed_evt(self):
-		"""
+    def __task_changed_evt(self):
+        """
 
-		This methods is called every time the user presses the button.
-		"""
-		#self.task = self._task.value
-		#self.update_ui()
+        This methods is called every time the user presses the button.
+        """
+        # self.task = self._task.value
+        # self.update_ui()
 
-	def __name_changed_evt(self):
-		if not hasattr(self, '_update_name') or not self._update_name:
-			self.name = self._name.value
+    def __name_changed_evt(self):
+        if not hasattr(self, '_update_name') or not self._update_name:
+            self.name = self._name.value
 
-	def __sub__(self, obj):
-		res = super().__sub__(obj)
+    def __sub__(self, obj):
+        res = super().__sub__(obj)
 
-		if isinstance(obj, Setup):
-			for subject in self.project.subjects:
-				subject.reload_setups()
+        if isinstance(obj, Setup):
+            for subject in self.project.subjects:
+                subject.reload_setups()
 
-		return res
+        return res
 
-	@property
-	def name(self):
-		return self._name.value
+    @property
+    def name(self):
+        return self._name.value
 
-	@name.setter
-	def name(self, value):
-		self._update_name = True  # Flag to avoid recurse calls when editing the name text field
-		self._name.value = value
-		self._update_name = False
+    @name.setter
+    def name(self, value):
+        self._update_name = True  # Flag to avoid recurse calls when editing the name text field
+        self._name.value = value
+        self._update_name = False
 
-	
+
 if __name__ == "__main__":
-	# Execute the application
-	app.start_app(ExperimentWindow)
+    # Execute the application
+    app.start_app(ExperimentWindow)

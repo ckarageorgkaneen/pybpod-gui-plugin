@@ -1,8 +1,8 @@
 import logging
+from pybpodgui_plugin.models.user.user_treenode import UserTreeNode
 
 logger = logging.getLogger(__name__)
 
-from pybpodgui_plugin.models.user.user_treenode import UserTreeNode
 
 class UserDockWindow(UserTreeNode):
 

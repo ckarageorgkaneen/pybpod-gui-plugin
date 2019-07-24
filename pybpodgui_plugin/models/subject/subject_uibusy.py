@@ -7,9 +7,6 @@ from confapp import conf
 
 from AnyQt.QtGui import QIcon
 
-from pybpodgui_api.models.setup import Setup
-from pybpodgui_api.models.subject import Subject
-from pybpodgui_api.models.project import Project
 from pybpodgui_plugin.models.subject.subject_dockwindow import SubjectDockWindow
 
 logger = logging.getLogger(__name__)

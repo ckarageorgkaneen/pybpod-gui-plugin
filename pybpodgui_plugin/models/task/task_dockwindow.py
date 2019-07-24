@@ -3,8 +3,6 @@
 
 import logging
 
-from confapp import conf
-
 from pybpodgui_plugin.models.task.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.task.task_treenode import TaskTreeNode
 
@@ -48,7 +46,7 @@ class TaskDockWindow(TaskTreeNode):
 
         """
         reply = self.question('Task "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
-        if reply=='yes':
+        if reply == 'yes':
             if hasattr(self, '_code_editor'):
                 self.mainwindow.mdi_area -= self._code_editor
             super(TaskDockWindow, self).remove()
@@ -63,7 +61,8 @@ class TaskDockWindow(TaskTreeNode):
                 * Key press event (tree node): :py:meth:`pybpodgui_plugin.models.task.task_treenode.TaskTreeNode.node_key_pressed_event`.
         """
         if self.project.path is None or self.filepath is None:
-            self.warning("The task was not commited yet,<br/>please save the project first to create the task file.", "Cannot edit the file yet.")
+            self.warning("The task was not commited yet,<br/>please save the project first to create the task file.",
+                         "Cannot edit the file yet.")
         else:
             try:
                 if not hasattr(self, '_code_editor'):

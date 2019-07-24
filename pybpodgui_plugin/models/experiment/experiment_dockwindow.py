@@ -3,10 +3,6 @@
 
 import logging
 
-from confapp import conf
-
-from AnyQt.QtWidgets import QMessageBox
-
 from pybpodgui_plugin.models.experiment.experiment_treenode import ExperimentTreeNode
 
 logger = logging.getLogger(__name__)
@@ -34,8 +30,8 @@ class ExperimentDockWindow(ExperimentTreeNode):
         Also reload tasks list on combo box.
         """
         self.mainwindow.details.value = self
-        #self.reload_tasks(current_selected_task=self.task)
-        super(ExperimentDockWindow,self).show()
+        # self.reload_tasks(current_selected_task=self.task)
+        super(ExperimentDockWindow, self).show()
 
     def focus_name(self):
         """

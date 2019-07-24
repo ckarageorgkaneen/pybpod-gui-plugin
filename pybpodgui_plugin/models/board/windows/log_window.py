@@ -21,7 +21,7 @@ class LogWindow(BaseWidget):
         self.setWindowIcon(QIcon(conf.BOARD_SMALL_ICON))
         self._autoscroll_checkbox = ControlCheckBox('Auto-scroll', default=True, changed_event=self.__auto_scroll_evt)
         self._clear_btn = ControlButton('Clear', default=self.__clear_log_evt)
-        self._log       = ControlTextArea(readonly=True, autoscroll=False)
+        self._log = ControlTextArea(readonly=True, autoscroll=False)
 
         self.formset = [(' ', '_autoscroll_checkbox', '_clear_btn'), '_log']
 
@@ -38,8 +38,6 @@ class LogWindow(BaseWidget):
         self.mainwindow.mdi_area += self
         del self._show_called
 
-
-
     def beforeClose(self):
         return False
 
@@ -48,8 +46,6 @@ class LogWindow(BaseWidget):
 
     def __clear_log_evt(self):
         self._log.value = ''
-
-    
 
     @property
     def title(self):

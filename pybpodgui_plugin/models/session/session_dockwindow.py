@@ -12,8 +12,8 @@ class SessionDockWindow(SessionTreeNode):
 
     def show(self):
         self.mainwindow.details.value = self
-        super(SessionDockWindow,self).show()
-        
+        super(SessionDockWindow, self).show()
+
     @property
     def mainwindow(self):
         return self.setup.mainwindow

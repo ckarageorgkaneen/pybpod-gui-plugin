@@ -1,18 +1,16 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
-
-__version__ 	= "1.6.2"
-__author__ 		= "Carlos Mao de Ferro"
-__credits__ 	= ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto", 'Luís Teixeira']
-__license__ 	= "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
-__maintainer__ 	= ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto", 'Luís Teixeira']
-__email__ 		= ["cajomferro@gmail.com", "ricardojvr@gmail.com", "sergio.copeto@research.fchampalimaud.org", 'micboucinha@gmail.com']
-__status__ 		= "Development"
-
-import logging
 import loggingbootstrap
 
 from confapp import conf
+
+__version__ = "1.6.2"
+__author__ = "Carlos Mao de Ferro"
+__credits__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto", 'Luís Teixeira']
+__license__ = "Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
+__maintainer__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto", 'Luís Teixeira']
+__email__ = ["cajomferro@gmail.com", "ricardojvr@gmail.com", "sergio.copeto@research.fchampalimaud.org", 'micboucinha@gmail.com']
+__status__ = "Development"
 
 conf += 'pybpodgui_plugin.settings'
 conf += 'pybpodgui_plugin.resources'
@@ -31,8 +29,8 @@ loggingbootstrap.create_double_logger("pybpodapi", conf.APP_LOG_HANDLER_CONSOLE_
                                       conf.APP_LOG_HANDLER_FILE_LEVEL)
 
 if conf.USE_MULTIPROCESSING:
-	# https://docs.python.org/3.5/library/multiprocessing.html#multiprocessing.freeze_support
-	from multiprocessing import freeze_support  # @UnresolvedImport
+    # https://docs.python.org/3.5/library/multiprocessing.html#multiprocessing.freeze_support
+    from multiprocessing import freeze_support  # @UnresolvedImport
 
 if conf.USE_MULTIPROCESSING:
-	freeze_support()
+    freeze_support()

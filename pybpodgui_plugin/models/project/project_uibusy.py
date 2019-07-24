@@ -10,9 +10,10 @@ from pybpodgui_plugin.models.project.project_dockwindow import ProjectDockWindow
 
 logger = logging.getLogger(__name__)
 
+
 class ProjectUIBusy(ProjectDockWindow):
     """
-    
+
     """
 
     def update_ui(self):
@@ -25,7 +26,7 @@ class ProjectUIBusy(ProjectDockWindow):
         sessionrunning = False
 
         logger.debug('Project [{0}] status:{1}'.format(self.name, busy_status))
-        
+
         for board in self.boards:
             if board.status > Board.STATUS_READY:
                 busy_status = board.status

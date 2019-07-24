@@ -1,9 +1,7 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging, re
-
-from confapp import conf
+import logging
 
 import pyforms as app
 
@@ -12,7 +10,6 @@ from pyforms.controls import ControlText
 from pyforms.controls import ControlList
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlCombo
-from pyforms.controls import ControlNumber
 from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlCheckBoxList
 from pyforms.controls import ControlEmptyWidget
@@ -26,20 +23,21 @@ from pybpodgui_plugin.models.session import Session
 
 logger = logging.getLogger(__name__)
 
-class SubjectSelectPopup(BaseWidget):
-    
-    def __init__(self,subjectlist, selectedsubjects):
 
-        super(SubjectSelectPopup,self).__init__('Add Subjects')
+class SubjectSelectPopup(BaseWidget):
+
+    def __init__(self, subjectlist, selectedsubjects):
+
+        super(SubjectSelectPopup, self).__init__('Add Subjects')
 
         self._ok_btn = ControlButton('OK')
-        self._cancel_btn = ControlButton('Cancel',default = self.cancel_evt)
+        self._cancel_btn = ControlButton('Cancel', default=self.cancel_evt)
         self._subjectslist = ControlCheckBoxList('Subject List')
 
         self._formset = [
             '',
-            ('','_subjectslist',''),
-            ('','_ok_btn', '_cancel_btn',''),     
+            ('', '_subjectslist', ''),
+            ('', '_ok_btn', '_cancel_btn', ''),
             ''
         ]
 
@@ -47,28 +45,29 @@ class SubjectSelectPopup(BaseWidget):
             b = False
             for a in selectedsubjects.value:
                 if subject.name == a[0]:
-                    self._subjectslist += (subject,True)
+                    self._subjectslist += (subject, True)
                     b = True
-            if b == False:    
-                self._subjectslist += (subject,False)
+            if b is False:
+                self._subjectslist += (subject, False)
 
     def ok_evt(self):
         self.close()
-        #self.ok_event(self._subjectslist.value)
+        # self.ok_event(self._subjectslist.value)
 
     def closewidnow(self):
         self.close()
-    
+
     def subjectlist(self):
         return self._subjectslist.items
 
     # THIS IS THE WAY WE CREATE A SIGNAL INSIDE PYBPOD (SCROLL DOWN...)
-    def ok_event(self,subjects):
+    def ok_event(self, subjects):
         pass
 
     def cancel_evt(self):
         print('cancel')
         self.close()
+
 
 class SetupWindow(Setup, BaseWidget):
     """
@@ -122,22 +121,22 @@ class SetupWindow(Setup, BaseWidget):
         BaseWidget.__init__(self, 'Experiment')
         self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name          = ControlText('Setup name')
-        self._board         = ControlCombo('Board')
-        
-        self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
-        self._pause_btn     = ControlButton('Pause', checkable=True, default=self._pause_evt)
-        self._run_task_btn  = ControlButton('Run', checkable=True, default=self._run_task)
-        
-        self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
-        self._add_subject   = ControlButton('Add subject')
-        self._allsubjects   = ControlCombo('Add subject')
-        self._task          = ControlCombo('Protocol', changed_event=self._task_changed_evt)
-        
-        self._detached      = ControlCheckBox('Detach from GUI')
+        self._name = ControlText('Setup name')
+        self._board = ControlCombo('Board')
 
-        self._varspanel     = ControlEmptyWidget()
-        self._btn           = ControlButton('Open')
+        self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
+        self._pause_btn = ControlButton('Pause', checkable=True, default=self._pause_evt)
+        self._run_task_btn = ControlButton('Run', checkable=True, default=self._run_task)
+
+        self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
+        self._add_subject = ControlButton('Add subject')
+        self._allsubjects = ControlCombo('Add subject')
+        self._task = ControlCombo('Protocol', changed_event=self._task_changed_evt)
+
+        self._detached = ControlCheckBox('Detach from GUI')
+
+        self._varspanel = ControlEmptyWidget()
+        self._btn = ControlButton('Open')
 
         Setup.__init__(self, experiment)
 
@@ -152,9 +151,9 @@ class SetupWindow(Setup, BaseWidget):
             ('_detached', '_run_task_btn'),
             ('_stoptrial_btn','_pause_btn'),
             '=',
-            {   
-                'Subjects':[
-                    #'_allsubjects',
+            {
+                'Subjects': [
+                    # '_allsubjects',
                     '',
                     '_add_subject',
                     '_subjects_list',
@@ -162,25 +161,25 @@ class SetupWindow(Setup, BaseWidget):
                 'Variables':[
                     '_varspanel',
                 ],
-            }           
+            }
         ]
 
         self._subjects_list.readonly = True
-        self._varspanel.value     = self.board_task
-        self._add_subject.value   = self.__add_subject
-        self._name.changed_event  = self.__name_changed_evt
+        self._varspanel.value = self.board_task
+        self._add_subject.value = self.__add_subject
+        self._name.changed_event = self.__name_changed_evt
         self._board.changed_event = self._board_changed_evt
-    
+
     def slot(self):
         self.clear_subjects()
         listedsubjects = self.sswindow.subjectlist()
         for subj in listedsubjects:
-            if subj[1] == True:
+            if subj[1] is True:
                 self += subj[0]
         self.sswindow.closewidnow()
 
     def reload_tasks(self, current_selected_task=None):
-        # type: (Task) -> None
+        # type: (current_selected_task) -> None
         """
         Reload tasks now
 
@@ -194,9 +193,10 @@ class SetupWindow(Setup, BaseWidget):
         self._task.current_index = 0
         if current_selected_task:
             self.task = current_selected_task
-    
+
     def _task_changed_evt(self):
-        if hasattr(self, '_update_task'): return 
+        if hasattr(self, '_update_task'):
+            return
         self.task = self._task.value
 
     def __add__(self, obj):
@@ -212,7 +212,7 @@ class SetupWindow(Setup, BaseWidget):
         return res
 
     def __open_subject_select(self):
-        self.sswindow = SubjectSelectPopup(self.project.subjects,self._subjects_list)
+        self.sswindow = SubjectSelectPopup(self.project.subjects, self._subjects_list)
         self.sswindow._ok_btn.value = self.slot
         self.sswindow.show()
 
@@ -221,9 +221,9 @@ class SetupWindow(Setup, BaseWidget):
 
     def __remove_subject(self):
         if self._subjects_list.selected_row_index is not None:
-            name    = self._subjects_list.value[self._subjects_list.selected_row_index][0]
+            name = self._subjects_list.value[self._subjects_list.selected_row_index][0]
             subject = self.project.find_subject(name)
-            self    -= subject
+            self -= subject
             self._subjects_list -= -1
 
     def _stop_trial_evt(self):
@@ -265,7 +265,8 @@ class SetupWindow(Setup, BaseWidget):
 
         This method is called every time the user changes the field and forces a UI refresh.
         """
-        if hasattr(self, '_update_board'): return
+        if hasattr(self, '_update_board'):
+            return
         self.board = self._board.value
         self.update_ui()
 
@@ -295,19 +296,20 @@ class SetupWindow(Setup, BaseWidget):
         """
         self._board.clear()
         self._board.add_item('', 0)
-        for board in self.project.boards: self._board.add_item(board.name, board)
+        for board in self.project.boards:
+            self._board.add_item(board.name, board)
         self._board.current_index = 0
 
-        if current_selected_board:  self.board = current_selected_board
+        if current_selected_board:
+            self.board = current_selected_board
 
         self._allsubjects.clear()
         self._allsubjects.add_item('', 0)
-        for subject in sorted([s for s in self.project.subjects], key=lambda x: x.name.lower()): 
+        for subject in sorted([s for s in self.project.subjects], key=lambda x: x.name.lower()):
             self._allsubjects.add_item(subject.name, subject)
         self._allsubjects.current_index = 0
 
         self._subjects_list.value = [[s.name] for s in self.subjects]
-
 
     def create_board_task(self):
         """
@@ -348,26 +350,32 @@ class SetupWindow(Setup, BaseWidget):
 
     @board.setter
     def board(self, value):
-        if isinstance(value, str): value = self.project.find_board(value)
+        if isinstance(value, str):
+            value = self.project.find_board(value)
         self._update_board = True  # Flag to avoid recurse calls when editing the name text field
-        
-        if value not in self._board.values: self.reload_boards()
+
+        if value not in self._board.values:
+            self.reload_boards()
         self._board.value = value
         del self._update_board
         Setup.board.fset(self, value)
 
     @property
     def task(self):
-        if isinstance(self._task.value, str) or isinstance(self._task.value, int): return None
+        if isinstance(self._task.value, str) or isinstance(self._task.value, int):
+            return None
         return self._task.value
 
     @task.setter
     def task(self, value):
-        if isinstance(value, str): value = self.project.find_task(value)
-        
+        if isinstance(value, str):
+            value = self.project.find_task(value)
+
         self._update_task = True  # Flag to avoid recurse calls when editing the name text field
-        
-        if value not in self._task.values: self.reload_tasks()
+
+        if value not in self._task.values:
+            self.reload_tasks()
+
         self._task.value = value
         del self._update_task
         Setup.task.fset(self, value)

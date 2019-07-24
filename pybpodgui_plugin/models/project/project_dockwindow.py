@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from pybpodgui_plugin.models.project.project_treenode import ProjectTreeNode
 
 logger = logging.getLogger(__name__)
-
-from pybpodgui_plugin.models.project.project_treenode import ProjectTreeNode
 
 
 class ProjectDockWindow(ProjectTreeNode):
     def show(self):
         self.mainwindow.details.value = self
-        super(ProjectDockWindow,self).show()
+        super(ProjectDockWindow, self).show()
 
     def focus_name(self):
         """
