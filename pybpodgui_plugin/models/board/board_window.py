@@ -94,6 +94,8 @@ class BoardWindow(Board, BaseWidget):
         self._inputchannels = ControlList('Input channels', readonly=True)
         self._outputchannels = ControlList('Output channels', readonly=True)
 
+        self._saved_serial_port = None
+
         Board.__init__(self, project)
 
         self._formset = [
@@ -170,7 +172,8 @@ class BoardWindow(Board, BaseWidget):
         self._serial_port.clear()
         self._fill_serial_ports()
 
-        self._serial_port.value = tmp
+        self.serial_port = self._saved_serial_port
+        self.serial_port = tmp
 
     def __name_changed_evt(self):
         """
@@ -201,6 +204,8 @@ class BoardWindow(Board, BaseWidget):
         # the device is connected)
         if value is not None and (value, value) not in self._serial_port.items:
             self._serial_port.add_item("{val} (not connected)".format(val=value), value)
+            if not hasattr(self, "_save_serial_port"):
+                self._saved_serial_port = value
         self._serial_port.value = value
 
     @property
