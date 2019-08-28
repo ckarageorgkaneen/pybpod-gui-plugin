@@ -126,7 +126,14 @@ class SetupWindow(Setup, BaseWidget):
 
         self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
         self._pause_btn = ControlButton('Pause', checkable=True, default=self._pause_evt)
-        self._run_task_btn = ControlButton('Run', checkable=True, default=self._run_task)
+        self._run_task_btn = ControlButton('Run',
+                                           checkable=True,
+                                           default=self._run_task,
+                                           helptext="When a task is running, you can skip all remaining trials by pressing this button. <br/> <b>NOTE:</b> This means that you will need to break the cycle in your task code when the run_state_machine method returns False.")
+        self._kill_task_btn = ControlButton('Kill',
+                                            default=self._kill_task,
+                                            style="background-color:rgb(255,0,0);font-weight:bold;",
+                                            helptext="<b>NOTE:</b>This will exit the task process abruptly. The code you might have after the trial loop won't execute.")
 
         self._subjects_list = ControlList('Subjects', remove_function=self.__remove_subject)
         self._add_subject = ControlButton('Add subject')
@@ -148,9 +155,10 @@ class SetupWindow(Setup, BaseWidget):
             '_name',
             '_board',
             '_task',
-            ('_detached', '_run_task_btn'),
-            ('_stoptrial_btn','_pause_btn'),
-            '=',
+            '_detached',
+            ('_run_task_btn', '_kill_task_btn'),
+            ('_stoptrial_btn', '_pause_btn'),
+            #' ',
             {
                 'Subjects': [
                     # '_allsubjects',
@@ -164,6 +172,7 @@ class SetupWindow(Setup, BaseWidget):
             }
         ]
 
+        self._kill_task_btn.enabled = False
         self._subjects_list.readonly = True
         self._varspanel.value = self.board_task
         self._add_subject.value = self.__add_subject
@@ -258,6 +267,13 @@ class SetupWindow(Setup, BaseWidget):
             self.warning(str(err), "Warning")
         except Exception as err:
             self.alert(str(err), "Unexpected Error")
+
+    def _kill_task(self):
+        """
+        Kills a running task. This will stop the current trial and exit the task abruptly within the trial loop (if any).
+        """
+        if self.status == SetupWindow.STATUS_RUNNING_TASK:
+            self.kill_task()
 
     def _board_changed_evt(self):
         """

@@ -25,3 +25,10 @@ class SetupCom(SetupDockWindow):
         """
         super(SetupCom, self).stop_task()
         self.update_ui()
+
+    def kill_task(self):
+        """
+        Kill the task by calling
+        """
+        super(SetupCom, self).kill_task()
+        self.update_ui()

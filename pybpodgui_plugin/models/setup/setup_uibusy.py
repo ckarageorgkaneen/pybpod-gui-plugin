@@ -41,6 +41,10 @@ class SetupUIBusy(SetupCom):
         super(SetupUIBusy, self).stop_task()
         self._run_task_btn.enabled = False
 
+    def kill_task(self):
+        super(SetupUIBusy, self).kill_task()
+        self._kill_task_btn.enabled = False
+
     def update_ui(self):
         """
         Update UI button states and labels and tree icons when board communication is active.
@@ -57,6 +61,8 @@ class SetupUIBusy(SetupCom):
             self._run_task_btn.label = 'Run'
             self._run_task_btn.checked = False
             self._run_task_btn.enabled = True
+
+            self._kill_task_btn.enabled = False
 
             self._stoptrial_btn.enabled = False
             self._pause_btn.label = 'Pause'
@@ -76,8 +82,11 @@ class SetupUIBusy(SetupCom):
 
         elif self.status == Setup.STATUS_RUNNING_TASK:
 
-            self._run_task_btn.label = 'Stop'
+            self._run_task_btn.label = 'Skip all trials'
             self._run_task_btn.checked = True
+
+            self._kill_task_btn.enabled = True
+
             self._stoptrial_btn.enabled = True
             self._pause_btn.enabled = True
 
