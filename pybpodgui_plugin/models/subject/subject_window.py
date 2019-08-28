@@ -75,6 +75,18 @@ class SubjectWindow(Subject, BaseWidget):
         self._name = ControlText('Name')
         self._setups = ControlCombo('Setup')
         self._run = ControlButton('Run', checkable=True, default=self._run_task)
+
+        self._run = ControlButton('Run',
+                                  checkable=True,
+                                  default=self._run_task,
+                                  helptext="When a task is running, you can skip all remaining trials by pressing this button. <br/> <b>NOTE:</b> This means that you will need to break the cycle in your task code when the run_state_machine method returns False.")
+        self._kill_task_btn = ControlButton('Kill',
+                                            default=self._kill_task,
+                                            style="background-color:rgb(255,0,0);font-weight:bold;",
+                                            helptext="<b>NOTE:</b>This will exit the task process abruptly. The code you might have after the trial loop won't execute.")
+
+        self._kill_task_btn.enabled = False
+
         self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
         self._pause_btn = ControlButton('Pause', checkable=True, default=self._pause_evt)
         self._stoptrial_btn.enabled = False
@@ -87,7 +99,8 @@ class SubjectWindow(Subject, BaseWidget):
         self._formset = [
             '_name',
             '_setups',
-            ('_detached', '_run'),
+            '_detached',
+            ('_run', '_kill_task_btn'),
             ('_stoptrial_btn', '_pause_btn'),
             ' ',
         ]
@@ -113,6 +126,13 @@ class SubjectWindow(Subject, BaseWidget):
             self.warning(str(err), "Warning")
         except Exception as err:
             self.alert(str(err), "Unexpected Error")
+
+    def _kill_task(self):
+        """
+        Kills the currently running task.
+        """
+        if self.setup.status == self.setup.STATUS_RUNNING_TASK:
+            self.setup.kill_task()
 
     def _stop_trial_evt(self):
         setup = self._setups.value
