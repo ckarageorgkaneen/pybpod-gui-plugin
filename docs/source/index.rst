@@ -11,15 +11,6 @@ Welcome to PyBpod's documentation!
 
    All examples and Bpod's state machine and communication logic were based on the original version made available by `Josh Sanders (Sanworks) <https://github.com/sanworks>`_.
 
-Download PyBpod
-===============
-
-The latest Windows and Mac OS binaries are available at the `downloads page <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/>`_.
-
-.. warning::
-
-   For Windows, you have to run as administrator.
-
 
 What is PyBpod?
 ===================
@@ -58,7 +49,7 @@ Python is one of the most popular programming languages today `[1] <https://pypl
 
 Questions?
 ==========
-If you have any questions or want to report a problem with this library please fill in an issue `here <https://bitbucket.org/fchampalimaud/pybpod-api/issues>`_.
+If you have any questions or want to report a problem with this library please fill in an issue `here <https://github.com/pybpod/pybpod-api/issues>`_.
 
 .. high level toc tree
 
