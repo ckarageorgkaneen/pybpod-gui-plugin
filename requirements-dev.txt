@@ -20,15 +20,14 @@ matplotlib # for user plugins
 #recommonmark
 
 # swp dependencies
-https://github.com/UmSenhorQualquer/pyforms/archive/master.zip
 https://bitbucket.org/fchampalimaud/logging-bootstrap/get/master.zip
 https://bitbucket.org/fchampalimaud/pybranch/get/master.zip
 https://github.com/UmSenhorQualquer/pyforms/archive/master.zip
 https://bitbucket.org/fchampalimaud/pyforms-generic-editor/get/master.zip
-https://bitbucket.org/fchampalimaud/pybpod-api/get/development.zip
+pybpod-api
 
 # plugins
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/get/development.zip
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline/get/master.zip
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history/get/master.zip
-git+https://UmSenhorQualquer@bitbucket.org/fchampalimaud/pybpod-rotary-encoder-module.git
+pybpod-gui-plugin
+pybpod-gui-plugin-timeline
+pybpod-gui-plugin-session-history 
+pybpod-gui-plugin-rotaryencoder 
