@@ -30,11 +30,11 @@ requirements = [
 setup(
     name='pybpod-gui-plugin',
     version=version,
-    description="""pybpod-gui-plugin is a behavioral experiments control system written in Python 3.5 for Bpod""",
+    description="""pybpod-gui-plugin is a behavioral experiments control system written in Python 3 for Bpod""",
     author=['Carlos Mão de Ferro', 'Ricardo Ribeiro', 'Luís Teixeira'],
     author_email='cajomferro@gmail.com, ricardojvr@gmail.com, micboucinha@gmail.com',
-    license='Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>',
-    url='https://bitbucket.org/fchampalimaud/pycontrolgui',
+    license='MIT',
+    url='https://github.com/pybpod/pybpod-gui-plugin',
 
     include_package_data=True,
     packages=find_packages(exclude=['contrib', 'docs', 'tests', 'examples', 'deploy', 'reports']),
