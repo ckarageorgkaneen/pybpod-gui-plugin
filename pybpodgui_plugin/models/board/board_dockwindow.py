@@ -3,8 +3,6 @@
 
 import logging
 
-from confapp import conf
-
 from pybpodgui_plugin.models.board.windows.code_editor import CodeEditor
 from pybpodgui_plugin.models.board.board_treenode import BoardTreeNode
 from pybpodgui_plugin.models.board.windows.log_window import LogWindow
@@ -36,7 +34,7 @@ class BoardDockWindow(BoardTreeNode):
         Select this window as the main window on the details section.
         """
         self.mainwindow.details.value = self
-        super(BoardDockWindow,self).show()
+        super(BoardDockWindow, self).show()
 
     def focus_name(self):
         """
@@ -54,11 +52,13 @@ class BoardDockWindow(BoardTreeNode):
 
         """
         reply = self.question('Board "{0}" will be deleted. Are you sure?'.format(self.name), 'Warning')
-        
-        if reply=='yes':
+
+        if reply == 'yes':
             self.mainwindow.details.value = None
-            if hasattr(self, '_code_editor'):    self.mainwindow.mdi_area -= self._code_editor
-            if hasattr(self, '_log'):            self.mainwindow.mdi_area -= self._log
+            if hasattr(self, '_code_editor'):
+                self.mainwindow.mdi_area -= self._code_editor
+            if hasattr(self, '_log'):
+                self.mainwindow.mdi_area -= self._log
 
             super(BoardDockWindow, self).remove()
 
@@ -66,7 +66,8 @@ class BoardDockWindow(BoardTreeNode):
         """
         Open board console window on the mdi section.
         """
-        if not hasattr(self, '_log'): self._log = LogWindow(self)
+        if not hasattr(self, '_log'):
+            self._log = LogWindow(self)
         self.mainwindow.mdi_area += self._log
 
     def __edit_framework_evt(self):
@@ -76,7 +77,8 @@ class BoardDockWindow(BoardTreeNode):
         if not self.path:
             self.message(self, "Cannot edit the file yet.", "You need to save the project first.")
         else:
-            if not hasattr(self, '_code_editor'): self._code_editor = CodeEditor(self)
+            if not hasattr(self, '_code_editor'):
+                self._code_editor = CodeEditor(self)
 
             self.mainwindow.mdi_area += self._code_editor
 
@@ -91,5 +93,7 @@ class BoardDockWindow(BoardTreeNode):
     @name.setter
     def name(self, value):
         BoardTreeNode.name.fset(self, value)
-        if hasattr(self, '_log'):            self._log.title = value
-        if hasattr(self, '_code_editor'):    self._code_editor.title = value
+        if hasattr(self, '_log'):
+            self._log.title = value
+        if hasattr(self, '_code_editor'):
+            self._code_editor.title = value

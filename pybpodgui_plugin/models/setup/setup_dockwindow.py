@@ -3,8 +3,6 @@
 
 import logging
 
-from confapp import conf
-
 from pybpodgui_plugin.models.setup.setup_treenode import SetupTreeNode
 
 logger = logging.getLogger(__name__)
@@ -59,7 +57,7 @@ class SetupDockWindow(SetupTreeNode):
         else:
             reply = 'yes'
 
-        if reply=='yes':
+        if reply == 'yes':
             self.MARKED_FOR_REMOVAL = True
             self.mainwindow.details.value = None
             super(SetupDockWindow, self).remove()

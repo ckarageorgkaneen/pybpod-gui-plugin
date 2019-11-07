@@ -3,7 +3,8 @@
 
 
 def make_lambda_func(func, **kwargs):
-	return lambda: func(**kwargs)
+    return lambda: func(**kwargs)
+
 
 def do_nothing():
-	pass
+    pass

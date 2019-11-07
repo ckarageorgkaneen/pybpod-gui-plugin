@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import logging
-
-import serial
+from serial.tools import list_ports
 from AnyQt import QtGui
 from AnyQt.QtWidgets import QApplication
-from serial.tools import list_ports
 
 from confapp import conf
 
@@ -78,20 +76,25 @@ class BoardWindow(Board, BaseWidget):
         :type project: pycontrolgui.models.project.Project
         """
         BaseWidget.__init__(self, 'Board')
-        self.layout().setContentsMargins(5,10,5,5)
+        self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name              = ControlText('Box name')
-        self._serial_port       = ControlCombo('Serial port')
-        self._refresh_serials   = ControlButton('', icon=QtGui.QIcon(conf.REFRESH_SMALL_ICON), default=self.__refresh_serials_pressed, helptext="Press here to refresh the list of available devices.")
-        self._log_btn           = ControlButton('Console')
-        self._active_bnc        = ControlCheckBoxList('BNC')
-        self._active_wired      = ControlCheckBoxList('Wired')
-        self._active_behavior   = ControlCheckBoxList('Behavior')
-        self._loadports_btn     = ControlButton('Load board info')
-        self._netport           = ControlNumber('Net port', default=36000+len(project.boards), minimum=36000, maximum=36100)
-        self._events            = ControlList('Events', readonly=True)
-        self._inputchannels     = ControlList('Input channels', readonly=True)
-        self._outputchannels    = ControlList('Output channels', readonly=True)
+        self._name = ControlText('Box name')
+        self._serial_port = ControlCombo('Serial port')
+        self._refresh_serials = ControlButton('',
+                                              icon=QtGui.QIcon(conf.REFRESH_SMALL_ICON),
+                                              default=self.__refresh_serials_pressed,
+                                              helptext="Press here to refresh the list of available devices.")
+        self._log_btn = ControlButton('Console')
+        self._active_bnc = ControlCheckBoxList('BNC')
+        self._active_wired = ControlCheckBoxList('Wired')
+        self._active_behavior = ControlCheckBoxList('Behavior')
+        self._loadports_btn = ControlButton('Load board info')
+        self._netport = ControlNumber('Net port', default=36000+len(project.boards), minimum=36000, maximum=36100)
+        self._events = ControlList('Events', readonly=True)
+        self._inputchannels = ControlList('Input channels', readonly=True)
+        self._outputchannels = ControlList('Output channels', readonly=True)
+
+        self._saved_serial_port = None
 
         Board.__init__(self, project)
 
@@ -103,11 +106,11 @@ class BoardWindow(Board, BaseWidget):
             '=',
             '_loadports_btn',
             {
-                'Ports':[
+                'Ports': [
                     'Enabled or disable ports',
                     '_active_bnc',
                     '_active_wired',
-                    '_active_behavior', 
+                    '_active_behavior',
                 ],
                 'Events':[
                     '_events'
@@ -118,17 +121,16 @@ class BoardWindow(Board, BaseWidget):
                 'Output ch.':[
                     '_outputchannels'
                 ]
-            }        
-            
+            }
         ]
-        self._name.changed_event        = self.__name_changed_evt
-        self._loadports_btn.value       = self.__load_bpod_ports
+        self._name.changed_event = self.__name_changed_evt
+        self._loadports_btn.value = self.__load_bpod_ports
 
         self._fill_serial_ports()
 
     def _fill_serial_ports(self):
         self._serial_port.add_item('', '')
-        for n, port in enumerate(sorted(serial.tools.list_ports.comports()), 1):
+        for n, port in enumerate(sorted(list_ports.comports()), 1):
             self._serial_port.add_item("{device}".format(device=port.device), str(port.device))
 
     def freegui(self):
@@ -136,7 +138,6 @@ class BoardWindow(Board, BaseWidget):
 
     def stop_thread(self):
         self._timer.stop()
-        
 
     def __load_bpod_ports(self):
         # present error if no serial port is selected
@@ -150,17 +151,16 @@ class BoardWindow(Board, BaseWidget):
 
         try:
             bpod = Bpod(self._serial_port.value)
-            #bpod.open()
             hw = bpod.hardware
-            ### load the ports to the GUI ###############################
-            self._active_bnc.value      = [ ('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes)  ]
-            self._active_wired.value    = [ ('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)    ]
-            self._active_behavior.value = [ ('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
+            # load the ports to the GUI ###############################
+            self._active_bnc.value = [('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes)]
+            self._active_wired.value = [('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)]
+            if len(self._active_behavior.value) == 0:
+                self._active_behavior.value = [('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
             #############################################################
-            self._events.value = [ ["{0} ({1})".format(x,i)] for i, x in enumerate(hw.channels.event_names)]
-            self._inputchannels.value = [ [x] for x in hw.channels.input_channel_names]
-            self._outputchannels.value = [ [x] for x in hw.channels.output_channel_names]
-
+            self._events.value = [["{0} ({1})".format(x, i)] for i, x in enumerate(hw.channels.event_names)]
+            self._inputchannels.value = [[x] for x in hw.channels.input_channel_names]
+            self._outputchannels.value = [[x] for x in hw.channels.output_channel_names]
 
             bpod.close()
         except Exception as e:
@@ -172,7 +172,8 @@ class BoardWindow(Board, BaseWidget):
         self._serial_port.clear()
         self._fill_serial_ports()
 
-        self._serial_port.value = tmp
+        self.serial_port = self._saved_serial_port
+        self.serial_port = tmp
 
     def __name_changed_evt(self):
         """
@@ -199,9 +200,12 @@ class BoardWindow(Board, BaseWidget):
 
     @serial_port.setter
     def serial_port(self, value):
-        # if the option isn't available in the self._serial_port we probably should add it (and remove it later when the device is connected)
+        # if the option isn't available in the self._serial_port we probably should add it (and remove it later when
+        # the device is connected)
         if value is not None and (value, value) not in self._serial_port.items:
             self._serial_port.add_item("{val} (not connected)".format(val=value), value)
+            if not hasattr(self, "_save_serial_port"):
+                self._saved_serial_port = value
         self._serial_port.value = value
 
     @property
@@ -212,21 +216,23 @@ class BoardWindow(Board, BaseWidget):
     def net_port(self, value):
         if value is not None:
             self._netport.value = value
-        
 
     @property
-    def enabled_bncports(self):             return [b for v,b in self._active_bnc.items] if self._active_bnc.count>0 else None
+    def enabled_bncports(self):
+        return [b for v, b in self._active_bnc.items] if self._active_bnc.count > 0 else None
+
     @enabled_bncports.setter
-    def enabled_bncports(self, value): 
+    def enabled_bncports(self, value):
         Board.enabled_bncports.fset(self, value)
         if value is None:
             self._active_bnc.value = []
         else:
-            self._active_bnc.value = [ ('BNC{0}'.format(j+1), v) for j, v in enumerate(value)]
-        
+            self._active_bnc.value = [('BNC{0}'.format(j+1), v) for j, v in enumerate(value)]
 
     @property
-    def enabled_wiredports(self):           return [b for v,b in self._active_wired.items] if self._active_wired.count>0 else None
+    def enabled_wiredports(self):
+        return [b for v, b in self._active_wired.items] if self._active_wired.count > 0 else None
+
     @enabled_wiredports.setter
     def enabled_wiredports(self, value):
         Board.enabled_wiredports.fset(self, value)
@@ -234,18 +240,19 @@ class BoardWindow(Board, BaseWidget):
         if value is None:
             self._active_wired.value = []
         else:
-            self._active_wired.value = [ ('Wire{0}'.format(j+1), v) for j, v in enumerate(value)]
-        
+            self._active_wired.value = [('Wire{0}'.format(j+1), v) for j, v in enumerate(value)]
 
     @property
-    def enabled_behaviorports(self):        return [b for v,b in self._active_behavior.items] if self._active_behavior.count>0 else None
+    def enabled_behaviorports(self):
+        return [b for v, b in self._active_behavior.items] if self._active_behavior.count > 0 else None
+
     @enabled_behaviorports.setter
     def enabled_behaviorports(self, value):
         Board.enabled_behaviorports.fset(self, value)
         if value is None:
             self._active_behavior.value = []
         else:
-            self._active_behavior.value = [ ('Port{0}'.format(j+1), v) for j, v in enumerate(value)]
+            self._active_behavior.value = [('Port{0}'.format(j+1), v) for j, v in enumerate(value)]
 
 
 # Execute the application

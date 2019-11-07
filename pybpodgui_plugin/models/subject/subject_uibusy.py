@@ -7,9 +7,6 @@ from confapp import conf
 
 from AnyQt.QtGui import QIcon
 
-from pybpodgui_api.models.setup import Setup
-from pybpodgui_api.models.subject import Subject
-from pybpodgui_api.models.project import Project
 from pybpodgui_plugin.models.subject.subject_dockwindow import SubjectDockWindow
 
 logger = logging.getLogger(__name__)
@@ -39,7 +36,8 @@ class SubjectUIBusy(SubjectDockWindow):
     def update_ui(self, sessionrunning=False):
         if sessionrunning:
             self._run.checked = True
-            self._run.label = 'Stop'
+            self._run.label = 'Skip all trials'
+            self._kill_task_btn.enabled = True
             self._stoptrial_btn.enabled = True
             self._pause_btn.enabled = True
             self._detached.enabled = False
@@ -49,7 +47,9 @@ class SubjectUIBusy(SubjectDockWindow):
         else:
             self._run.checked = False
             self._run.label = 'Run'
+            self._kill_task_btn.enabled = False
             self._detached.enabled = True
             self._stoptrial_btn.enabled = False
             self._pause_btn.enabled = False
+            self._pause_btn.checked = False
             self.node.setIcon(0, QIcon(conf.SUBJECT_SMALL_ICON))

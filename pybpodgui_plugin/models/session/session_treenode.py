@@ -25,9 +25,9 @@ class SessionTreeNode(SessionWindow):
         self.create_treenode(self.tree)
 
     def create_treenode(self, tree):
-        self.node                       = tree.create_child(self.name, self.setup.node)
-        self.node.key_pressed_event     = self.node_key_pressed_event
-        self.node.double_clicked_event  = self.node_double_clicked_event
+        self.node = tree.create_child(self.name, self.setup.node)
+        self.node.key_pressed_event = self.node_key_pressed_event
+        self.node.double_clicked_event = self.node_double_clicked_event
         self.node.window = self
         self.node.setExpanded(True)
 
@@ -52,7 +52,8 @@ class SessionTreeNode(SessionWindow):
     @name.setter
     def name(self, value):
         SessionWindow.name.fset(self, value)
-        if hasattr(self, 'node'): self.node.setText(0, value)
+        if hasattr(self, 'node'):
+            self.node.setText(0, value)
 
     @property
     def tree(self):
@@ -64,7 +65,7 @@ class SessionTreeNode(SessionWindow):
 
     def remove(self):
         if not self.setup.MARKED_FOR_REMOVAL:
-            reply = self.question('Delete session: '+ self.name + '?', 'Delete')
+            reply = self.question('Delete session: ' + self.name + '?', 'Delete')
         else:
             reply = 'yes'
 

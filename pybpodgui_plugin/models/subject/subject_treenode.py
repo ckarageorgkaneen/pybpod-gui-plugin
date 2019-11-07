@@ -53,9 +53,9 @@ class SubjectTreeNode(SubjectWindow):
         :return: new created node
         :return type: QTreeWidgetItem
         """
-        self.node 						= tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
-        self.node.key_pressed_event 	= self.node_key_pressed_event
-        self.node.window 				= self
+        self.node = tree.create_child(self.name, self.project.subjects_node, icon=QIcon(conf.SUBJECT_SMALL_ICON))
+        self.node.key_pressed_event = self.node_key_pressed_event
+        self.node.window = self
         self.node.setExpanded(True)
 
         tree.add_popup_menu_option('Remove', self.remove, item=self.node, icon=QIcon(conf.REMOVE_SMALL_ICON))
@@ -86,9 +86,9 @@ class SubjectTreeNode(SubjectWindow):
             self.remove()
 
     def create_sessiontreenode(self, session):
-        node 					    = self.tree.create_child(session.name, self.node)
-        node.key_pressed_event      = session.node_key_pressed_event
-        node.double_clicked_event   = session.node_double_clicked_event
+        node = self.tree.create_child(session.name, self.node)
+        node.key_pressed_event = session.node_key_pressed_event
+        node.double_clicked_event = session.node_double_clicked_event
         # This makes the sesison window appear correctly
         node.window = session.node.window
         session.subjects_nodes[id(self.node)] = node
@@ -103,8 +103,8 @@ class SubjectTreeNode(SubjectWindow):
             self.tree.add_popup_menu_option('Remove', session.remove, item=node, icon=QIcon(conf.REMOVE_SMALL_ICON))
         return super(SubjectTreeNode, self).__add__(session)
 
-    def __sub__(self,value):
-        if isinstance(value,Session):
+    def __sub__(self, value):
+        if isinstance(value, Session):
             self.node.removeChild(value.subjects_nodes[id(self.node)])
         return super(SubjectTreeNode, self).__sub__(value)
 
@@ -118,7 +118,8 @@ class SubjectTreeNode(SubjectWindow):
     @name.setter
     def name(self, value):
         SubjectWindow.name.fset(self, value)
-        if hasattr(self, 'node'): self.node.setText(0, value)
+        if hasattr(self, 'node'):
+            self.node.setText(0, value)
 
     @property
     def tree(self):

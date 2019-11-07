@@ -32,11 +32,11 @@ PYFORMS_VISVIS_ENABLED 		= False
 
 GENERIC_EDITOR_PLUGINS_PATH = None
 GENERIC_EDITOR_PLUGINS_LIST = [
-	'pybpodgui_plugin',
-	'pybpodgui_plugin_timeline',
-	'pybpodgui_plugin_trial_timeline',
-	'pybpod_alyx_plugin',
-	'pybpodgui_plugin_session_history',
+    'pybpodgui_plugin',
+    'pybpodgui_plugin_timeline',
+    'pybpodgui_plugin_trial_timeline',
+    'pybpod_alyx_plugin',
+    'pybpodgui_plugin_session_history',
 #	'pge_welcome_plugin',
 ]
 

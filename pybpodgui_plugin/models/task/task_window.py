@@ -1,13 +1,11 @@
 # !/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging, os
+import logging
 
 import pyforms as app
 from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
-from pyforms.controls import ControlButton
-from pyforms.controls import ControlNumber
 from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlList
 
@@ -61,21 +59,21 @@ class TaskWindow(Task, BaseWidget):
         self.precmdwin = None
         self.postcmdwin = None
 
-        self._namefield  = ControlText('Task name', changed_event=self.__name_edited_evt)
+        self._namefield = ControlText('Task name', changed_event=self.__name_edited_evt)
         self._use_server = ControlCheckBox('Trigger soft codes using a UDP port')
-        self._precmds    = ControlList(
-            'Pre commands', 
+        self._precmds = ControlList(
+            'Pre commands',
             add_function=self.__add_pre_command,
             remove_function=self.__remove_pre_command,
             readonly=True
         )
-        self._postcmds   = ControlList(
-            'Post commands', 
+        self._postcmds = ControlList(
+            'Post commands',
             add_function=self.__add_post_command,
             remove_function=self.__remove_post_command,
             readonly=True
         )
-        
+
         self._formset = [
             '_namefield',
             '_use_server',
@@ -92,23 +90,21 @@ class TaskWindow(Task, BaseWidget):
         self._precmds.clear()
         self._postcmds.clear()
 
-        self._precommands_list  = []
+        self._precommands_list = []
         self._postcommands_list = []
 
         for cmd in self.commands:
             if cmd.when == TaskCommand.WHEN_PRE:
-                self._precmds +=  [str(cmd)]
+                self._precmds += [str(cmd)]
                 self._precommands_list.append(cmd)
             elif cmd.when == TaskCommand.WHEN_POST:
                 self._postcmds += [str(cmd)]
                 self._postcommands_list.append(cmd)
-            
-        
 
     def __add_pre_command(self):
         if self.precmdwin is not None:
             self.precmdwin.show()
-            self.precmdwin.activateWindow();
+            self.precmdwin.activateWindow()
             self.precmdwin.raise_()
         else:
             self.precmdwin = CommandEditor(self, when=TaskCommand.WHEN_PRE)
@@ -124,7 +120,7 @@ class TaskWindow(Task, BaseWidget):
     def __add_post_command(self):
         if self.postcmdwin is not None:
             self.postcmdwin.show()
-            self.postcmdwin.activateWindow();
+            self.postcmdwin.activateWindow()
             self.postcmdwin.raise_()
         else:
             self.postcmdwin = CommandEditor(self, when=TaskCommand.WHEN_POST)
@@ -152,7 +148,6 @@ class TaskWindow(Task, BaseWidget):
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._namefield.value
 
-    
     @property
     def name(self): return Task.name.fget(self)
 
@@ -164,7 +159,7 @@ class TaskWindow(Task, BaseWidget):
             self.critical(str(e), 'File not found')
         # Flag to avoid recurse calls when editing the name text field
         self._update_name = True
-        self._namefield.value  = value
+        self._namefield.value = value
         self._update_name = False
 
     @property
@@ -173,8 +168,7 @@ class TaskWindow(Task, BaseWidget):
 
     @trigger_softcodes.setter
     def trigger_softcodes(self, value):
-        self._use_server.value = value==True
-
+        self._use_server.value = (value is True)
 
     def load(self, path):
         super(TaskWindow, self).load(path)

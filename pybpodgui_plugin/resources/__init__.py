@@ -5,8 +5,10 @@ import os
 
 # see pyforms_generic_editor.resources.__init__ for generic icons
 
+
 def path(filename):
-	return os.path.join(os.path.dirname(__file__), 'icons', filename)
+    return os.path.join(os.path.dirname(__file__), 'icons', filename)
+
 
 BOARD_SMALL_ICON = path('board.png')
 

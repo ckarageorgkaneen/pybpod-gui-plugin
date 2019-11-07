@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import traceback, sys
-
-from confapp import conf
 
 from pybpodgui_api.models.setup import Setup
 
@@ -32,7 +29,6 @@ class BoardCom(BoardWindow):
 
         self._timer = QTimer()
         self._timer.timeout.connect(self.run_task_handler)
-
 
     ##########################################################################
     ####### FUNCTIONS ########################################################
@@ -65,10 +61,9 @@ class BoardCom(BoardWindow):
         return flag
 
     def start_run_task_handler(self):
-        super(BoardCom,self).start_run_task_handler()
+        super(BoardCom, self).start_run_task_handler()
         self._timer.start(500)
-        
 
     def end_run_task_handler(self):
-        super(BoardCom,self).end_run_task_handler()
+        super(BoardCom, self).end_run_task_handler()
         self.run_task_handler(False)

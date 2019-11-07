@@ -143,10 +143,3 @@ Finally, after the loop finishes, we can stop Bpod execution.
     :py:meth:`pybpodapi.model.bpod.bpod_base.BpodBase.run_state_machine`
 
     :py:meth:`pybpodapi.model.bpod.bpod_base.BpodBase.stop`
-
-
-Try the examples
-================
-
-For a complete set of examples, download the `project sample <https://bitbucket.org/fchampalimaud/pybpod-gui-plugin/downloads/simple_project_bpod.zip>`_.
-Then, unzip and open this project on the GUI.

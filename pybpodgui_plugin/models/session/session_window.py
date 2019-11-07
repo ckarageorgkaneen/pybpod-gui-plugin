@@ -7,13 +7,12 @@ import traceback
 from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlList
-from pyforms.controls import ControlProgress
-
+from AnyQt.QtWidgets import QApplication
 from pybpodgui_api.models.session import Session
 from pybpodgui_api.exceptions.invalid_session import InvalidSessionError
 
 logger = logging.getLogger(__name__)
-from AnyQt.QtWidgets import QApplication
+
 
 class SessionWindow(Session, BaseWidget):
     """ ProjectWindow represents the project entity as a GUI window"""
@@ -22,15 +21,15 @@ class SessionWindow(Session, BaseWidget):
         BaseWidget.__init__(self, 'Session')
         self.layout().setContentsMargins(5, 10, 5, 5)
 
-        self._name          = ControlText('Session')
-        self._setup_name    = ControlText('Setup')
-        self._board_name    = ControlText('Board')
-        self._task_name     = ControlText('Task')
-        self._started       = ControlText('Started on')
-        self._ended         = ControlText('Ended on')
-        self._subjects      = ControlList('Subjects')
+        self._name = ControlText('Session')
+        self._setup_name = ControlText('Setup')
+        self._board_name = ControlText('Board')
+        self._task_name = ControlText('Task')
+        self._started = ControlText('Started on')
+        self._ended = ControlText('Ended on')
+        self._subjects = ControlList('Subjects')
         self._board_serial_port = ControlText('Serial port')
-        self._variables     = ControlList('Variables')
+        self._variables = ControlList('Variables')
         
         Session.__init__(self, setup)
 
@@ -52,10 +51,10 @@ class SessionWindow(Session, BaseWidget):
         self._board_serial_port.enabled = self._started.enabled = self._ended.enabled = False
         self._name.changed_event = self.__name_edited_evt
 
-    def __add__(self,value):
+    def __add__(self, value):
         QApplication.processEvents()
-        return super(SessionWindow,self).__add__(value)
-        
+        return super(SessionWindow, self).__add__(value)
+
     def __name_edited_evt(self):
         if not hasattr(self, '_update_name') or not self._update_name:
             self.name = self._name.value
@@ -67,26 +66,23 @@ class SessionWindow(Session, BaseWidget):
             logger.warning(str(err))
         except:
             self.critical(
-                'An error occurred when trying to load the info for session [{0}].\n\n{1}'.format(self.name, traceback.format_exc()), 
+                'An error occurred when trying to load the info for session [{0}].\n\n{1}'.format(self.name, traceback.format_exc()),
                 'Error loading the session')
-
 
     def remove(self):
         self.setup -= self
         for s in self.subjects:
             _, uuid = eval(s)
             sub = self.project.find_subject_by_id(uuid)
-            if sub is not None: sub -= self
+            if sub is not None:
+                sub -= self
 
-   
     def load_contents(self):
         try:
             if self.data is None and not self.is_running:
                 super(SessionWindow, self).load_contents()
-        except FileNotFoundError as err:
+        except FileNotFoundError:
             logger.warning("Error when trying to load the session content.")
-            
-            
 
     ##########################################################################
     ####### PROPERTIES #######################################################
@@ -102,8 +98,6 @@ class SessionWindow(Session, BaseWidget):
         self._name.value = value
         self._update_name = False
         self.title = "{0}: {1}".format(self.setup.name, value)
-
-
 
     @property
     def setup_name(self):
@@ -163,11 +157,10 @@ class SessionWindow(Session, BaseWidget):
     def ended(self, value):
         self._ended.value = value.strftime('%Y/%m/%d %H:%M:%S') if value else None
 
-
     @property
     def subjects(self):
         return [v[0] for v in self._subjects.value]
 
     @subjects.setter
     def subjects(self, value):
-        self._subjects.value = [ [v] for v in value ]
+        self._subjects.value = [[v] for v in value]

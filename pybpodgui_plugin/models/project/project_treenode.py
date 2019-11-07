@@ -3,7 +3,6 @@
 
 import os
 import logging
-import shutil
 
 from confapp import conf
 
@@ -54,7 +53,6 @@ class ProjectTreeNode(ProjectWindow):
         self.subjects_node.window = self
         self.subjects_node.setExpanded(True)
 
-
         self.boards_node = tree.create_child('Bpod boards', parent=self.node, icon=QIcon(conf.BOARDS_SMALL_ICON))
         self.boards_node.window = self
         self.boards_node.setExpanded(True)
@@ -70,19 +68,21 @@ class ProjectTreeNode(ProjectWindow):
 
         tree.add_popup_menu_option('Import protocol', self.import_task, item=self.tasks_node,
                                    icon=QIcon(conf.OPEN_SMALL_ICON))
-        tree.add_popup_menu_option('Import protocol (with folder contents)', self.import_task_with_directory, item=self.tasks_node,
+        tree.add_popup_menu_option('Import protocol (with folder contents)',
+                                   self.import_task_with_directory,
+                                   item=self.tasks_node,
                                    icon=QIcon(conf.OPEN_SMALL_ICON))
 
-        self.users_node = tree.create_child('Users', parent = self.node, icon=QIcon(conf.PERSONS_SMALL_ICON))
+        self.users_node = tree.create_child('Users', parent=self.node, icon=QIcon(conf.PERSONS_SMALL_ICON))
         self.users_node.window = self
         self.users_node.setExpanded(True)
-        tree.add_popup_menu_option('Add User', self._add_user, item= self.users_node, icon=QIcon(conf.ADD_SMALL_ICON))
+        tree.add_popup_menu_option('Add User', self._add_user, item=self.users_node, icon=QIcon(conf.ADD_SMALL_ICON))
 
         return self.node
 
     def _add_user(self):
         entity = self.create_user()
-        #entity.focus_name()
+        # entity.focus_name()
 
     def _add_experiment(self):
         entity = self.create_experiment()
@@ -121,9 +121,9 @@ class ProjectTreeNode(ProjectWindow):
         confirmation = True
 
         if not silent:
-            reply = self.question('Are sure you want to close the project?','Close project')
-            confirmation = reply=='yes'
-            
+            reply = self.question('Are sure you want to close the project?', 'Close project')
+            confirmation = (reply == 'yes')
+
         if confirmation:
             super(ProjectTreeNode, self).close(silent)
             tree = self.tree
@@ -142,52 +142,50 @@ class ProjectTreeNode(ProjectWindow):
 
     def _add_task(self):
         if self.path is None or len(self.path) == 0 or not self.is_saved():
-            reply = self.warning('To create a new protocol you need to save the project first.','Project not saved yet')
+            reply = self.warning('To create a new protocol you need to save the project first.', 'Project not saved yet')
         else:
-            task          = self.create_task()
+            task = self.create_task()
             task.filepath = task.make_emptyfile()
             task.focus_name()
-            
-            
+
     def import_task(self, filepath=None, with_directory=False):
         """
         Import task file to project
-        
+
         Qt5 change:
         https://www.reddit.com/r/learnpython/comments/2xhagb/pyqt5_trouble_with_openinggetting_the_name_of_the/
-        
-        :param filepath: 
-        :return: 
+
+        :param filepath:
+        :return:
         """
         if self.path is None or len(self.path) == 0 or not self.is_saved():
-            self.warning('To import a protocol you need to save the project first.','Project not saved yet')
+            self.warning('To import a protocol you need to save the project first.', 'Project not saved yet')
         else:
-            if not filepath: 
+            if not filepath:
                 filepath, _ = QFileDialog.getOpenFileName(self, 'OpenFile')
 
             if filepath:
                 try:
                     return super(ProjectTreeNode, self).import_task(filepath, with_directory)
                 except Exception as e:
-                    self.warning( str(e), 'Import aborted' )
-        
+                    self.warning(str(e), 'Import aborted')
+
         return None
 
     def import_task_with_directory(self, filepath=None):
         return self.import_task(filepath, True)
-    
+
     def user_removed(self, value):
         if self._loggeduser is not None:
             if value.name == self._loggeduser.name:
                 self._loggeduser = None
-                self.name = self.name # let's see if it auto updates
-
+                self.name = self.name  # let's see if it auto updates
 
     @property
     def name(self):
-        #if hasattr(self, 'node'):
-            #return str(self.node.text(0))
-        #else:
+        # if hasattr(self, 'node'):
+        #   return str(self.node.text(0))
+        # else:
         name = ProjectWindow.name.fget(self)
         if len(name) == 0:
             name = "Untitled project {0}".format(len(self.projects.projects))
@@ -199,7 +197,7 @@ class ProjectTreeNode(ProjectWindow):
     @name.setter
     def name(self, value):
         ProjectWindow.name.fset(self, value)
-        if hasattr(self, 'node'): 
+        if hasattr(self, 'node'):
             if self.loggeduser is not None:
                 aux = self.name + ' (' + self._loggeduser.name + '@' + self._loggeduser.connection + ')'
                 self.node.setText(0, aux)
@@ -213,7 +211,6 @@ class ProjectTreeNode(ProjectWindow):
     @property
     def loggeduser(self):
         return self._loggeduser
-        
 
     @loggeduser.setter
     def loggeduser(self, value):

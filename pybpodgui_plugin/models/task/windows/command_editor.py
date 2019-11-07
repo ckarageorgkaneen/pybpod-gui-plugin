@@ -24,7 +24,7 @@ class CommandEditor(BaseWidget):
         self.task = task
         self.when = when
         self.set_margin(5)
-        
+
         self._type = ControlCombo('Type of command', changed_event=self.__type_changed_evt)
         self._cancelbtn = ControlButton('Cancel', default=self.__cancel_evt)
         self._okbtn = ControlButton('Ok', default=self.__ok_evt)
@@ -96,5 +96,4 @@ class CommandEditor(BaseWidget):
 
 
 if __name__ == "__main__":
-
     pyforms.start_app(CommandEditor)

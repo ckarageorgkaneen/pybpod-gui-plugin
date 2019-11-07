@@ -48,7 +48,7 @@ Session history
 
 This plugin allows you to display session data in a table view and you can order events by column.
 
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-session-history
+https://github.com/pybpod/pybpod/pybpod-gui-plugin-session-history
 
 .. image:: /_images/basic_usage/session_history.png
     :scale: 100 %
@@ -59,7 +59,7 @@ Session timeline
 
 This plugin displays trial states in a bar plot.
 
-https://bitbucket.org/fchampalimaud/pybpod-gui-plugin-timeline
+https://github.com/pybpod/pybpod/pybpod-gui-plugin-timeline
 
 .. image:: /_images/basic_usage/session_timeline.png
     :scale: 100 %

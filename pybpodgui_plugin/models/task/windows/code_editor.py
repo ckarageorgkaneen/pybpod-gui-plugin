@@ -1,18 +1,20 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging, shutil
-import pyforms, os
-from confapp import conf
-from pyforms.basewidget import BaseWidget, hsplitter, vsplitter
+import logging
+import shutil
+import pyforms
+import os
+from pyforms_gui.organizers import vsplitter
+from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlTreeView
 from pyforms.controls import ControlCodeEditor
 
-
-from AnyQt.QtCore import QItemSelectionModel, Qt
+from AnyQt.QtCore import Qt
 from AnyQt.QtWidgets import QFileSystemModel
 
 logger = logging.getLogger(__name__)
+
 
 class CodeEditor(BaseWidget):
 
@@ -24,50 +26,47 @@ class CodeEditor(BaseWidget):
         self._taskselected = False
         self._fileselected = None
 
-        root_path     = os.path.abspath(task.path)
+        root_path = os.path.abspath(task.path)
         syspath_model = QFileSystemModel(self)
         syspath_model.setRootPath(root_path)
         syspath_model.setNameFilters(['*.py'])
         syspath_model.setNameFilterDisables(False)
         self.syspath_model = syspath_model
-        
-        self._browser = ControlTreeView('Files browser', default=syspath_model )
-        self._code    = ControlCodeEditor(
+
+        self._browser = ControlTreeView('Files browser', default=syspath_model)
+        self._code = ControlCodeEditor(
             changed_event=self.__code_changed_evt,
             discard_event=self.__code_discard_evt
         )
         self._browser.setSortingEnabled(True)
 
-        self.formset  = [vsplitter('_browser','||','_code')]
+        self.formset = [vsplitter('_browser', '||', '_code')]
 
-        for i in range(1, 4): self._browser.hideColumn(i)
+        for i in range(1, 4):
+            self._browser.hideColumn(i)
         self._browser.item_selection_changed_event = self.__item_selection_changed_evt
 
-       
-        self.refresh_directory()  
+        self.refresh_directory()
         self.select_file(task.filepath)
-        
+
         self._browser.add_popup_menu_option('New module', self.__create_module_evt)
         self._browser.add_popup_menu_option('New module folder', self.__create_submodule_evt)
         self._browser.add_popup_menu_option('-')
         self._browser.add_popup_menu_option('Rename', self.__rename_evt)
         self._browser.add_popup_menu_option('Delete', self.__delete_evt)
 
-
     def __load_file_content(self, filepath):
         try:
-            with open(filepath, "r") as file: 
-                self._code.value   = file.read()
+            with open(filepath, "r") as file:
+                self._code.value = file.read()
                 self._code.enabled = True
-                self._taskselected = (filepath==os.path.abspath(self.task.filepath))
+                self._taskselected = (filepath == os.path.abspath(self.task.filepath))
                 self._fileselected = os.path.relpath(filepath, self.task.path)
         except:
-            self._code.value   = ''
+            self._code.value = ''
             self._code.enabled = False
             self._taskselected = False
             self._fileselected = None
-
-
 
     def select_file(self, filepath):
         f = self._browser.value.index(os.path.abspath(filepath))
@@ -75,8 +74,8 @@ class CodeEditor(BaseWidget):
         self._browser.value.sort(0, Qt.AscendingOrder)
         self._browser.sortByColumn(0, Qt.AscendingOrder)
 
-
-    def __dummy(self, x, y): return
+    def __dummy(self, x, y):
+        return
 
     def refresh_directory(self):
         root_index = self._browser.value.index(self.task.path)
@@ -104,7 +103,7 @@ class CodeEditor(BaseWidget):
 
             new_filename = os.path.join(path, name+'.py')
             if not os.path.isfile(new_filename):
-                with open(new_filename, "w") as file: 
+                with open(new_filename, "w") as file:
                     pass
 
     def __create_submodule_evt(self):
@@ -121,10 +120,10 @@ class CodeEditor(BaseWidget):
                 path = self.task.path
 
             try:
-                new_folder   = os.path.join(path, name)
+                new_folder = os.path.join(path, name)
                 os.makedirs(new_folder)
                 new_filename = os.path.join(new_folder, '__init__.py')
-                with open(new_filename, "w") as file: 
+                with open(new_filename, "w") as file:
                     pass
             except:
                 pass
@@ -134,13 +133,13 @@ class CodeEditor(BaseWidget):
         for index in self._browser.selectedIndexes():
             fullpath = self.syspath_model.filePath(index)
             break
-        
+
         if os.path.isfile(fullpath):
             name, extension = os.path.splitext(os.path.basename(fullpath))
         else:
             name = os.path.basename(fullpath)
 
-        if name==self.task.name:
+        if name == self.task.name:
             self.warning('Please use the name field in the task details window to rename the task')
             return
 
@@ -152,22 +151,20 @@ class CodeEditor(BaseWidget):
                 new_path = os.path.join(os.path.dirname(fullpath), name)
             os.rename(fullpath, new_path)
 
-
-
     def __delete_evt(self):
         fullpath = None
         for index in self._browser.selectedIndexes():
             fullpath = self.syspath_model.filePath(index)
             break
-        reply = self.question('Please confirm the module [{0}] is to be deleted?'.format(os.path.basename(fullpath) ))
-        if reply=='yes':
+        reply = self.question('Please confirm the module [{0}] is to be deleted?'.format(os.path.basename(fullpath)))
+        if reply == 'yes':
             if os.path.isfile(fullpath):
                 os.remove(fullpath)
             else:
                 shutil.rmtree(fullpath)
 
     def __item_selection_changed_evt(self, selected, deselected):
-        
+
         if self._code.is_modified:
             self._browser.selectionModel().reset()
             self.info(
@@ -186,31 +183,35 @@ class CodeEditor(BaseWidget):
             if filepath is not None:
                 self.__load_file_content(filepath)
 
-        
     def __code_changed_evt(self):
         filepath = self.selected_file
 
         if filepath is None:
-            self.warning('It is not possible to save the file', 'The project does not exists yet. Please save it before to be able save this file.')
+            self.warning('It is not possible to save the file',
+                         'The project does not exists yet. Please save it before to be able save this file.')
 
         # in case the file task file not exists yet
         if not self.task.filepath or not os.path.exists(self.task.filepath):
 
             # check if the tasks path exists, if not create it
             tasks_path = os.path.join(self.task.project.path, 'tasks')
-            if not os.path.exists(tasks_path):  os.makedirs(tasks_path)
+            if not os.path.exists(tasks_path):
+                os.makedirs(tasks_path)
 
             # check if the task path exists, if not create it
             task_folder = os.path.join(tasks_path, self.task.name)
-            if not os.path.exists(task_folder): os.makedirs(task_folder)
+            if not os.path.exists(task_folder):
+                os.makedirs(task_folder)
 
             # create an empty __init__.py file
             initfile = os.path.join(task_folder, '__init__.py')
-            if not os.path.exists(initfile): 
-                with open(initfile, "w") as file: pass
+            if not os.path.exists(initfile):
+                with open(initfile, "w") as file:
+                    pass
 
         # save the code to the file
-        with open(filepath, "w") as file: file.write( self._code.value )
+        with open(filepath, "w") as file:
+            file.write(self._code.value)
 
         return True
 
@@ -234,19 +235,18 @@ class CodeEditor(BaseWidget):
             return None
 
     def beforeClose(self):
-        """ 
+        """
         Before closing window, ask user if she wants to save (if there are changes)
-        
+
         .. seealso::
             :py:meth:`pyforms.gui.Controls.ControlMdiArea.ControlMdiArea._subWindowClosed`.
-        
+
         """
         if self._code.is_modified:
             reply = self.question('Save the changes', 'Save the file')
 
-            if reply=='yes':
+            if reply == 'yes':
                 self.__code_changed_evt()
-
 
     @property
     def title(self):
