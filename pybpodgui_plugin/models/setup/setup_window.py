@@ -129,7 +129,7 @@ class SetupWindow(Setup, BaseWidget):
         self._run_task_btn = ControlButton('Run',
                                            checkable=True,
                                            default=self._run_task,
-                                           helptext="When a task is running, you can skip all remaining trials by pressing this button. <br/> <b>NOTE:</b> This means that you will need to break the cycle in your task code when the run_state_machine method returns False.")
+                                           helptext="When a task is running, you can stop all remaining trials by pressing this button. <br/> <b>NOTE:</b> This means that you will need to break the cycle yourself in your task code when the run_state_machine method returns False.")
         self._kill_task_btn = ControlButton('Kill',
                                             default=self._kill_task,
                                             style="background-color:rgb(255,0,0);font-weight:bold;",
