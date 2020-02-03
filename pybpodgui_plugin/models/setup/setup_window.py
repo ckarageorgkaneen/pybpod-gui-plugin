@@ -124,7 +124,7 @@ class SetupWindow(Setup, BaseWidget):
         self._name = ControlText('Setup name')
         self._board = ControlCombo('Board')
 
-        self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
+        self._stoptrial_btn = ControlButton('Skip trial', default=self._stop_trial_evt)
         self._pause_btn = ControlButton('Pause', checkable=True, default=self._pause_evt)
         self._run_task_btn = ControlButton('Run',
                                            checkable=True,
