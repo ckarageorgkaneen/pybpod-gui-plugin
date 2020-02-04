@@ -76,7 +76,7 @@ class TaskTreeNode(TaskWindow):
 
         if event.key() == QtCore.Qt.Key_O and modifiers == QtCore.Qt.ControlModifier:
             self.edit_btn_evt()
-        elif event.key() == QtCore.Qt.Key_Enter or event.key() == QtCore.Qt.Key_Return:
+        elif event.key() in [QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return]:
             self.edit_btn_evt()
         elif event.key() == QtCore.Qt.Key_Delete:
             self.remove()
