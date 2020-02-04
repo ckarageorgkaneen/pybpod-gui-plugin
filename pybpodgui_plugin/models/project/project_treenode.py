@@ -176,10 +176,9 @@ class ProjectTreeNode(ProjectWindow):
         return self.import_task(filepath, True)
 
     def user_removed(self, value):
-        if self._loggeduser is not None:
-            if value.name == self._loggeduser.name:
-                self._loggeduser = None
-                self.name = self.name  # let's see if it auto updates
+        if self._loggeduser is not None and value.name == self._loggeduser.name:
+            self._loggeduser = None
+            self.name = self.name  # let's see if it auto updates
 
     @property
     def name(self):

@@ -134,10 +134,7 @@ class TaskWindow(Task, BaseWidget):
             self._postcmds -= -1
 
     def __use_server_changed_evt(self):
-        if self._use_server.value:
-            self._netport.enabled = True
-        else:
-            self._netport.enabled = False
+        self._netport.enabled = True if self._use_server.value else False
 
     def __name_edited_evt(self):
         """

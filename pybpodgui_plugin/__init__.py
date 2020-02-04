@@ -31,6 +31,4 @@ loggingbootstrap.create_double_logger("pybpodapi", conf.APP_LOG_HANDLER_CONSOLE_
 if conf.USE_MULTIPROCESSING:
     # https://docs.python.org/3.5/library/multiprocessing.html#multiprocessing.freeze_support
     from multiprocessing import freeze_support  # @UnresolvedImport
-
-if conf.USE_MULTIPROCESSING:
     freeze_support()

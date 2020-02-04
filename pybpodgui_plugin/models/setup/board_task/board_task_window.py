@@ -76,6 +76,8 @@ class BoardTaskWindow(BoardTask, BaseWidget):
     def __init__(self, setup):
         BaseWidget.__init__(self, "Variables config for {0}".format(setup.name))
 
+        self._var_is_being_added = False
+
         self._updvars = ControlCheckBox('Update variables')
         self._vars = ControlList('Variables',
                                  add_function=self.__add_variable,
@@ -104,7 +106,8 @@ class BoardTaskWindow(BoardTask, BaseWidget):
     def __varslist_data_changed_evt(self, row, col, item):
 
         # only verify if the list is being edited
-        if hasattr(self, '_var_is_being_added'): return
+        if self._var_is_being_added is True:
+            return
 
         if col == 0 and item is not None:
             if not (self._variable_rule.match(item) and item.startswith('VAR_')):
@@ -131,7 +134,7 @@ class BoardTaskWindow(BoardTask, BaseWidget):
             'VAR_{0}'.format(self._vars.rows_count),
             '0'
         )
-        del self._var_is_being_added
+        self._var_is_being_added = False
 
     def __remove_variable(self):
         if self._vars.selected_row_index is not None:
