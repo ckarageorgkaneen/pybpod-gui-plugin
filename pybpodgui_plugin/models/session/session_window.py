@@ -30,7 +30,7 @@ class SessionWindow(Session, BaseWidget):
         self._subjects = ControlList('Subjects')
         self._board_serial_port = ControlText('Serial port')
         self._variables = ControlList('Variables')
-        
+
         Session.__init__(self, setup)
 
         self._formset = [

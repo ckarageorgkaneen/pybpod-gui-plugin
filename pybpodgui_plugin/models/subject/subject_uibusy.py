@@ -36,7 +36,7 @@ class SubjectUIBusy(SubjectDockWindow):
     def update_ui(self, sessionrunning=False):
         if sessionrunning:
             self._run.checked = True
-            self._run.label = 'Skip all trials'
+            self._run.label = 'Stop'
             self._kill_task_btn.enabled = True
             self._stoptrial_btn.enabled = True
             self._pause_btn.enabled = True

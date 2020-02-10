@@ -82,7 +82,7 @@ class SetupUIBusy(SetupCom):
 
         elif self.status == Setup.STATUS_RUNNING_TASK:
 
-            self._run_task_btn.label = 'Skip all trials'
+            self._run_task_btn.label = 'Stop'
             self._run_task_btn.checked = True
 
             self._kill_task_btn.enabled = True

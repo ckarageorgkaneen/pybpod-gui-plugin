@@ -56,9 +56,7 @@ class ProjectsWindow(object):
 
         :rtype: Project
         """
-        project = Project(self)
-
-        return project
+        return Project(self)
 
     def open_project(self, project_path=None):
         """

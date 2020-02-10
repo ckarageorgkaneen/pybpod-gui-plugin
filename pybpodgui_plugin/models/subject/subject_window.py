@@ -87,7 +87,7 @@ class SubjectWindow(Subject, BaseWidget):
 
         self._kill_task_btn.enabled = False
 
-        self._stoptrial_btn = ControlButton('Stop trial', default=self._stop_trial_evt)
+        self._stoptrial_btn = ControlButton('Skip trial', default=self._stop_trial_evt)
         self._pause_btn = ControlButton('Pause', checkable=True, default=self._pause_evt)
         self._stoptrial_btn.enabled = False
         self._pause_btn.enabled = False

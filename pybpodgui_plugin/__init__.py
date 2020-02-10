@@ -4,7 +4,7 @@ import loggingbootstrap
 
 from confapp import conf
 
-__version__ = "1.8.1"
+__version__ = "1.8.2"
 __author__ = "Carlos Mao de Ferro"
 __credits__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto", 'Luís Teixeira']
 __license__ = "MIT"
@@ -31,6 +31,4 @@ loggingbootstrap.create_double_logger("pybpodapi", conf.APP_LOG_HANDLER_CONSOLE_
 if conf.USE_MULTIPROCESSING:
     # https://docs.python.org/3.5/library/multiprocessing.html#multiprocessing.freeze_support
     from multiprocessing import freeze_support  # @UnresolvedImport
-
-if conf.USE_MULTIPROCESSING:
     freeze_support()

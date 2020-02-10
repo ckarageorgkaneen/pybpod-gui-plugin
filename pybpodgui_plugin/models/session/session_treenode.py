@@ -64,10 +64,10 @@ class SessionTreeNode(SessionWindow):
     ##########################################################################
 
     def remove(self):
-        if not self.setup.MARKED_FOR_REMOVAL:
-            reply = self.question('Delete session: ' + self.name + '?', 'Delete')
-        else:
+        if self.setup.MARKED_FOR_REMOVAL:
             reply = 'yes'
+        else:
+            reply = self.question('Delete session: ' + self.name + '?', 'Delete')
 
         if reply == 'yes':
             super(SessionTreeNode, self).remove()

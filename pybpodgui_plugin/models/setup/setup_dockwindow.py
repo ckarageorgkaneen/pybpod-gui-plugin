@@ -51,12 +51,11 @@ class SetupDockWindow(SetupTreeNode):
             This method extends setup tree node :py:meth:`pybpodgui_plugin.models.setup.setup_treenode.SetupTreeNode.remove`.
 
         """
-        if not self.experiment.MARKED_FOR_REMOVAL:
+        if self.experiment.MARKED_FOR_REMOVAL:
+            reply = 'yes'
+        else:
             reply = self.question('Setup "{0}" and all the sessions will be deleted. Are you sure?'.format(self.name),
                                   "Warning")
-        else:
-            reply = 'yes'
-
         if reply == 'yes':
             self.MARKED_FOR_REMOVAL = True
             self.mainwindow.details.value = None
