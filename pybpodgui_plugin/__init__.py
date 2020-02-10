@@ -4,7 +4,7 @@ import loggingbootstrap
 
 from confapp import conf
 
-__version__ = "1.8.1"
+__version__ = "1.8.2"
 __author__ = "Carlos Mao de Ferro"
 __credits__ = ["Carlos Mao de Ferro", "Ricardo Ribeiro", "Sérgio Copeto", 'Luís Teixeira']
 __license__ = "MIT"
