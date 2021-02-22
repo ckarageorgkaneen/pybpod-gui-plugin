@@ -13,6 +13,7 @@ from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText, ControlCombo
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlList
+from pyforms.controls import ControlCheckBox
 from pyforms.controls import ControlCheckBoxList
 from pyforms.controls import ControlNumber
 
@@ -84,6 +85,7 @@ class BoardWindow(Board, BaseWidget):
                                               icon=QtGui.QIcon(conf.REFRESH_SMALL_ICON),
                                               default=self.__refresh_serials_pressed,
                                               helptext="Press here to refresh the list of available devices.")
+        self._emulator_mode_checkbox = ControlCheckBox('Emulator mode')
         self._log_btn = ControlButton('Console')
         self._active_bnc = ControlCheckBoxList('BNC')
         self._active_wired = ControlCheckBoxList('Wired')
@@ -100,6 +102,7 @@ class BoardWindow(Board, BaseWidget):
 
         self._formset = [
             '_name',
+            '_emulator_mode_checkbox',
             ('_serial_port', '_refresh_serials'),
             '_netport',
             '_log_btn',
@@ -141,7 +144,7 @@ class BoardWindow(Board, BaseWidget):
 
     def __load_bpod_ports(self):
         # present error if no serial port is selected
-        if not self._serial_port.value:
+        if not self._emulator_mode_checkbox.value and not self._serial_port.value:
             self.warning("Please select a serial port before proceeding.", "No serial port selected")
             return
 
@@ -150,11 +153,12 @@ class BoardWindow(Board, BaseWidget):
             return
 
         try:
-            bpod = Bpod(self._serial_port.value)
+            bpod = Bpod(self._serial_port.value, emulator_mode=self._emulator_mode_checkbox.value)
             hw = bpod.hardware
             # load the ports to the GUI ###############################
             self._active_bnc.value = [('BNC{0}'.format(j+1),  True) for j, i in enumerate(hw.bnc_inputports_indexes)]
             self._active_wired.value = [('Wire{0}'.format(j+1), True) for j, i in enumerate(hw.wired_inputports_indexes)]
+
             if len(self._active_behavior.value) == 0:
                 self._active_behavior.value = [('Port{0}'.format(j+1), True) for j, i in enumerate(hw.behavior_inputports_indexes)]
             #############################################################
@@ -207,6 +211,10 @@ class BoardWindow(Board, BaseWidget):
             if not hasattr(self, "_save_serial_port"):
                 self._saved_serial_port = value
         self._serial_port.value = value
+
+    @property
+    def emulator_mode(self):
+        return self._emulator_mode_checkbox.value
 
     @property
     def net_port(self):
